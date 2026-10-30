@@ -922,7 +922,41 @@
     'Esta acción eliminará el progreso, los resultados y las imágenes guardadas por el AVA. Los archivos TXT o PDF ya descargados no se eliminarán. ¿Desea finalizar?':
       'This action will delete the progress, results and images stored by the learning environment. TXT or PDF files that have already been downloaded will not be deleted. Do you want to finish?',
     'Los archivos TXT o PDF ya descargados no se eliminarán. ¿Desea finalizar?':
-      'TXT or PDF files that have already been downloaded will not be deleted. Do you want to finish?'
+      'TXT or PDF files that have already been downloaded will not be deleted. Do you want to finish?',
+
+    /* ---- Añadidos: caso de estudio textil, espectros e informe ---- */
+    'Funciones del KMnO₄':
+      'Functions of KMnO₄',
+    'Agente oxidante':
+      'Oxidizing agent',
+    'Participa en tratamientos oxidativos de las fibras textiles.':
+      'Takes part in oxidative treatments of textile fibres.',
+    'Remoción de colorantes e impurezas':
+      'Removal of dyes and impurities',
+    'Favorece la oxidación de sustancias presentes en el material tratado.':
+      'Promotes the oxidation of substances present in the treated material.',
+    'Preparación y acabado':
+      'Preparation and finishing',
+    'Puede emplearse en etapas de acondicionamiento del material textil.':
+      'May be used in conditioning stages of the textile material.',
+    'Etapas del proceso':
+      'Process stages',
+    'Preparación de la solución de KMnO₄':
+      'Preparation of the KMnO₄ solution',
+    'Aplicación en el proceso textil':
+      'Application in the textile process',
+    'Lavado y enjuague':
+      'Washing and rinsing',
+    'Control de calidad y análisis':
+      'Quality control and analysis',
+    'Patrones de KMnO₄ y muestra problema · Barrido de 700 a 200 nm':
+      'KMnO₄ standards and unknown sample · Scan from 700 to 200 nm',
+    '5,00 ppm de Mn':
+      '5.00 ppm of Mn',
+    'Sí':
+      'Yes',
+    'Sí.':
+      'Yes.',
   };
 
   /* ---------- 4. Reglas dinámicas (textos con números o variables) ---------- */
