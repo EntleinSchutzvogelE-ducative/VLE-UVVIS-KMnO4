@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seguridad — Laboratorio Virtual UV-Vis v2</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#101828;
+    --muted:#5f6b7a;
+    --edge:#d8dee8;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --navy:#071f3d;
+    --gold:#f3d58a;
+    --soft:#f8fafc;
+    --ok:#2e7d32;
+    --warn:#ef6c00;
+    --bad:#c62828;
+    --red:#d50000;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top right, rgba(106,27,154,.13), transparent 35%),
+        linear-gradient(135deg, #eef2f3 0%, #f8fafc 100%);
+    color:var(--ink);
+}
+
+.wrap{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:24px;
+}
+
+.card{
+    width:min(1220px, 96vw);
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:22px;
+    box-shadow:0 18px 45px rgba(15,23,42,.16);
+    overflow:hidden;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:16px 28px;
+    background:linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
+    border-bottom:1px solid var(--edge);
+}
+
+.logo-salesiana{
+    height:58px;
+    max-width:360px;
+    object-fit:contain;
+}
+
+.logo-ese{
+    height:74px;
+    width:74px;
+    object-fit:contain;
+    border-radius:50%;
+    box-shadow:0 4px 12px rgba(0,0,0,.16);
+}
+
+.brand-center{
+    text-align:center;
+    flex:1;
+    min-width:240px;
+}
+
+.brand-center .tag{
+    display:inline-block;
+    background:#fee2e2;
+    color:#991b1b;
+    border:1px solid #fecaca;
+    padding:5px 12px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.brand-center p{
+    margin:7px 0 0 0;
+    font-size:14px;
+    color:var(--muted);
+}
+
+.content{
+    padding:24px;
+}
+
+.title-block{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+h1{
+    margin:0 0 8px 0;
+    color:var(--navy);
+    font-size:clamp(30px, 3.6vw, 44px);
+    line-height:1.1;
+    letter-spacing:-.025em;
+}
+
+.subtitle{
+    margin:0;
+    color:var(--accent-dark);
+    font-weight:bold;
+    font-size:20px;
+}
+
+.alert{
+    border:1px solid #fecaca;
+    background:#fff1f2;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:22px;
+    color:#7f1d1d;
+    line-height:1.55;
+}
+
+.alert strong{
+    color:#991b1b;
+}
+
+.ghs-section{
+    display:grid;
+    grid-template-columns:1fr 1.05fr;
+    gap:18px;
+    align-items:stretch;
+}
+
+@media(max-width:980px){
+    .ghs-section{
+        grid-template-columns:1fr;
+    }
+}
+
+.panel{
+    background:var(--soft);
+    border:1px solid var(--edge);
+    border-radius:18px;
+    padding:16px;
+}
+
+.panel h2{
+    margin:0 0 14px 0;
+    color:var(--accent-dark);
+    font-size:22px;
+}
+
+.panel p{
+    color:#344054;
+    line-height:1.55;
+}
+
+.signal{
+    background:#111827;
+    color:white;
+    border-radius:14px;
+    padding:14px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:14px;
+}
+
+.hazard-list{
+    display:grid;
+    gap:8px;
+}
+
+.h-item{
+    display:grid;
+    grid-template-columns:70px 1fr;
+    gap:8px;
+    align-items:start;
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:12px;
+    padding:10px;
+}
+
+.h-code{
+    font-weight:bold;
+    color:#991b1b;
+}
+
+.h-text{
+    color:#344054;
+    line-height:1.4;
+}
+
+.note{
+    margin-top:12px;
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.45;
+}
+
+.ghs-image-box{
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:16px;
+    padding:12px;
+    text-align:center;
+}
+
+.ghs-image{
+    width:100%;
+    max-width:820px;
+    border-radius:12px;
+    border:1px solid #e5e7eb;
+    box-shadow:0 6px 18px rgba(15,23,42,.10);
+}
+
+.ramp{
+    margin-top:18px;
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:18px;
+    padding:16px;
+}
+
+.ramp h2{
+    margin:0 0 14px 0;
+    color:var(--navy);
+    text-align:center;
+}
+
+.ramp-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:12px;
+}
+
+@media(max-width:950px){
+    .ramp-grid{ grid-template-columns:repeat(2, 1fr); }
+}
+
+@media(max-width:580px){
+    .ramp-grid{ grid-template-columns:1fr; }
+}
+
+.ramp-card{
+    border:1px solid var(--edge);
+    background:#f8fafc;
+    border-radius:15px;
+    padding:12px;
+}
+
+.ramp-letter{
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--accent);
+    color:white;
+    font-weight:bold;
+    border-radius:50%;
+    margin-bottom:10px;
+}
+
+.ramp-card strong{
+    display:block;
+    color:var(--navy);
+    margin-bottom:6px;
+}
+
+.ramp-card ul{
+    margin:0;
+    padding-left:18px;
+    color:#475467;
+    line-height:1.45;
+    font-size:14px;
+}
+
+.two-col{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+@media(max-width:900px){
+    .two-col{ grid-template-columns:1fr; }
+}
+
+.ppe-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:12px;
+}
+
+@media(max-width:520px){
+    .ppe-grid{ grid-template-columns:1fr; }
+}
+
+.ppe{
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:14px;
+    text-align:center;
+}
+
+.ppe .emoji{
+    font-size:30px;
+    display:block;
+    margin-bottom:6px;
+}
+
+.ppe strong{
+    color:var(--accent-dark);
+    display:block;
+    margin-bottom:4px;
+}
+
+.ppe span{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.35;
+}
+
+.p-list{
+    display:grid;
+    gap:8px;
+}
+
+.p-item{
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:12px;
+    padding:10px;
+    display:grid;
+    grid-template-columns:82px 1fr;
+    gap:8px;
+}
+
+.p-code{
+    font-weight:bold;
+    color:var(--accent-dark);
+}
+
+.p-text{
+    color:#344054;
+    line-height:1.4;
+}
+
+.check-panel{
+    margin-top:18px;
+    border:1px solid #bbf7d0;
+    background:#f0fdf4;
+    border-radius:18px;
+    padding:16px;
+}
+
+.check-panel h2{
+    margin:0 0 10px 0;
+    color:#166534;
+}
+
+.checks{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:10px 18px;
+    margin-top:10px;
+}
+
+@media(max-width:700px){
+    .checks{ grid-template-columns:1fr; }
+}
+
+.checks label{
+    display:block;
+    color:#14532d;
+    line-height:1.35;
+}
+
+.cta{
+    margin-top:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.small{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.4;
+}
+
+.footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    padding:14px 28px;
+    background:linear-gradient(90deg, var(--navy), #12335f);
+    color:white;
+    font-size:13px;
+}
+
+.footer strong{ color:var(--gold); }
+
+@media(max-width:700px){
+    .topbar{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .logo-salesiana{
+        height:auto;
+        width:min(340px, 86vw);
+    }
+
+    .content{
+        padding:22px;
+    }
+
+    .footer{
+        text-align:center;
+        justify-content:center;
+    }
+}
+
+.ramp-card span{
+    display:block;
+    color:#475467;
+    line-height:1.4;
+    font-size:14px;
+}
+.check-panel .cta{margin-top:14px}
+@media(max-width:760px){
+    .ghs-section,.two-col{grid-template-columns:1fr}
+    .ramp-grid{grid-template-columns:1fr}
+}
+
+</style>
+<script src="i18n.js"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+<main class="card">
+
+    <header class="topbar">
+<div class="brand-center">
+            <span class="tag">Seguridad química — ACS/RAMP</span>
+            <p>Laboratorio Virtual UV-Vis — ESE</p>
+        </div>
+
+        <img class="logo-ese" src="ESE.png" alt="ESE — Entlein-Schutzvogel Educative">
+    </header>
+
+    
+<section class="content">
+
+    <div class="title-block">
+        <h1>Seguridad y gestión del riesgo</h1>
+        <p class="subtitle">Reconoce los peligros, minimiza la exposición y actúa como en un laboratorio real</p>
+    </div>
+
+    <div class="alert">
+        <strong>Reactivo principal: permanganato de potasio, KMnO₄.</strong>
+        Es un oxidante fuerte. Puede agravar incendios, causar lesiones graves por contacto y representa un peligro ambiental.
+    </div>
+
+    <div class="ghs-section">
+
+        <div class="panel">
+            <h2>Pictogramas y palabra de advertencia</h2>
+
+            <div class="signal">PELIGRO</div>
+
+            <div class="ghs-image-box">
+                <img id="ghs-image" class="ghs-image"
+                     src="pictogramas.png"
+                     data-src-es="pictogramas.png"
+                     data-src-en="pictograms.png"
+                     alt="Pictogramas GHS aplicables al permanganato de potasio">
+            </div>
+
+            <p class="note">
+                En el laboratorio debe consultarse siempre la ficha de datos de seguridad vigente del proveedor.
+            </p>
+        </div>
+
+        <div class="panel">
+            <h2>Peligros principales</h2>
+
+            <div class="hazard-list">
+                <div class="h-item">
+                    <div class="h-code">H272</div>
+                    <div class="h-text">Puede agravar un incendio; comburente.</div>
+                </div>
+
+                <div class="h-item">
+                    <div class="h-code">H302</div>
+                    <div class="h-text">Nocivo en caso de ingestión.</div>
+                </div>
+
+                <div class="h-item">
+                    <div class="h-code">H314</div>
+                    <div class="h-text">Provoca quemaduras graves en la piel y lesiones oculares graves.</div>
+                </div>
+
+                <div class="h-item">
+                    <div class="h-code">H410</div>
+                    <div class="h-text">Muy tóxico para los organismos acuáticos, con efectos duraderos.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ramp">
+        <h2>Modelo RAMP aplicado a la práctica</h2>
+
+        <div class="ramp-grid">
+            <div class="ramp-card">
+                <div class="ramp-letter">R</div>
+                <strong>Reconocer</strong>
+                <span>Oxidante fuerte, corrosivo y peligroso para el ambiente.</span>
+            </div>
+
+            <div class="ramp-card">
+                <div class="ramp-letter">A</div>
+                <strong>Evaluar</strong>
+                <span>Riesgo de polvo, salpicaduras, ingestión y vertimientos.</span>
+            </div>
+
+            <div class="ramp-card">
+                <div class="ramp-letter">M</div>
+                <strong>Minimizar</strong>
+                <span>Usar EPP, rotular, evitar combustibles y controlar derrames.</span>
+            </div>
+
+            <div class="ramp-card">
+                <div class="ramp-letter">P</div>
+                <strong>Prepararse</strong>
+                <span>Conocer ducha, lavaojos, manejo de residuos y reporte de incidentes.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="two-col">
+
+        <div class="panel">
+            <h2>Elementos de protección personal</h2>
+
+            <div class="ppe-grid">
+                <div class="ppe">
+                    <span class="emoji">🥼</span>
+                    <strong>Bata</strong>
+                    <span>Abotonada durante toda la práctica.</span>
+                </div>
+
+                <div class="ppe">
+                    <span class="emoji">🥽</span>
+                    <strong>Gafas</strong>
+                    <span>Protección frente a salpicaduras.</span>
+                </div>
+
+                <div class="ppe">
+                    <span class="emoji">🧤</span>
+                    <strong>Guantes</strong>
+                    <span>Preferiblemente de nitrilo.</span>
+                </div>
+
+                <div class="ppe">
+                    <span class="emoji">👟</span>
+                    <strong>Calzado cerrado</strong>
+                    <span>Protección ante derrames.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>Conductas esenciales</h2>
+
+            <div class="p-list">
+                <div class="p-item">
+                    <div class="p-code">1</div>
+                    <div class="p-text">Mantener el reactivo alejado de materiales combustibles.</div>
+                </div>
+
+                <div class="p-item">
+                    <div class="p-code">2</div>
+                    <div class="p-text">Evitar inhalar polvo y prevenir salpicaduras.</div>
+                </div>
+
+                <div class="p-item">
+                    <div class="p-code">3</div>
+                    <div class="p-text">No verter residuos de KMnO₄ directamente al drenaje.</div>
+                </div>
+
+                <div class="p-item">
+                    <div class="p-code">4</div>
+                    <div class="p-text">Reportar inmediatamente cualquier derrame o exposición.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="check-panel">
+        <h2>Compromiso de seguridad</h2>
+        <p class="small">Marca todas las condiciones antes de continuar.</p>
+
+        <div class="checks">
+            <label><input type="checkbox" class="chk" onchange="verificar()"> Reconozco que el KMnO₄ es un oxidante fuerte.</label>
+            <label><input type="checkbox" class="chk" onchange="verificar()"> Usaría bata, gafas, guantes y calzado cerrado.</label>
+            <label><input type="checkbox" class="chk" onchange="verificar()"> Mantendría el reactivo alejado de combustibles.</label>
+            <label><input type="checkbox" class="chk" onchange="verificar()"> Evitaría inhalar polvo y generar salpicaduras.</label>
+            <label><input type="checkbox" class="chk" onchange="verificar()"> Gestionaría los residuos como residuos químicos.</label>
+            <label><input type="checkbox" class="chk" onchange="verificar()"> Reportaría inmediatamente cualquier incidente.</label>
+        </div>
+
+        <div class="cta">
+            <span class="small" id="estado" aria-live="polite">
+                Completa toda la lista de verificación para habilitar el siguiente módulo.
+            </span>
+        </div>
+    </div>
+
+</section>
+
+
+    <footer class="footer">
+        <div>
+            <strong>ESE — Entlein-Schutzvogel Educative</strong><br>
+        </div>
+
+        <div>
+            
+        </div>
+    </footer>
+
+</main>
+</div>
+
+<script>
+function verificar(){
+    const checks = Array.from(document.querySelectorAll(".chk"));
+    const completo = checks.every(c => c.checked);
+    const estado = document.getElementById("estado");
+
+    if(completo){
+        estado.innerHTML =
+        "✔ Compromiso de seguridad completado. Puedes continuar al siguiente módulo.";
+
+
+        estado.style.color = "#2e7d32";
+
+        localStorage.setItem("uvvis_seguridad", JSON.stringify({
+            completado:true,
+            fecha:new Date().toISOString()
+        }));
+
+        if(window.parent && window.parent !== window){
+            window.parent.postMessage({type:'MODULE_COMPLETED', moduleId:'05-seguridad'}, '*');
+        }
+
+    }else{
+        estado.innerHTML =
+        "Completa toda la lista de verificación para desbloquear el siguiente módulo.";
+
+        estado.style.color = "#5f6b7a";
+
+        localStorage.removeItem("uvvis_seguridad");
+    }
+}
+</script>
+
+<script>
+(function actualizarImagenGHS(){
+    const img = document.getElementById("ghs-image");
+    if(!img) return;
+
+    let lang = window.__lang;
+    if(lang !== "es" && lang !== "en"){
+        try{
+            const urlLang = new URLSearchParams(location.search).get("lang");
+            const savedLang = localStorage.getItem("ava_lang");
+            lang = (urlLang === "en" || urlLang === "es") ? urlLang : savedLang;
+        }catch(e){}
+    }
+
+    const english = lang === "en";
+    img.src = english ? img.dataset.srcEn : img.dataset.srcEs;
+    img.alt = english
+        ? "GHS pictograms applicable to potassium permanganate"
+        : "Pictogramas GHS aplicables al permanganato de potasio";
+})();
+</script>
+
+</body>
+</html>

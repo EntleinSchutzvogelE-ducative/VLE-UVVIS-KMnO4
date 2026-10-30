@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8" />
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Módulo 5 — Análisis espectral UV-Vis</title>
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#1f2933;
+    --muted:#607080;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --ok:#2e7d32;
+    --warn:#f57c00;
+    --bad:#c62828;
+    --edge:#d7dde3;
+    --soft:#f7f4fb;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+}
+header{
+    background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+    color:white;
+    padding:14px 18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.18);
+}
+header h1{
+    margin:0;
+    font-size:26px;
+}
+header p{
+    margin:8px 0 0 0;
+    opacity:.92;
+    max-width:1100px;
+}
+.wrap{
+    width:min(1160px,96vw);
+    margin:12px auto 20px auto;
+}
+.card{
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+.card h2{
+    margin:0 0 8px 0;
+    color:var(--accent-dark);
+    font-size:22px;
+}
+.card h3{
+    margin:16px 0 8px 0;
+    font-size:17px;
+}
+.lead{
+    color:var(--muted);
+    line-height:1.55;
+    margin:0;
+}
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+@media(max-width:850px){
+    .grid{grid-template-columns:1fr}
+}
+.notice{
+    background:var(--soft);
+    border-left:5px solid var(--accent);
+    padding:14px 16px;
+    border-radius:10px;
+    line-height:1.5;
+}
+ul,ol{line-height:1.55}
+label{
+    font-weight:bold;
+    display:block;
+    margin:10px 0 5px;
+}
+input[type="number"], input[type="text"], textarea, select{
+    width:100%;
+    padding:10px;
+    border:1px solid var(--edge);
+    border-radius:9px;
+    font-size:15px;
+    background:white;
+}
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+.row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+@media(max-width:700px){.row{grid-template-columns:1fr}}
+.table-wrap{overflow:auto}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+th,td{
+    border:1px solid var(--edge);
+    padding:10px;
+    text-align:center;
+}
+th{
+    background:#f8fafc;
+}
+.filebox{
+    border:2px dashed var(--edge);
+    border-radius:12px;
+    padding:16px;
+    text-align:center;
+    background:#fbfbfc;
+}
+.filebox input{
+    margin:8px 0;
+}
+
+/* Selector de archivo personalizado:
+   evita los textos nativos del navegador ("Elegir archivo",
+   "No se ha seleccionado ningún archivo"), que dependen del
+   idioma de Windows/navegador y no del idioma del AVA. */
+.file-input-real{
+    position:absolute;
+    width:1px;
+    height:1px;
+    opacity:0;
+    pointer-events:none;
+}
+
+.file-picker{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin:10px 0 4px;
+}
+
+.file-picker-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:34px;
+    padding:8px 12px;
+    border-radius:8px;
+    background:var(--accent);
+    color:#fff;
+    font-size:13px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.18s ease;
+}
+
+.file-picker-btn:hover{
+    background:var(--accent-dark);
+}
+
+.file-picker-name{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.3;
+}
+.preview{
+    max-width:100%;
+    max-height:360px;
+    margin-top:12px;
+    border-radius:10px;
+    border:1px solid var(--edge);
+    display:none;
+}
+.checklist{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+@media(max-width:700px){.checklist{grid-template-columns:1fr}}
+.checkitem{
+    background:#f8fafc;
+    border:1px solid var(--edge);
+    border-radius:10px;
+    padding:10px;
+}
+.checkitem label{
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+    font-weight:normal;
+    margin:0;
+}
+.actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:11px 16px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    background:var(--accent);
+    color:white;
+}
+button:hover{background:var(--accent-dark)}
+button.secondary{
+    background:#eef2ff;
+    color:#1d4ed8;
+    border:1px solid #c7d2fe;
+}
+button.secondary:hover{background:#dbeafe}
+button.finish{background:var(--ok)}
+button.finish:hover{background:#1b5e20}
+.status{
+    font-weight:bold;
+    margin-top:12px;
+}
+.ok{color:var(--ok)}
+.warn{color:var(--warn)}
+.bad{color:var(--bad)}
+.pill{
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:999px;
+    background:#e8f5e9;
+    color:#1b5e20;
+    border:1px solid #a5d6a7;
+    font-size:13px;
+    font-weight:bold;
+}
+.small{
+    font-size:13px;
+    color:var(--muted);
+}
+
+.footer{
+    padding:11px 18px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    background:linear-gradient(90deg,#071f3d,#12335f);
+    color:white;
+    font-size:12px;
+}
+.footer strong{color:#f3d58a;}
+@media(max-width:620px){
+.footer{
+padding:8px 10px;
+font-size:10px;
+justify-content:center;
+text-align:center;
+}
+}
+
+</style>
+<script src="i18n.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Análisis espectral</h1>
+    <p>Identifica los máximos de absorción y selecciona la longitud de onda analítica para construir la curva de calibración.</p>
+</header>
+
+<div class="wrap">
+
+    <section class="card">
+        <h2>Propósito del módulo</h2>
+        <p class="lead">
+            Superpone los seis espectros patrón, identifica tres máximos de absorción y selecciona la longitud de onda que utilizarás para construir la curva de calibración.
+        </p>
+        
+    </section>
+
+    <section class="card">
+        <h2>Actividad 1. Construcción de los espectros</h2>
+        <div class="grid">
+            <div>
+                <ol>
+                    <li>Descarga los archivos TXT de las soluciones patrón desde el módulo anterior.</li>
+                    <li>Importa los datos en Excel, LibreOffice Calc o Google Sheets.</li>
+                    <li>Construye una gráfica de absorbancia contra longitud de onda.</li>
+                    <li>Incluye en una sola figura los seis espectros patrón: 10, 20, 30, 40, 50 y 60 ppm.</li>
+                    <li>Guarda la gráfica como imagen o toma una captura clara.</li>
+                </ol>
+                <p class="small">La gráfica debe permitir comparar la forma de las bandas y el aumento de absorbancia con la concentración.</p>
+            </div>
+            <div class="filebox">
+                <strong>Evidencia 1: espectros patrón superpuestos</strong>
+                <p class="small">Adjunta una imagen de la gráfica construida en hoja de cálculo.</p>
+                <input class="file-input-real" type="file" id="imgEspectros" accept="image/*"
+                       onchange="previewImage(this,'previewEspectros','uvvis_img_espectros')">
+
+                <div class="file-picker">
+                    <label class="file-picker-btn" for="imgEspectros" id="filePickerButton">
+                        Elegir archivo
+                    </label>
+                    <span class="file-picker-name" id="filePickerName">
+                        No se ha seleccionado ningún archivo
+                    </span>
+                </div>
+
+                <img id="previewEspectros" class="preview" alt="Vista previa de espectros patrón">
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Actividad 2. Identificación de máximos de absorción</h2>
+        <p class="lead">A partir de la gráfica construida, identifica tres longitudes de onda donde se observen máximos o bandas importantes de absorción.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Máximo o banda</th>
+                        <th>Longitud de onda observada (nm)</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>λ₁</td>
+                        <td><input type="number" id="lambda1" min="190" max="800" step="1" oninput="saveField(this)"></td>
+                        
+                    </tr>
+                    <tr>
+                        <td>λ₂</td>
+                        <td><input type="number" id="lambda2" min="190" max="800" step="1" oninput="saveField(this)"></td>
+                        
+                    </tr>
+                    <tr>
+                        <td>λ₃</td>
+                        <td><input type="number" id="lambda3" min="190" max="800" step="1" oninput="saveField(this)"></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Actividad 3. Selección de la longitud de onda analítica</h2>
+        <div class="grid">
+            <div>
+                <label for="lambdaSeleccionada">Longitud de onda seleccionada para cuantificar (nm)</label>
+                <input type="number" id="lambdaSeleccionada" min="190" max="800" step="1" oninput="saveField(this)">
+
+                <label for="criterioSeleccion">Criterio principal usado para la selección</label>
+                <select id="criterioSeleccion" onchange="saveField(this)">
+                    <option value="">Seleccione una opción</option>
+                    <option value="mayor_absorbancia">Mayor absorbancia</option>
+                    <option value="mayor_sensibilidad">Mayor sensibilidad analítica</option>
+                    <option value="banda_definida">Banda más definida</option>
+                    <option value="menor_interferencia">Menor interferencia o mejor selectividad</option>
+                    <option value="otro">Otro criterio</option>
+                </select>
+
+                <label for="justificacionLambda">Justificación técnica</label>
+                <textarea id="justificacionLambda" placeholder="Explica por qué esa longitud de onda es adecuada para construir la curva de calibración." oninput="saveField(this)"></textarea>
+            </div>
+            <div class="notice">
+                <strong>Orientación:</strong><br>
+                Para seleccionar la longitud de onda, considera la intensidad de la señal, la sensibilidad frente a cambios de concentración, la forma de la banda y la posibilidad de trabajar en una zona donde la señal sea estable y fácil de comparar entre patrones.
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Actividad 4. Interpretación</h2>
+        <label>¿Qué ocurre con la absorbancia cuando aumenta la concentración de KMnO₄?</label>
+        <div class="checklist">
+            <div class="checkitem"><label><input type="radio" name="tendenciaAbs" value="aumenta" onchange="saveRadio('tendenciaAbs')"> Aumenta.</label></div>
+            <div class="checkitem"><label><input type="radio" name="tendenciaAbs" value="disminuye" onchange="saveRadio('tendenciaAbs')"> Disminuye.</label></div>
+        </div>
+
+        <label>¿La posición de los máximos cambia de manera apreciable?</label>
+        <div class="checklist">
+            <div class="checkitem"><label><input type="radio" name="cambioMaximos" value="si" onchange="saveRadio('cambioMaximos')"> Sí.</label></div>
+            <div class="checkitem"><label><input type="radio" name="cambioMaximos" value="no" onchange="saveRadio('cambioMaximos')"> No.</label></div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Estado del módulo</h2>
+        <p id="estado" class="status warn">Completa el análisis para habilitar el siguiente módulo.</p>
+    </section>
+
+</div>
+
+<footer class="footer">
+    <div><strong>ESE — Entlein-Schutzvogel Educative</strong></div>
+    <div></div>
+</footer>
+
+<script>
+/* =========================
+   ALMACENAMIENTO LOCAL
+========================= */
+const STORAGE_PREFIX = "uvvis_m5_";
+let moduloCompletado = false;
+
+function idiomaActual(){
+    if(window.__lang) return window.__lang;
+
+    const params = new URLSearchParams(window.location.search);
+    const qLang = params.get("lang");
+    if(qLang) return qLang;
+
+    try{
+        const parentParams = new URLSearchParams(window.parent.location.search);
+        const pLang = parentParams.get("lang");
+        if(pLang) return pLang;
+    }catch(e){}
+
+    return "es";
+}
+
+function T(es, en){
+    return idiomaActual() === "en" ? en : es;
+}
+
+function aplicarIdiomaLocal(){
+    const en = idiomaActual() === "en";
+    if(!en) return;
+
+    const setText = (sel, value) => {
+        const el = document.querySelector(sel);
+        if(el) el.textContent = value;
+    };
+
+    setText("header h1", "Spectral analysis");
+    setText("header p", "Identify the absorption maxima and select the analytical wavelength to construct the calibration curve.");
+
+    const cards = document.querySelectorAll(".card");
+    if(cards[0]){
+        const h2 = cards[0].querySelector("h2");
+        const p = cards[0].querySelector(".lead");
+        if(h2) h2.textContent = "Module purpose";
+        if(p) p.textContent = "Overlay the six standard spectra, identify three absorption maxima, and select the wavelength you will use to construct the calibration curve.";
+    }
+
+    if(cards[1]){
+        const h2 = cards[1].querySelector("h2");
+        if(h2) h2.textContent = "Activity 1. Construction of the spectra";
+
+        const lis = cards[1].querySelectorAll("ol li");
+        const t = [
+            "Download the TXT files for the standard solutions from the previous module.",
+            "Import the data into Excel, LibreOffice Calc, or Google Sheets.",
+            "Construct a plot of absorbance versus wavelength.",
+            "Include the six standard spectra in a single figure: 10, 20, 30, 40, 50, and 60 ppm.",
+            "Save the plot as an image or take a clear screenshot."
+        ];
+        lis.forEach((li,i)=>{ if(t[i]) li.textContent=t[i]; });
+
+        const small = cards[1].querySelector(".small");
+        if(small) small.textContent = "The graph should allow you to compare band shape and the increase in absorbance with concentration.";
+
+        const strong = cards[1].querySelector(".filebox strong");
+        if(strong) strong.textContent = "Evidence 1: overlaid standard spectra";
+
+        const fp = cards[1].querySelector(".filebox p");
+        if(fp) fp.textContent = "Attach an image of the graph built in the spreadsheet.";
+
+        const img = cards[1].querySelector("#previewEspectros");
+        if(img) img.alt = "Preview of standard spectra";
+
+        const pickerBtn = document.getElementById("filePickerButton");
+        const pickerName = document.getElementById("filePickerName");
+        if(pickerBtn) pickerBtn.textContent = "Choose file";
+        if(pickerName && !document.getElementById("imgEspectros").files.length){
+            pickerName.textContent = "No file selected";
+        }
+    }
+
+    if(cards[2]){
+        const h2 = cards[2].querySelector("h2");
+        const lead = cards[2].querySelector(".lead");
+        if(h2) h2.textContent = "Activity 2. Identification of absorption maxima";
+        if(lead) lead.textContent = "From the graph you constructed, identify three wavelengths where absorption maxima or important bands are observed.";
+
+        const th = cards[2].querySelectorAll("th");
+        if(th[0]) th[0].textContent = "Maximum or band";
+        if(th[1]) th[1].textContent = "Observed wavelength (nm)";
+    }
+
+    if(cards[3]){
+        const h2 = cards[3].querySelector("h2");
+        if(h2) h2.textContent = "Activity 3. Selection of the analytical wavelength";
+
+        const labels = cards[3].querySelectorAll("label");
+        if(labels[0]) labels[0].textContent = "Selected wavelength for quantification (nm)";
+        if(labels[1]) labels[1].textContent = "Main criterion used for selection";
+        if(labels[2]) labels[2].textContent = "Technical justification";
+
+        const options = cards[3].querySelectorAll("#criterioSeleccion option");
+        const optText = [
+            "Select an option",
+            "Highest absorbance",
+            "Highest analytical sensitivity",
+            "Most clearly defined band",
+            "Lower interference or better selectivity",
+            "Other criterion"
+        ];
+        options.forEach((o,i)=>{ if(optText[i]) o.textContent=optText[i]; });
+
+        const ta = cards[3].querySelector("#justificacionLambda");
+        if(ta) ta.placeholder = "Explain why this wavelength is suitable for constructing the calibration curve.";
+
+        const notice = cards[3].querySelector(".notice");
+        if(notice) notice.innerHTML =
+            "<strong>Guidance:</strong><br>" +
+            "When selecting the wavelength, consider signal intensity, sensitivity to changes in concentration, band shape, and the possibility of working in a region where the signal is stable and easy to compare among standards.";
+    }
+
+    if(cards[4]){
+        const h2 = cards[4].querySelector("h2");
+        if(h2) h2.textContent = "Activity 4. Interpretation";
+
+        const labels = cards[4].querySelectorAll(":scope > label");
+        if(labels[0]) labels[0].textContent = "What happens to absorbance as the KMnO₄ concentration increases?";
+        if(labels[1]) labels[1].textContent = "Does the position of the maxima change appreciably?";
+
+        const radioTexts = [
+            ["tendenciaAbs","aumenta","Increases."],
+            ["tendenciaAbs","disminuye","Decreases."],
+            ["cambioMaximos","si","Yes."],
+            ["cambioMaximos","no","No."]
+        ];
+        radioTexts.forEach(([name,value,labelText])=>{
+            const input = cards[4].querySelector(`input[name="${name}"][value="${value}"]`);
+            if(input && input.parentElement){
+                Array.from(input.parentElement.childNodes).forEach(node=>{
+                    if(node.nodeType === Node.TEXT_NODE) node.remove();
+                });
+                input.parentElement.appendChild(document.createTextNode(" " + labelText));
+            }
+        });
+    }
+
+    if(cards[5]){
+        const h2 = cards[5].querySelector("h2");
+        if(h2) h2.textContent = "Module status";
+        const estado = cards[5].querySelector("#estado");
+        if(estado) estado.textContent = "Complete the analysis to enable the next module.";
+    }
+}
+
+function saveField(el){
+    localStorage.setItem(STORAGE_PREFIX + el.id, el.value);
+    verificarEstadoModulo();
+}
+
+
+
+function saveRadio(name){
+    const selected = document.querySelector(`input[name="${name}"]:checked`);
+    if(selected){
+        localStorage.setItem(STORAGE_PREFIX + name, selected.value);
+    }
+    verificarEstadoModulo();
+}
+
+function previewImage(input, previewId, storageKey){
+    const file = input.files && input.files[0];
+    const fileName = document.getElementById("filePickerName");
+
+    if(!file){
+        if(fileName){
+            fileName.textContent = T(
+                "No se ha seleccionado ningún archivo",
+                "No file selected"
+            );
+        }
+        return;
+    }
+
+    if(fileName){
+        fileName.textContent = file.name;
+    }
+    if(!file.type.startsWith("image/")){
+        alert(T("Selecciona una imagen válida.", "Select a valid image."));
+        input.value="";
+        if(fileName){
+            fileName.textContent = T(
+                "No se ha seleccionado ningún archivo",
+                "No file selected"
+            );
+        }
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(event){
+        const original = new Image();
+        original.onload = function(){
+            const maxW=1200,maxH=900;
+            const scale=Math.min(1,maxW/original.width,maxH/original.height);
+            const canvas=document.createElement("canvas");
+            canvas.width=Math.max(1,Math.round(original.width*scale));
+            canvas.height=Math.max(1,Math.round(original.height*scale));
+            canvas.getContext("2d").drawImage(original,0,0,canvas.width,canvas.height);
+            const dataURL=canvas.toDataURL("image/jpeg",0.76);
+            const img=document.getElementById(previewId);
+            img.src=dataURL; img.style.display="block";
+            try{ localStorage.setItem(storageKey,dataURL); }
+            catch(err){ sessionStorage.setItem(storageKey+"_adjunta","1"); }
+            verificarEstadoModulo();
+        };
+        original.src=event.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function cargarAvance(){
+    const ids = [
+        "lambda1","lambda2","lambda3",
+        "lambdaSeleccionada","criterioSeleccion",
+        "justificacionLambda","tendenciaAbs",
+        "justificacionMaximos"
+    ];
+
+    ids.forEach(id=>{
+        const val = localStorage.getItem(STORAGE_PREFIX + id);
+        if(val !== null){
+            document.getElementById(id).value = val;
+        }
+    });
+
+    const tendenciaGuardada = localStorage.getItem(STORAGE_PREFIX + "tendenciaAbs");
+    if(tendenciaGuardada){ const input=document.querySelector(`input[name="tendenciaAbs"][value="${tendenciaGuardada}"]`); if(input) input.checked=true; }
+
+    const radio = localStorage.getItem(STORAGE_PREFIX + "cambioMaximos");
+    if(radio){
+        const input = document.querySelector(
+            `input[name="cambioMaximos"][value="${radio}"]`
+        );
+        if(input) input.checked = true;
+    }
+
+    const imgEspectros = localStorage.getItem("uvvis_img_espectros");
+    if(imgEspectros){
+        const img = document.getElementById("previewEspectros");
+        img.src = imgEspectros;
+        img.style.display = "block";
+    }
+
+    verificarEstadoModulo();
+}
+
+
+
+/* =========================
+   VALIDACIÓN DEL MÓDULO
+========================= */
+function evidenciaImagenDisponible(){
+    return Boolean(
+        localStorage.getItem("uvvis_img_espectros") ||
+        sessionStorage.getItem("uvvis_img_espectros_adjunta")
+    );
+}
+
+function valor(id){
+    return document.getElementById(id).value.trim();
+}
+
+function numeroValido(id){
+    const n = Number(valor(id));
+    return valor(id) !== "" && Number.isFinite(n) && n >= 190 && n <= 800;
+}
+
+function validarModulo(){
+    if(!evidenciaImagenDisponible()){
+        return T("adjuntar la imagen de los seis espectros patrón superpuestos.", "attach the image of the six overlaid standard spectra.");
+    }
+
+    if(!numeroValido("lambda1") ||
+       !numeroValido("lambda2") ||
+       !numeroValido("lambda3")){
+        return T("registrar tres longitudes de onda válidas entre 190 y 800 nm.", "enter three valid wavelengths between 190 and 800 nm.");
+    }
+
+    if(!numeroValido("lambdaSeleccionada")){
+        return T("seleccionar la longitud de onda analítica.", "select the analytical wavelength.");
+    }
+
+    if(!valor("criterioSeleccion")){
+        return T("indicar el criterio usado para seleccionar la longitud de onda.", "indicate the criterion used to select the wavelength.");
+    }
+
+    if(valor("justificacionLambda").length < 20){
+        return T("desarrollar un poco más la justificación técnica de la longitud de onda.", "provide a more complete technical justification for the wavelength.");
+    }
+
+    const tendencia = document.querySelector('input[name="tendenciaAbs"]:checked');
+    if(!tendencia){
+        return T("indicar la tendencia de la absorbancia.", "indicate the absorbance trend.");
+    }
+    if(tendencia.value !== "aumenta"){
+        return T("revisar la relación entre concentración y absorbancia.", "review the relationship between concentration and absorbance.");
+    }
+
+    if(!document.querySelector('input[name="cambioMaximos"]:checked')){
+        return T("responder si cambia la posición de los máximos.", "answer whether the position of the maxima changes.");
+    }
+
+    const cambio = document.querySelector('input[name="cambioMaximos"]:checked');
+    if(cambio && cambio.value !== "no"){
+        return T("revisar la posición de los máximos entre los patrones.", "review the position of the maxima among the standards.");
+    }
+
+    return "";
+}
+
+function recopilarDatos(){
+    const radio = document.querySelector(
+        'input[name="cambioMaximos"]:checked'
+    );
+
+    return {
+        completado: validarModulo() === "",
+        maximos_nm: [
+            Number(valor("lambda1")),
+            Number(valor("lambda2")),
+            Number(valor("lambda3"))
+        ],
+        lambda_analitica_nm: Number(valor("lambdaSeleccionada")),
+        criterio: valor("criterioSeleccion"),
+        justificacion_lambda: valor("justificacionLambda"),
+        tendencia_absorbancia: (document.querySelector('input[name="tendenciaAbs"]:checked')||{}).value || "",
+        cambio_maximos: radio ? radio.value : "",
+        evidencia_espectros: evidenciaImagenDisponible(),
+        fecha: new Date().toISOString()
+    };
+}
+
+function guardarDatosAnalisis(){
+    localStorage.setItem(
+        "uvvis_analisis_espectral",
+        JSON.stringify(recopilarDatos())
+    );
+}
+
+function verificarEstadoModulo(){
+    const estado = document.getElementById("estado");
+    const error = validarModulo();
+
+    guardarDatosAnalisis();
+
+    if(error){
+        estado.innerHTML = idiomaActual() === "en"
+            ? "Complete all activities to enable the simulator's <strong>Next</strong> button.<br>" +
+              "<span class='small'>Pending: " + error + "</span>"
+            : "Completa todas las actividades para habilitar el botón " +
+              "<strong>Siguiente</strong> del simulador.<br>" +
+              "<span class='small'>Pendiente: " + error + "</span>";
+        estado.className = "status warn";
+        return;
+    }
+
+    estado.innerHTML = idiomaActual() === "en"
+        ? "✔ Module completed. The analytical wavelength and spectral analysis have been saved. " +
+          "You can now proceed using the simulator's <strong>Next</strong> button."
+        : "✔ Módulo completado. La longitud de onda analítica y el análisis espectral " +
+          "quedaron guardados. Ahora puedes avanzar desde el botón " +
+          "<strong>Siguiente</strong> del simulador.";
+    estado.className = "status ok";
+
+    if(!moduloCompletado && window.parent && window.parent !== window){
+        window.parent.postMessage(
+            {type:"MODULE_COMPLETED",moduleId:"10-analisis-espectral"},
+            "*"
+        );
+        moduloCompletado = true;
+    }
+}
+
+window.addEventListener("DOMContentLoaded", ()=>{
+    aplicarIdiomaLocal();
+    cargarAvance();
+
+    // i18n.js puede modificar después algunos textos generados por este módulo.
+    // Reaplicamos únicamente la traducción local al final del ciclo actual.
+    setTimeout(()=>{
+        aplicarIdiomaLocal();
+        verificarEstadoModulo();
+    }, 0);
+});
+</script>
+
+</body>
+</html>

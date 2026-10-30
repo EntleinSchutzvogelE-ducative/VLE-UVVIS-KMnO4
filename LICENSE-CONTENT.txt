@@ -1,0 +1,43 @@
+Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+
+Copyright (c) 2026 Sergio Andres Patino Martinez
+
+This licence applies to the educational and documentation materials of this
+repository: instructional texts, problem statements, guides, rubrics, images,
+diagrams and any other non-software content. It does NOT apply to the source
+code, which is distributed under the GNU Affero General Public License v3.0
+(see LICENSE.txt), nor to the analysis scripts, distributed under the MIT
+Licence (see LICENSE-ANALYSIS.txt).
+
+You are free to:
+
+  Share  - copy and redistribute the material in any medium or format.
+  Adapt  - remix, transform, and build upon the material for any purpose,
+           including commercially.
+
+Under the following terms:
+
+  Attribution - You must give appropriate credit, provide a link to the
+                licence, and indicate if changes were made.
+  ShareAlike  - If you remix, transform, or build upon the material, you must
+                distribute your contributions under the same licence as the
+                original.
+  No additional restrictions - You may not apply legal terms or technological
+                measures that legally restrict others from doing anything the
+                licence permits.
+
+Suggested attribution:
+
+  "<title of the material>" by Sergio Andres Patino Martinez, licensed under CC BY-SA 4.0.
+  Source: <repository URL>
+
+The text above is a human-readable summary of, and not a substitute for, the
+licence. The complete legal code is available at:
+
+  https://creativecommons.org/licenses/by-sa/4.0/legalcode
+  Spanish version: https://creativecommons.org/licenses/by-sa/4.0/legalcode.es
+
+If you prefer to ship the full legal code inside the repository, download it
+from the address above and append it below this notice.

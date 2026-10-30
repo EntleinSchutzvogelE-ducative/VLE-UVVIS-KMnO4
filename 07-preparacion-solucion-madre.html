@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparación de solución madre 2000 ppm — KMnO₄</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#111827;
+    --muted:#5f6b7a;
+    --edge:#d8dee8;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --navy:#071f3d;
+    --ok:#2e7d32;
+    --warn:#ef6c00;
+    --bad:#c62828;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    background:var(--bg);
+    font-family:Arial, Helvetica, sans-serif;
+    color:var(--ink);
+}
+
+.wrapper{
+    width:min(1220px, 96vw);
+    margin:10px auto;
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:18px;
+    box-shadow:0 10px 28px rgba(15,23,42,.10);
+    overflow:hidden;
+}
+
+.header{
+    padding:12px 18px;
+    background:linear-gradient(90deg, #ffffff, #f8fafc);
+    border-bottom:1px solid var(--edge);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+}
+
+.logo{
+    height:54px;
+    object-fit:contain;
+}
+
+.logo-ese{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    object-fit:contain;
+    box-shadow:0 4px 12px rgba(0,0,0,.14);
+}
+
+.title{
+    flex:1;
+    text-align:center;
+}
+
+.title h1{
+    margin:0;
+    color:var(--navy);
+    font-size:26px;
+}
+
+.title p{
+    margin:6px 0 0 0;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.intro{
+    padding:10px 18px;
+    border-bottom:1px solid var(--edge);
+    background:#f8fafc;
+}
+
+.box{
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:15px;
+}
+
+.box h2{
+    margin:0 0 8px 0;
+    color:var(--accent-dark);
+    font-size:19px;
+}
+
+.box p{
+    margin:0;
+    color:#344054;
+    line-height:1.55;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:999px;
+    background:#ede9fe;
+    color:#4c1d95;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.status{
+    padding:10px 24px;
+    background:#fff7ed;
+    border-bottom:1px solid #fed7aa;
+    color:#7c2d12;
+    font-size:14px;
+}
+
+.status strong{
+    color:#9a3412;
+}
+
+.stage-wrap{
+    padding:10px;
+    overflow:hidden;
+}
+
+.stage{
+    position:relative;
+    width:980px;
+    height:520px;
+    margin:auto;
+    background:#ffffff;
+    border:1px solid var(--edge);
+    border-radius:18px;
+}
+
+.objetivo{
+    position:absolute;
+    top:18px;
+    left:18px;
+    width:330px;
+    background:#f8fafc;
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:12px;
+    font-size:14px;
+    line-height:1.45;
+}
+
+.objetivo strong{
+    color:var(--accent-dark);
+}
+
+.action-panel{
+    position:absolute;
+    top:18px;
+    left:370px;
+    right:18px;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:8px;
+    z-index:20;
+}
+
+.btn{
+    position:static;
+    min-height:38px;
+    padding:8px 9px;
+    border:0;
+    background:var(--accent);
+    color:white;
+    cursor:pointer;
+    border-radius:9px;
+    font-weight:bold;
+    font-size:12px;
+    box-shadow:0 4px 10px rgba(106,27,154,.18);
+}
+
+.btn:hover:not(:disabled){
+    background:var(--accent-dark);
+}
+
+.btn:disabled{
+    opacity:.38;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+.btn.reset{
+    background:#475569;
+}
+
+.btn.reset:hover:not(:disabled){
+    background:#334155;
+}
+
+
+.flask{
+    position:absolute;
+    top:255px;
+    left:60px;
+    width:240px;
+}
+
+.reagent{
+    position:absolute;
+    top:315px;
+    left:310px;
+    width:80px;
+    height:120px;
+    background:#4A148C;
+    border-radius:8px;
+    border:3px solid #222;
+}
+
+.reagent::after{
+    content:"KMnO₄";
+    position:absolute;
+    bottom:-25px;
+    left:50%;
+    transform:translateX(-50%);
+    font-weight:bold;
+    color:#4A148C;
+}
+
+.flask-balance{
+    position:absolute;
+    top:95px;
+    left:480px;
+    width:240px;
+    display:none;
+}
+
+.balance{
+    position:absolute;
+    top:305px;
+    left:450px;
+    width:300px;
+    height:170px;
+}
+
+.plate{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:160px;
+    height:20px;
+    border-radius:50%;
+    background:linear-gradient(#fff,#999);
+}
+
+.base{
+    position:absolute;
+    top:30px;
+    left:0;
+    width:100%;
+    height:140px;
+    background:#c8ced5;
+    border-radius:16px;
+}
+
+.display{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:200px;
+    height:50px;
+    background:white;
+    border:3px solid #879bb4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:monospace;
+    font-size:30px;
+}
+
+.button{
+    position:absolute;
+    bottom:15px;
+    width:70px;
+    height:30px;
+    background:#555;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.tare{ left:20px; }
+.zero{ left:115px; }
+.onoff{ right:20px; }
+
+.solido{
+    fill:#4A148C;
+    transition:all 0.4s ease;
+}
+
+#aguaIzq{
+    transition:none;
+}
+
+.feedback-area{
+    width:980px;
+    margin:8px auto 0;
+    display:grid;
+    gap:10px;
+}
+
+.message,
+.completion-state{
+    position:static;
+    width:100%;
+    min-height:44px;
+    background:#f8fafc;
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:11px 14px;
+    color:#344054;
+    line-height:1.45;
+}
+
+.completion-state{
+    min-height:38px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.message.ok,
+.completion-state.ok{
+    background:#f0fdf4;
+    border-color:#bbf7d0;
+    color:#166534;
+}
+
+.completion-state.ok{
+    font-weight:bold;
+}
+
+.message.warn{
+    background:#fff7ed;
+    border-color:#fed7aa;
+    color:#7c2d12;
+}
+
+@media(max-width:1020px){
+    .feedback-area{
+        width:980px;
+    }
+}
+
+
+.process-tracker{
+    display:grid;
+    grid-template-columns:repeat(10, minmax(70px, 1fr));
+    gap:6px;
+    width:980px;
+    margin:0 auto 10px;
+}
+
+.process-step{
+    padding:7px 5px;
+    border:1px solid var(--edge);
+    border-radius:9px;
+    background:#f8fafc;
+    color:#64748b;
+    text-align:center;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.process-step.active{
+    background:#f3e8ff;
+    border-color:#c084fc;
+    color:#6b21a8;
+}
+
+.process-step.done{
+    background:#dcfce7;
+    border-color:#86efac;
+    color:#166534;
+}
+
+.flask.mix{
+    animation:homogeneizar 1.8s ease-in-out;
+    transform-origin:100px 150px;
+}
+
+@keyframes homogeneizar{
+    0%{transform:rotate(0deg)}
+    20%{transform:rotate(18deg)}
+    40%{transform:rotate(-18deg)}
+    60%{transform:rotate(18deg)}
+    80%{transform:rotate(-18deg)}
+    100%{transform:rotate(0deg)}
+}
+
+@media(max-width:1020px){
+    .process-tracker{
+        width:980px;
+    }
+}
+
+.footer{
+    padding:12px 24px;
+    background:linear-gradient(90deg, var(--navy), #12335f);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:13px;
+}
+
+.footer strong{
+    color:#f3d58a;
+}
+
+.scale-shell{
+    width:980px;
+    margin:0 auto;
+    transform-origin:top center;
+}
+.stage-wrap{
+    position:relative;
+}
+@media(max-width:760px){
+    .wrapper{
+        width:100%;
+        margin:0;
+        border-radius:0;
+    }
+    .header{
+        padding:10px 12px;
+    }
+    .logo{
+        max-width:42%;
+        height:auto;
+    }
+    .logo-ese{
+        width:52px;
+        height:52px;
+    }
+    .title h1{
+        font-size:21px;
+    }
+    .title p{
+        font-size:12px;
+    }
+    .intro{
+        padding:8px 10px;
+    }
+    .intro .box{
+        padding:10px 12px;
+    }
+    .status{
+        padding:7px 10px;
+        font-size:13px;
+    }
+    .stage-wrap{
+        padding:6px 0;
+    }
+    .footer{
+        padding:9px 12px;
+        font-size:11px;
+    }
+}
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+        scroll-behavior:auto!important;
+    }
+}
+
+</style>
+<script src="i18n.js"></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<header class="header">
+<div class="title">
+        <h1>Preparación de la solución madre</h1>
+        <p>KMnO₄ 2000 ppm · 50,0 mL</p>
+    </div>
+
+    <img class="logo-ese" src="ESE.png" alt="ESE — Entlein-Schutzvogel Educative">
+</header>
+
+<section class="intro">
+    <div class="box">
+        <span class="badge">Propósito experimental</span>
+        <h2>¿Qué vas a preparar?</h2>
+        <p>
+            Prepararás <strong>50,0 mL de KMnO₄ a 2000 ppm</strong>. Esta solución se utilizará
+            posteriormente para obtener los patrones de calibración.
+        </p>
+    </div>
+</section>
+
+<div class="status">
+    <strong>Meta:</strong> pesar 0,1000 g, disolver, aforar a 50,0 mL y homogeneizar.
+</div>
+
+<div class="stage-wrap" id="stageWrap">
+<div class="scale-shell" id="scaleShell">
+<div class="stage">
+
+<div class="objetivo">
+    <strong>Secuencia experimental</strong><br>
+    Enciende, ajusta el cero, tara, pesa <strong>0,1000 g</strong>, disuelve, afora y homogeneiza.
+</div>
+
+<div class="action-panel">
+    <button id="btnColocar" class="btn" onclick="colocarBalon()" disabled>Colocar balón</button>
+    <button id="btnAgregar" class="btn" onclick="agregarSolido()" disabled>Añadir KMnO₄</button>
+    <button id="btnRetirar" class="btn" onclick="retirarBalon()" disabled>Retirar balón</button>
+    <button id="btnAgua" class="btn" onclick="agregarAguaParcial()" disabled>Añadir agua</button>
+    <button id="btnDisolver" class="btn" onclick="disolver()" disabled>Disolver</button>
+    <button id="btnAforar" class="btn" onclick="aforar()" disabled>Completar aforo</button>
+    <button id="btnHomogeneizar" class="btn" onclick="homogeneizar()" disabled>Homogeneizar</button>
+    <button id="btnReiniciar" class="btn reset" onclick="reiniciarModulo()">↺ Reiniciar</button>
+</div>
+
+<svg id="flaskOrigen" class="flask" viewBox="0 0 200 400">
+<defs>
+<clipPath id="clipL">
+<path d="M92 10 L108 10 L108 90
+C108 105,138 120,138 140
+C138 155,132 162,120 165
+L80 165
+C68 162,62 155,62 140
+C62 120,92 105,92 90 Z"/>
+</clipPath>
+</defs>
+
+<rect id="aguaIzq" x="0" y="165" width="200" height="0" fill="#4A148C" clip-path="url(#clipL)"/>
+
+<path d="M92 10 L108 10 L108 90
+C108 105,138 120,138 140
+C138 155,132 162,120 165
+L80 165
+C68 162,62 155,62 140
+C62 120,92 105,92 90 Z"
+fill="none" stroke="#111" stroke-width="2.5"/>
+
+<line x1="92" y1="45" x2="108" y2="45" stroke="#444" stroke-width="2"/>
+<ellipse id="solidoOrigen" class="solido" cx="100" cy="160" rx="0" ry="0"/>
+<text x="100" y="155" text-anchor="middle">50 mL</text>
+</svg>
+
+<div class="reagent"></div>
+
+<svg id="flaskBalance" class="flask-balance" viewBox="0 0 200 400">
+<path d="M92 10 L108 10 L108 90
+C108 105,138 120,138 140
+C138 155,132 162,120 165
+L80 165
+C68 162,62 155,62 140
+C62 120,92 105,92 90 Z"
+fill="none" stroke="#111" stroke-width="2.5"/>
+
+<line x1="92" y1="45" x2="108" y2="45" stroke="#444" stroke-width="2"/>
+<ellipse id="solidoBalance" class="solido" cx="100" cy="160" rx="0" ry="0"/>
+<text x="100" y="155" text-anchor="middle">50 mL</text>
+</svg>
+
+<div class="balance">
+    <div class="plate"></div>
+    <div class="base">
+        <div id="display" class="display">----</div>
+        <div id="btnTare" class="button tare" onclick="tarar()">TARE</div>
+        <div id="btnZero" class="button zero" onclick="hacerZero()">ZERO</div>
+        <div id="btnPower" class="button onoff" onclick="encender()">ON/OFF</div>
+    </div>
+</div>
+
+</div>
+
+<div class="process-tracker" id="processTracker">
+    <div class="process-step" data-step="encender">1. Encender</div>
+    <div class="process-step" data-step="cero">2. Cero</div>
+    <div class="process-step" data-step="colocar">3. Colocar</div>
+    <div class="process-step" data-step="tarar">4. Tarar</div>
+    <div class="process-step" data-step="pesar">5. Pesar</div>
+    <div class="process-step" data-step="retirar">6. Retirar</div>
+    <div class="process-step" data-step="agua">7. Agua</div>
+    <div class="process-step" data-step="disolver">8. Disolver</div>
+    <div class="process-step" data-step="aforar">9. Aforar</div>
+    <div class="process-step" data-step="homogeneizar">10. Homogeneizar</div>
+</div>
+
+<div class="feedback-area">
+    <div id="finalState" class="completion-state">
+        Completa la secuencia experimental para continuar.
+    </div>
+
+    <div id="mensaje" class="message">
+        Obtén la masa objetivo de KMnO₄ y prepara correctamente la solución madre de 2000 ppm.
+    </div>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+    <div><strong>ESE — Entlein-Schutzvogel Educative</strong><br></div>
+    <div></div>
+</footer>
+
+</div>
+
+<script>
+const pasos = [
+    "encender","cero","colocar","tarar","pesar",
+    "retirar","agua","disolver","aforar","homogeneizar"
+];
+
+let encendida = false;
+let ceroAjustado = false;
+let colocado = false;
+let tarado = false;
+let masa = 0;
+let solido = 0;
+let retirado = false;
+let aguaParcial = false;
+let disuelto = false;
+let aforado = false;
+let homogeneizado = false;
+let aforoEnCurso = false;
+let moduloCompletado = false;
+let tiempoInicio = Date.now();
+let numeroAdiciones = 0;
+
+function mostrar(valor){
+    document.getElementById("display").innerText = valor;
+}
+
+function mensaje(texto, tipo=""){
+    const panel = document.getElementById("mensaje");
+    panel.innerHTML = texto;
+    panel.className = "message " + tipo;
+}
+
+function procesoCompleto(){
+    return encendida && ceroAjustado && colocado && tarado &&
+           Math.abs(masa - 0.1000) < 0.0001 && retirado &&
+           aguaParcial && disuelto && aforado && homogeneizado;
+}
+
+function indicePasoActual(){
+    if(!encendida) return 0;
+    if(!ceroAjustado) return 1;
+    if(!colocado) return 2;
+    if(!tarado) return 3;
+    if(Math.abs(masa - 0.1000) >= 0.0001) return 4;
+    if(!retirado) return 5;
+    if(!aguaParcial) return 6;
+    if(!disuelto) return 7;
+    if(!aforado) return 8;
+    if(!homogeneizado) return 9;
+    return 10;
+}
+
+function actualizarTracker(){
+    const actual = indicePasoActual();
+
+    document.querySelectorAll(".process-step").forEach((elemento, i)=>{
+        elemento.classList.remove("done","active");
+
+        if(i < actual){
+            elemento.classList.add("done");
+        }else if(i === actual && actual < pasos.length){
+            elemento.classList.add("active");
+        }
+    });
+}
+
+function actualizarBotones(){
+    document.getElementById("btnColocar").disabled =
+        !encendida || !ceroAjustado || colocado;
+
+    document.getElementById("btnAgregar").disabled =
+        !encendida || !colocado || !tarado ||
+        retirado || Math.abs(masa - 0.1000) < 0.0001;
+
+    document.getElementById("btnRetirar").disabled =
+        !colocado || !tarado ||
+        Math.abs(masa - 0.1000) >= 0.0001 || retirado;
+
+    document.getElementById("btnAgua").disabled =
+        !retirado || aguaParcial;
+
+    document.getElementById("btnDisolver").disabled =
+        !aguaParcial || disuelto;
+
+    document.getElementById("btnAforar").disabled =
+        !disuelto || aforado || aforoEnCurso;
+
+    document.getElementById("btnHomogeneizar").disabled =
+        !aforado || homogeneizado || aforoEnCurso;
+
+    document.getElementById("btnZero").style.pointerEvents =
+        encendida && !colocado && !ceroAjustado ? "auto" : "none";
+    document.getElementById("btnZero").style.opacity =
+        encendida && !colocado && !ceroAjustado ? "1" : ".4";
+
+    document.getElementById("btnTare").style.pointerEvents =
+        encendida && colocado && !tarado ? "auto" : "none";
+    document.getElementById("btnTare").style.opacity =
+        encendida && colocado && !tarado ? "1" : ".4";
+
+    actualizarTracker();
+    verificarFinalizacion();
+}
+
+function encender(){
+    if(encendida){
+        mensaje("La balanza debe permanecer encendida durante el procedimiento. Usa Reiniciar si deseas comenzar de nuevo.", "warn");
+        return;
+    }
+
+    encendida = true;
+    masa = (Math.random() * 0.001) - 0.0005;
+    mostrar(masa.toFixed(4) + " g");
+    mensaje("Balanza encendida. Ajusta el cero antes de colocar el balón aforado.", "ok");
+    actualizarBotones();
+}
+
+function hacerZero(){
+    if(!encendida || colocado || ceroAjustado){
+        mensaje("El ajuste de cero debe realizarse con la balanza encendida y sin recipiente sobre el plato.", "warn");
+        return;
+    }
+
+    masa = 0;
+    ceroAjustado = true;
+    mostrar("0.0000 g");
+    mensaje("✔ Balanza ajustada a cero. Coloca ahora el balón aforado.", "ok");
+    actualizarBotones();
+}
+
+function colocarBalon(){
+    if(!encendida || !ceroAjustado || colocado) return;
+
+    document.getElementById("flaskOrigen").style.display = "none";
+    document.getElementById("flaskBalance").style.display = "block";
+
+    masa = 72.7540;
+    mostrar(masa.toFixed(4) + " g");
+    colocado = true;
+
+    mensaje("Balón colocado. Usa TARE para descontar la masa del recipiente.", "warn");
+    actualizarBotones();
+}
+
+function tarar(){
+    if(!encendida || !colocado || tarado) return;
+
+    masa = 0;
+    tarado = true;
+    mostrar("0.0000 g");
+
+    mensaje("✔ Recipiente tarado. Añade KMnO₄ hasta alcanzar exactamente 0.1000 g.", "ok");
+    actualizarBotones();
+}
+
+function agregarSolido(){
+    if(!encendida || !colocado || !tarado || retirado) return;
+
+    const objetivo = 0.1000;
+    let incremento;
+
+    if(masa < 0.0600){
+        incremento = 0.0200;
+    }else if(masa < 0.0900){
+        incremento = 0.0100;
+    }else{
+        incremento = 0.0025;
+    }
+
+    if(masa + incremento > objetivo){
+        incremento = objetivo - masa;
+    }
+
+    if(incremento <= 0){
+        mensaje("La masa objetivo ya fue alcanzada. Retira el balón de la balanza.", "ok");
+        actualizarBotones();
+        return;
+    }
+
+    masa = Number((masa + incremento).toFixed(4));
+    solido = Number((solido + incremento).toFixed(4));
+    numeroAdiciones++;
+
+    mostrar(masa.toFixed(4) + " g");
+
+    const radio = Math.min((solido * 1000) * 0.16, 20);
+
+    ["solidoOrigen","solidoBalance"].forEach(id=>{
+        const el = document.getElementById(id);
+        el.setAttribute("rx", radio);
+        el.setAttribute("ry", radio * 0.35);
+    });
+
+    if(Math.abs(masa - objetivo) < 0.0001){
+        mensaje("✔ Masa objetivo alcanzada: 0.1000 g. Retira el balón de la balanza.", "ok");
+    }else{
+        mensaje(`Masa actual: <strong>${masa.toFixed(4)} g</strong>. Continúa añadiendo pequeñas porciones.`, "warn");
+    }
+
+    actualizarBotones();
+}
+
+function retirarBalon(){
+    if(Math.abs(masa - 0.1000) >= 0.0001 || retirado) return;
+
+    document.getElementById("flaskOrigen").style.display = "block";
+    document.getElementById("flaskBalance").style.display = "none";
+
+    retirado = true;
+    mensaje("✔ Balón retirado. Añade primero una porción de agua destilada; todavía no completes hasta la marca.", "ok");
+    actualizarBotones();
+}
+
+function establecerLiquidoRectangular(y, altura, color="#8E24AA"){
+    let agua = document.getElementById("aguaIzq");
+
+    if(agua.tagName.toLowerCase() !== "rect"){
+        agua.remove();
+
+        agua = document.createElementNS("http://www.w3.org/2000/svg","rect");
+        agua.setAttribute("id","aguaIzq");
+        agua.setAttribute("x","0");
+        agua.setAttribute("width","200");
+        agua.setAttribute("clip-path","url(#clipL)");
+
+        const svg = document.getElementById("flaskOrigen");
+        const borde = svg.querySelector("path[fill='none']");
+        svg.insertBefore(agua,borde);
+    }
+
+    agua.setAttribute("fill",color);
+    agua.setAttribute("y",y);
+    agua.setAttribute("height",altura);
+}
+
+function agregarAguaParcial(){
+    if(!retirado || aguaParcial) return;
+
+    aguaParcial = true;
+    establecerLiquidoRectangular(112,53,"#B067C4");
+
+    mensaje("Se añadió agua destilada hasta aproximadamente dos tercios del cuerpo del balón. Ahora agita hasta disolver completamente el KMnO₄.", "ok");
+    actualizarBotones();
+}
+
+function disolver(){
+    if(!aguaParcial || disuelto) return;
+
+    const flask = document.getElementById("flaskOrigen");
+    flask.classList.add("mix");
+
+    mensaje("Disolviendo el sólido mediante agitación suave…", "warn");
+
+    setTimeout(()=>{
+        flask.classList.remove("mix");
+        disuelto = true;
+
+        document.getElementById("solidoOrigen").setAttribute("rx","0");
+        document.getElementById("solidoOrigen").setAttribute("ry","0");
+
+        establecerLiquidoRectangular(112,53,"#8E24AA");
+
+        mensaje("✔ El KMnO₄ se disolvió completamente. Completa ahora el volumen hasta la línea de aforo.", "ok");
+        actualizarBotones();
+    },1800);
+}
+
+function aforar(){
+    if(!disuelto || aforado || aforoEnCurso) return;
+
+    aforoEnCurso = true;
+    actualizarBotones();
+
+    let agua = document.getElementById("aguaIzq");
+    const yInicial = 112;
+    const yFinal = 39;
+    const fondo = 165;
+    const duracion = 2800;
+    let inicio = null;
+
+    mensaje("Añadiendo agua destilada lentamente. La lectura final debe hacerse a la altura de los ojos.", "warn");
+
+    function animar(ts){
+        if(!inicio) inicio = ts;
+
+        const progreso = Math.min((ts - inicio) / duracion, 1);
+        const yActual = yInicial - (yInicial - yFinal) * progreso;
+
+        agua.setAttribute("y",yActual);
+        agua.setAttribute("height",fondo - yActual);
+
+        if(progreso < 1){
+            requestAnimationFrame(animar);
+            return;
+        }
+
+        const svg = document.getElementById("flaskOrigen");
+        agua.remove();
+
+        const liquido = document.createElementNS("http://www.w3.org/2000/svg","path");
+        liquido.setAttribute("id","aguaIzq");
+        liquido.setAttribute("fill","#8E24AA");
+        liquido.setAttribute("clip-path","url(#clipL)");
+        liquido.setAttribute("d",`
+            M 92 39
+            C 96 45, 104 45, 108 39
+            L 108 90
+            C 108 105, 138 120, 138 140
+            C 138 155, 132 162, 120 165
+            L 80 165
+            C 68 162, 62 155, 62 140
+            C 62 120, 92 105, 92 90
+            Z
+        `);
+
+        const borde = svg.querySelector("path[fill='none']");
+        svg.insertBefore(liquido,borde);
+
+        aforoEnCurso = false;
+        aforado = true;
+
+        mensaje("✔ El punto más bajo del menisco coincide con la línea de aforo. Falta homogeneizar la solución.", "ok");
+        actualizarBotones();
+    }
+
+    requestAnimationFrame(animar);
+}
+
+function homogeneizar(){
+    if(!aforado || homogeneizado) return;
+
+    const flask = document.getElementById("flaskOrigen");
+    flask.classList.add("mix");
+    mensaje("Tapando e invirtiendo el balón varias veces para homogeneizar la solución…", "warn");
+
+    setTimeout(()=>{
+        flask.classList.remove("mix");
+        homogeneizado = true;
+        mensaje("✔ Solución madre de KMnO₄ preparada y homogeneizada correctamente.", "ok");
+        actualizarBotones();
+    },1800);
+}
+
+function verificarFinalizacion(){
+    const state = document.getElementById("finalState");
+
+    if(procesoCompleto()){
+        state.innerHTML =
+            "✔ Solución madre preparada correctamente. Puedes continuar.";
+        state.className = "completion-state ok";
+
+        localStorage.setItem("uvvis_preparacion_madre",JSON.stringify({
+            completado:true,
+            masaKMnO4_g:0.1000,
+            volumenFinal_mL:50,
+            concentracion_ppm:2000,
+            numeroAdiciones,
+            tiempo_s:Math.round((Date.now()-tiempoInicio)/1000),
+            disolucionPrevia:true,
+            homogeneizacionFinal:true,
+            fecha:new Date().toISOString()
+        }));
+
+        if(!moduloCompletado && window.parent && window.parent !== window){
+            window.parent.postMessage({type:"MODULE_COMPLETED",moduleId:"07-preparacion-solucion-madre"},"*");
+            moduloCompletado = true;
+        }
+    }else{
+        state.innerHTML =
+            "Completa la secuencia experimental para continuar.";
+        state.className = "completion-state";
+        localStorage.removeItem("uvvis_preparacion_madre");
+    }
+}
+
+function reiniciarModulo(){
+    encendida = false;
+    ceroAjustado = false;
+    colocado = false;
+    tarado = false;
+    masa = 0;
+    solido = 0;
+    retirado = false;
+    aguaParcial = false;
+    disuelto = false;
+    aforado = false;
+    homogeneizado = false;
+    aforoEnCurso = false;
+    moduloCompletado = false;
+    numeroAdiciones = 0;
+    tiempoInicio = Date.now();
+
+    document.getElementById("flaskOrigen").style.display = "block";
+    document.getElementById("flaskOrigen").classList.remove("mix");
+    document.getElementById("flaskBalance").style.display = "none";
+
+    ["solidoOrigen","solidoBalance"].forEach(id=>{
+        const el = document.getElementById(id);
+        el.setAttribute("rx","0");
+        el.setAttribute("ry","0");
+    });
+
+    establecerLiquidoRectangular(165,0,"#4A148C");
+
+    mostrar("----");
+    mensaje("Práctica reiniciada. Enciende la balanza para comenzar.", "");
+    localStorage.removeItem("uvvis_preparacion_madre");
+
+    actualizarBotones();
+}
+
+actualizarBotones();
+ajustarEscenario();
+
+function ajustarEscenario(){
+    const wrap = document.getElementById("stageWrap");
+    const shell = document.getElementById("scaleShell");
+    if(!wrap || !shell) return;
+
+    const baseWidth = 980;
+    const available = Math.max(320, wrap.clientWidth - 4);
+    const scale = Math.min(1, available / baseWidth);
+
+    shell.style.transform = `scale(${scale})`;
+    wrap.style.height = `${shell.offsetHeight * scale + 8}px`;
+}
+
+window.addEventListener("resize", ajustarEscenario);
+window.addEventListener("load", ajustarEscenario);
+
+</script>
+
+</body>
+</html>

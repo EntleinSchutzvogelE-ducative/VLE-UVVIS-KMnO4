@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Objetivos — Laboratorio Virtual UV-Vis</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#101828;
+    --muted:#5f6b7a;
+    --edge:#d8dee8;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --navy:#071f3d;
+    --gold:#f3d58a;
+    --soft:#f8fafc;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(106,27,154,.13), transparent 35%),
+        linear-gradient(135deg, #eef2f3 0%, #f8fafc 100%);
+    color:var(--ink);
+}
+
+.wrap{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:24px;
+}
+
+.card{
+    width:min(1180px, 96vw);
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:22px;
+    box-shadow:0 18px 45px rgba(15,23,42,.16);
+    overflow:hidden;
+}
+
+/* =========================
+   ENCABEZADO
+========================= */
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:16px 28px;
+    background:linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
+    border-bottom:1px solid var(--edge);
+}
+
+.logo-salesiana{
+    height:58px;
+    max-width:360px;
+    object-fit:contain;
+}
+
+.logo-ese{
+    height:74px;
+    width:74px;
+    object-fit:contain;
+    border-radius:50%;
+    box-shadow:0 4px 12px rgba(0,0,0,.16);
+}
+
+.brand-center{
+    text-align:center;
+    flex:1;
+    min-width:240px;
+}
+
+.brand-center .tag{
+    display:inline-block;
+    background:#ede9fe;
+    color:#4c1d95;
+    border:1px solid #ddd6fe;
+    padding:5px 12px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.brand-center p{
+    margin:7px 0 0 0;
+    font-size:14px;
+    color:var(--muted);
+}
+
+/* =========================
+   CONTENIDO
+========================= */
+
+.content{
+    padding:26px;
+}
+
+.title-block{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+h1{
+    margin:0 0 8px 0;
+    color:var(--navy);
+    font-size:clamp(30px, 3.6vw, 44px);
+    line-height:1.1;
+    letter-spacing:-.025em;
+}
+
+.subtitle{
+    margin:0;
+    color:var(--accent-dark);
+    font-weight:bold;
+    font-size:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:24px;
+    align-items:stretch;
+}
+
+@media(max-width:950px){
+    .grid{ grid-template-columns:1fr; }
+}
+
+.objective-main{
+    background:
+        linear-gradient(135deg, rgba(106,27,154,.10), rgba(255,255,255,.94)),
+        #ffffff;
+    border:1px solid #d8b4fe;
+    border-radius:20px;
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.objective-main::after{
+    content:"";
+    position:absolute;
+    right:-60px;
+    bottom:-60px;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(106,27,154,.08);
+}
+
+.icon-circle{
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    background:var(--navy);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:18px;
+    box-shadow:0 10px 22px rgba(7,31,61,.22);
+}
+
+.icon-circle img{
+    width:72px;
+    height:72px;
+    object-fit:contain;
+    border-radius:50%;
+}
+
+.objective-main h2{
+    margin:0 0 12px 0;
+    color:var(--accent-dark);
+    font-size:25px;
+}
+
+.objective-main p{
+    margin:0;
+    color:#344054;
+    line-height:1.65;
+    font-size:18px;
+    position:relative;
+    z-index:1;
+}
+
+.objectives-list{
+    display:grid;
+    gap:12px;
+}
+
+.obj{
+    display:grid;
+    grid-template-columns:48px 1fr;
+    gap:12px;
+    align-items:start;
+    background:var(--soft);
+    border:1px solid var(--edge);
+    border-radius:16px;
+    padding:15px;
+}
+
+.num{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:var(--accent);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.obj strong{
+    display:block;
+    color:var(--navy);
+    margin-bottom:4px;
+    font-size:16px;
+}
+
+.obj span{
+    display:block;
+    color:#475467;
+    line-height:1.45;
+    font-size:15px;
+}
+
+.competence{
+    margin-top:24px;
+    background:#ffffff;
+    border:1px solid var(--edge);
+    border-radius:18px;
+    padding:20px;
+}
+
+.competence h2{
+    margin:0 0 10px 0;
+    color:var(--navy);
+    text-align:center;
+}
+
+.competence-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:12px;
+    margin-top:14px;
+}
+
+@media(max-width:900px){
+    .competence-grid{ grid-template-columns:repeat(2, 1fr); }
+}
+
+@media(max-width:560px){
+    .competence-grid{ grid-template-columns:1fr; }
+}
+
+.comp{
+    background:#f8fafc;
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:14px;
+    text-align:center;
+}
+
+.comp .emoji{
+    font-size:28px;
+    display:block;
+    margin-bottom:8px;
+}
+
+.comp strong{
+    color:var(--accent-dark);
+    display:block;
+    margin-bottom:4px;
+}
+
+.comp span{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.35;
+}
+
+.cta{
+    margin-top:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    text-decoration:none;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:13px 20px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(106,27,154,.25);
+    transition:.2s ease;
+}
+
+.btn:hover{
+    background:var(--accent-dark);
+    transform:translateY(-1px);
+}
+
+.small{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* =========================
+   PIE
+========================= */
+
+.footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    padding:14px 28px;
+    background:linear-gradient(90deg, var(--navy), #12335f);
+    color:white;
+    font-size:13px;
+}
+
+.footer strong{ color:var(--gold); }
+
+@media(max-width:700px){
+    .topbar{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .logo-salesiana{
+        height:auto;
+        width:min(340px, 86vw);
+    }
+
+    .content{
+        padding:24px;
+    }
+
+    .footer{
+        text-align:center;
+        justify-content:center;
+    }
+}
+</style>
+<script src="i18n.js"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+<main class="card">
+
+    <!-- IDENTIDAD -->
+    <header class="topbar">
+<div class="brand-center">
+            <span class="tag">Objetivos de aprendizaje</span>
+            <p>Laboratorio Virtual UV-Vis — ESE</p>
+        </div>
+
+        <img class="logo-ese" src="ESE.png" alt="ESE — Entlein-Schutzvogel Educative">
+    </header>
+
+    <section class="content">
+
+        <div class="title-block">
+            <h1>Al finalizar esta práctica usted será capaz de…</h1>
+            <p class="subtitle">Competencias y resultados de aprendizaje que desarrollará durante la experiencia.</p>
+        </div>
+
+        <div class="grid">
+
+            <div class="objective-main">
+                <div class="icon-circle">
+                    <img src="espectrofotometro.png" alt="Espectrofotómetro UV-Visible" onerror="this.src='favicon.png'">
+                </div>
+
+                <h2>Objetivo general</h2>
+
+                <p>
+                    Determinar la concentración de permanganato de potasio en una muestra de agua residual mediante espectrofotometría UV‑Visible para evaluar el cumplimiento del límite permisible de manganeso elemental.
+                </p>
+            </div>
+
+            <div class="objectives-list">
+
+                <div class="obj">
+                    <div class="num">1</div>
+                    <div>
+                        
+                        <strong>Analizar</strong><span>Analizar el comportamiento espectral de soluciones de permanganato de potasio para seleccionar las condiciones adecuadas de cuantificación.</span>
+                    </div>
+                </div>
+
+                <div class="obj">
+                    <div class="num">2</div>
+                    <div>
+                        
+                        <strong>Construir</strong><span>Aplicar procedimientos de calibración espectrofotométrica para determinar la concentración de una muestra problema.</span>
+                    </div>
+                </div>
+
+                <div class="obj">
+                    <div class="num">3</div>
+                    <div>
+                        
+                        <strong>Interpretar</strong><span>Interpretar los resultados obtenidos para establecer el cumplimiento de un criterio de calidad ambiental.</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="competence">
+            <h2>Competencias que se integran en la práctica</h2>
+
+            <div class="competence-grid">
+                <div class="comp">
+                    <span class="emoji">🧪</span>
+                    <strong>Preparación</strong>
+                    <span>Soluciones, diluciones y patrones de calibración.</span>
+                </div>
+
+                <div class="comp">
+                    <span class="emoji">📈</span>
+                    <strong>Análisis de datos</strong>
+                    <span>Espectros, gráficas, regresión lineal y R².</span>
+                </div>
+
+                <div class="comp">
+                    <span class="emoji">⚖️</span>
+                    <strong>Cuantificación</strong>
+                    <span>Uso de la ecuación de calibración para estimar concentración.</span>
+                </div>
+
+                <div class="comp">
+                    <span class="emoji">✅</span>
+                    <strong>Decisión</strong>
+                    <span>Interpretación del resultado frente a una especificación.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+<button class="btn" onclick="siguiente()">Continuar →</button>
+<span class="small">A continuación revisará las normas de seguridad del laboratorio.</span>
+</div>
+
+    </section>
+
+    <footer class="footer">
+        <div>
+            <strong>ESE — Entlein-Schutzvogel Educative</strong><br>
+        </div>
+
+        <div>
+            
+        </div>
+    </footer>
+
+</main>
+</div>
+
+<script>
+function siguiente(){
+    /*
+      Esta pantalla será integrada posteriormente al main definitivo.
+      Por ahora intenta avisar al contenedor principal que debe avanzar.
+      Si se abre de forma independiente, puede redirigir a la siguiente pantalla.
+    */
+    if(window.parent && window.parent !== window){
+        window.parent.postMessage({type:"MODULE_COMPLETED",moduleId:"03-objetivos"},"*");
+    }else{
+        window.location.href="04-seguridad.html";
+    }
+}
+
+</script>
+
+</body>
+</html>

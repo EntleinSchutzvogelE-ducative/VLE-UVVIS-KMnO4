@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planeación experimental — Preparación de soluciones UV-Vis</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#111827;
+    --muted:#5f6b7a;
+    --edge:#d8dee8;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --navy:#071f3d;
+    --ok:#2e7d32;
+    --bad:#c62828;
+    --warn:#ef6c00;
+    --soft:#f8fafc;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(106,27,154,.10), transparent 34%),
+        linear-gradient(135deg, #eef2f3 0%, #f8fafc 100%);
+    color:var(--ink);
+}
+
+.wrapper{
+    width:min(1120px, 96vw);
+    margin:12px auto;
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:18px;
+    box-shadow:0 10px 28px rgba(15,23,42,.10);
+    overflow:hidden;
+}
+
+.header{
+    padding:14px 18px;
+    background:linear-gradient(90deg, #ffffff, #f8fafc);
+    border-bottom:1px solid var(--edge);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+}
+
+.logo{
+    height:54px;
+    object-fit:contain;
+}
+
+.logo-ese{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    object-fit:contain;
+    box-shadow:0 4px 12px rgba(0,0,0,.14);
+}
+
+.title{
+    flex:1;
+    text-align:center;
+}
+
+.title h1{
+    margin:0;
+    color:var(--navy);
+    font-size:28px;
+}
+
+.title p{
+    margin:6px 0 0 0;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.content{
+    padding:18px;
+}
+
+.intro-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:18px;
+    margin-bottom:22px;
+}
+
+@media(max-width:900px){
+    .intro-grid{ grid-template-columns:1fr; }
+}
+
+.box{
+    background:var(--soft);
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:16px;
+}
+
+.box h2{
+    margin:0 0 8px 0;
+    color:var(--accent-dark);
+    font-size:21px;
+}
+
+.box p{
+    margin:0;
+    color:#344054;
+    line-height:1.55;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:999px;
+    background:#ede9fe;
+    color:#4c1d95;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.flow{
+    display:grid;
+    gap:8px;
+}
+
+.flow-item{
+    display:grid;
+    grid-template-columns:34px 1fr;
+    align-items:start;
+    gap:10px;
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:12px;
+    padding:10px;
+}
+
+.flow-num{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:var(--accent);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.flow-item strong{
+    color:var(--navy);
+    display:block;
+    margin-bottom:3px;
+}
+
+.flow-item span{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.35;
+}
+
+.section{
+    border:1px solid var(--edge);
+    border-radius:16px;
+    background:white;
+    padding:16px;
+    margin-bottom:16px;
+}
+
+.section h2{
+    margin:0 0 10px 0;
+    color:var(--accent-dark);
+    font-size:22px;
+}
+
+.statement{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:12px;
+    padding:12px;
+    color:#7c2d12;
+    line-height:1.5;
+    margin-bottom:14px;
+}
+
+.input-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:12px 0;
+}
+
+input{
+    padding:8px;
+    width:110px;
+    text-align:center;
+    border:1px solid #b8c0cc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+button{
+    margin:6px;
+    padding:10px 14px;
+    font-weight:bold;
+    cursor:pointer;
+    border:none;
+    border-radius:9px;
+    background:var(--accent);
+    color:white;
+}
+
+button:hover{
+    background:var(--accent-dark);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:10px 0;
+    background:white;
+}
+
+th, td{
+    padding:9px 10px;
+    border:1px solid var(--edge);
+    text-align:center;
+}
+
+th{
+    background:#f3e8ff;
+    color:var(--accent-dark);
+}
+
+td:first-child{
+    font-weight:bold;
+    color:var(--navy);
+}
+
+.correcto{ color:var(--ok); font-weight:bold; }
+.incorrecto{ color:var(--bad); font-weight:bold; }
+.warning{ color:var(--warn); font-weight:bold; }
+
+.feedback{
+    min-height:24px;
+    margin:8px 0 0 0;
+}
+
+.note{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.45;
+}
+
+.finish-panel{
+    border-top:1px solid var(--edge);
+    background:#f8fafc;
+    padding:18px 24px;
+    display:block;
+}
+
+.checks{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px 14px;
+}
+
+@media(max-width:720px){
+    .checks{ grid-template-columns:1fr; }
+}
+
+.checks label{
+    color:#344054;
+    font-size:14px;
+}
+
+.info{
+    margin-top:12px;
+    font-weight:bold;
+    color:var(--muted);
+}
+
+
+.pdf-panel{
+    border:1px solid #c4b5fd;
+    border-radius:16px;
+    background:linear-gradient(135deg,#f5f3ff,#ffffff);
+    padding:16px;
+    margin-bottom:16px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:18px;
+    align-items:center;
+}
+
+.pdf-panel h2{
+    margin:0 0 6px 0;
+    color:var(--accent-dark);
+    font-size:21px;
+}
+
+.pdf-panel p{
+    margin:0;
+    color:#475467;
+    line-height:1.45;
+    font-size:14px;
+}
+
+.pdf-actions{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+}
+
+.pdf-btn{
+    min-width:220px;
+    background:#4A148C;
+}
+
+.pdf-btn:hover:not(:disabled){
+    background:#32105f;
+}
+
+.pdf-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.pdf-status{
+    max-width:260px;
+    color:var(--muted);
+    font-size:12px;
+    text-align:right;
+    line-height:1.35;
+}
+
+.student-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+
+.student-row label{
+    font-size:13px;
+    color:#344054;
+    font-weight:bold;
+}
+
+.student-row input{
+    width:min(330px,100%);
+    text-align:left;
+}
+
+@media(max-width:760px){
+    .pdf-panel{
+        grid-template-columns:1fr;
+    }
+
+    .pdf-actions{
+        align-items:stretch;
+    }
+
+    .pdf-btn{
+        width:100%;
+    }
+
+    .pdf-status{
+        max-width:none;
+        text-align:left;
+    }
+}
+
+.footer{
+    padding:12px 24px;
+    background:linear-gradient(90deg, var(--navy), #12335f);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:13px;
+}
+
+.footer strong{
+    color:#f3d58a;
+}
+
+.intro-box{
+    background:linear-gradient(135deg,#f3e8ff,#ffffff);
+    border:1px solid #d8b4fe;
+    border-radius:16px;
+    padding:16px 18px;
+    margin-bottom:16px;
+}
+.intro-box h2{margin:0 0 6px;color:var(--accent-dark);font-size:22px}
+.intro-box p{margin:0;color:#344054;line-height:1.5}
+.section-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+}
+.section-head h2{margin:0 0 3px}
+.section-head p{margin:0;color:var(--muted);font-size:14px}
+.section-number{
+    width:38px;height:38px;border-radius:50%;
+    display:grid;place-items:center;
+    flex:0 0 auto;
+    background:var(--accent);color:#fff;font-weight:bold;
+}
+.compact-statement{margin-bottom:10px}
+.table-wrap{overflow-x:auto}
+.table-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+.completion-panel{
+    border:1px solid #cbd5e1;
+    border-radius:14px;
+    background:#f8fafc;
+    padding:13px 16px;
+    color:var(--muted);
+    font-weight:bold;
+}
+.completion-panel.ok{
+    border-color:#86efac;
+    background:#f0fdf4;
+    color:#166534;
+}
+@media(max-width:700px){
+    .wrapper{width:100%;margin:0;border-radius:0}
+    .header{padding:12px 14px}
+    .logo{max-width:42%;height:auto}
+    .logo-ese{width:54px;height:54px}
+    .title h1{font-size:22px}
+    .content{padding:14px}
+    .section{padding:14px}
+    .input-row{justify-content:flex-start}
+    .input-row button{width:100%;margin:4px 0}
+    th,td{padding:7px 6px;font-size:13px}
+    table input{width:82px}
+}
+
+</style>
+
+<!-- jsPDF permite generar y descargar la proyección de cálculos sin salir del AVA. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="i18n.js"></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<header class="header">
+<div class="title">
+        <h1>Cálculos previos</h1>
+        <p>Solución madre y patrones de calibración</p>
+    </div>
+
+    <img class="logo-ese" src="ESE.png" alt="ESE — Entlein-Schutzvogel Educative">
+</header>
+
+
+<main class="content">
+
+    <div class="intro-box">
+        <span class="badge">Planeación experimental</span>
+        <h2>Calcula antes de preparar</h2>
+        <p>
+            Determina la masa necesaria para preparar la solución madre de KMnO₄ y los volúmenes
+            que utilizarás para obtener la serie de patrones de calibración.
+        </p>
+    </div>
+
+    <section class="section">
+        <div class="section-head">
+            <span class="section-number">1</span>
+            <div>
+                <h2>Solución madre</h2>
+                <p>Preparar 50,0 mL de KMnO₄ a 2000 ppm.</p>
+            </div>
+        </div>
+
+        <div class="statement compact-statement">
+            Calcula la masa de KMnO₄ puro y expresa el resultado en <strong>mg</strong>.
+        </div>
+
+        <div class="input-row">
+            <label for="masa"><strong>Masa de KMnO₄:</strong></label>
+            <input id="masa" type="number" step="0.01" inputmode="decimal" placeholder="mg">
+            <span>mg</span>
+            <button type="button" onclick="verificarMasa()">Verificar</button>
+        </div>
+
+        <p id="resMasa" class="feedback" aria-live="polite"></p>
+    </section>
+
+    <section class="section">
+        <div class="section-head">
+            <span class="section-number">2</span>
+            <div>
+                <h2>Soluciones patrón</h2>
+                <p>Preparar 25,0 mL de cada patrón a partir de la solución madre de 2000 ppm.</p>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Solución</th>
+                        <th>C₂ (ppm)</th>
+                        <th>V₂ (mL)</th>
+                        <th>V₁ de solución madre (µL)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Blanco</td><td>0</td><td>25,0</td><td><input id="v0" type="number" step="1" inputmode="numeric"></td></tr>
+                    <tr><td>Patrón 1</td><td>10</td><td>25,0</td><td><input id="v10" type="number" step="1" inputmode="numeric"></td></tr>
+                    <tr><td>Patrón 2</td><td>20</td><td>25,0</td><td><input id="v20" type="number" step="1" inputmode="numeric"></td></tr>
+                    <tr><td>Patrón 3</td><td>30</td><td>25,0</td><td><input id="v30" type="number" step="1" inputmode="numeric"></td></tr>
+                    <tr><td>Patrón 4</td><td>40</td><td>25,0</td><td><input id="v40" type="number" step="1" inputmode="numeric"></td></tr>
+                    <tr><td>Patrón 5</td><td>50</td><td>25,0</td><td><input id="v50" type="number" step="1" inputmode="numeric"></td></tr>
+                    <tr><td>Patrón 6</td><td>60</td><td>25,0</td><td><input id="v60" type="number" step="1" inputmode="numeric"></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-actions">
+            <button type="button" onclick="verificarTabla()">Verificar patrones</button>
+            <span class="note">Tolerancia aceptada: ±20 µL.</span>
+        </div>
+
+        <p id="resultadoTabla" class="feedback" aria-live="polite"></p>
+    </section>
+
+    <section class="pdf-panel">
+        <div>
+            <h2>Conservar la proyección</h2>
+            <p>
+                Cuando ambos cálculos sean correctos podrás descargar una copia con la masa y los
+                volúmenes que utilizarás en los módulos siguientes.
+            </p>
+
+            <div class="student-row">
+                <label for="nombreEstudiante">Estudiante:</label>
+                <input id="nombreEstudiante" type="text" placeholder="Nombre opcional">
+            </div>
+        </div>
+
+        <div class="pdf-actions">
+            <button id="btnPDF" class="pdf-btn" type="button" onclick="descargarProyeccionPDF()" disabled>
+                Descargar PDF
+            </button>
+            <div id="pdfStatus" class="pdf-status">
+                Verifica primero la masa y los volúmenes.
+            </div>
+        </div>
+    </section>
+
+    <div class="completion-panel" id="completionPanel" aria-live="polite">
+        Completa correctamente los dos cálculos para habilitar el siguiente módulo.
+    </div>
+
+</main>
+
+
+
+
+<footer class="footer">
+    <div><strong>ESE — Entlein-Schutzvogel Educative</strong><br></div>
+    <div></div>
+</footer>
+
+</div>
+
+<script>
+let masaCorrecta = false;
+let tablaCorrecta = false;
+let moduloCompletado = false;
+let pdfDescargado = false;
+
+
+function actualizarBotonPDF(){
+    const btn = document.getElementById("btnPDF");
+    const estadoPDF = document.getElementById("pdfStatus");
+    const habilitado = masaCorrecta && tablaCorrecta;
+
+    btn.disabled = !habilitado;
+
+    if(habilitado){
+        estadoPDF.innerHTML =
+            "Cálculos verificados. El PDF está disponible.";
+        estadoPDF.style.color = "#2e7d32";
+    }else{
+        estadoPDF.innerHTML =
+            "Verifica primero la masa y los volúmenes.";
+        estadoPDF.style.color = "#5f6b7a";
+    }
+}
+
+function verificarMasa(){
+    let m = parseFloat(document.getElementById("masa").value);
+    let res = document.getElementById("resMasa");
+
+    if(isNaN(m)){
+        res.innerHTML = "Ingrese un valor numérico en mg.";
+        res.className = "feedback warning";
+        masaCorrecta = false;
+        actualizarBotonPDF();
+        verificarFinal();
+        return;
+    }
+
+    if(m < 10){
+        res.innerHTML = "Masa demasiado baja. Revisa el planteamiento del problema.";
+        res.className = "feedback warning";
+        masaCorrecta = false;
+        actualizarBotonPDF();
+        verificarFinal();
+        return;
+    }
+
+    if(Math.abs(m - 100) < 0.5){
+        res.innerHTML = "✔ Correcto: se requieren 100,0 mg de KMnO₄.";
+        res.className = "feedback correcto";
+        masaCorrecta = true;
+    } else {
+        res.innerHTML = "El valor no corresponde. Revisa el cálculo.";
+        res.className = "feedback incorrecto";
+        masaCorrecta = false;
+    }
+
+    actualizarBotonPDF();
+    verificarFinal();
+}
+
+function verificarTabla(){
+    let esperado = {
+        v0: 0,
+        v10: 125,
+        v20: 250,
+        v30: 375,
+        v40: 500,
+        v50: 625,
+        v60: 750
+    };
+
+    let correcto = true;
+
+    for(let id in esperado){
+        let val = parseFloat(document.getElementById(id).value);
+
+        if(isNaN(val) || Math.abs(val - esperado[id]) > 20){
+            correcto = false;
+        }
+    }
+
+    let res = document.getElementById("resultadoTabla");
+
+    if(correcto){
+        res.innerHTML = "✔ Volúmenes correctos para la serie de patrones.";
+        res.className = "feedback correcto";
+        tablaCorrecta = true;
+    } else {
+        res.innerHTML = "Revisa los volúmenes calculados.";
+        res.className = "feedback incorrecto";
+        tablaCorrecta = false;
+    }
+
+    actualizarBotonPDF();
+    verificarFinal();
+}
+
+function descargarProyeccionPDF(){
+    if(!(masaCorrecta && tablaCorrecta)){
+        alert("Primero debes verificar correctamente la masa y la tabla de patrones.");
+        return;
+    }
+
+    if(!window.jspdf || !window.jspdf.jsPDF){
+        alert("No fue posible cargar el generador de PDF. Verifica la conexión a internet e inténtalo nuevamente.");
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+        orientation:"portrait",
+        unit:"mm",
+        format:"a4"
+    });
+
+    /* Traduccion automatica del PDF cuando el AVA esta en ingles. */
+    if(window.__t){
+        const _text = doc.text.bind(doc);
+        doc.text = function(txt, ...resto){
+            return _text(typeof txt === "string" ? window.__t(txt) : txt, ...resto);
+        };
+        const _split = doc.splitTextToSize.bind(doc);
+        doc.splitTextToSize = function(txt, ...resto){
+            return _split(typeof txt === "string" ? window.__t(txt) : txt, ...resto);
+        };
+    }
+
+    const nombre = document.getElementById("nombreEstudiante").value.trim();
+    const fecha = new Date().toLocaleDateString(window.__lang === "en" ? "en-GB" : "es-CO", {
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+    });
+
+    const morado = [106,27,154];
+    const moradoOscuro = [74,20,140];
+    const azul = [7,31,61];
+    const gris = [71,84,103];
+    const borde = [216,222,232];
+
+    doc.setFillColor(...azul);
+    doc.rect(0,0,210,28,"F");
+
+    doc.setTextColor(255,255,255);
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(17);
+    doc.text("PROYECCION DE CALCULOS - LABORATORIO UV-VIS",105,11,{align:"center"});
+
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(10);
+    doc.text("Preparacion de soluciones de permanganato de potasio (KMnO4)",105,18,{align:"center"});
+    doc.text("Calibracion por patron externo",105,23,{align:"center"});
+
+    doc.setTextColor(...gris);
+    doc.setFontSize(10);
+    doc.text(`Fecha: ${fecha}`,15,36);
+    doc.text(`Estudiante: ${nombre || "________________________________"}`,15,42);
+
+    doc.setDrawColor(...borde);
+    doc.line(15,47,195,47);
+
+    doc.setTextColor(...moradoOscuro);
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(13);
+    doc.text("1. Solucion madre",15,56);
+
+    doc.setTextColor(...gris);
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(10.5);
+    doc.text("Concentracion requerida:",20,65);
+    doc.text("2000 ppm (2000 mg/L)",82,65);
+
+    doc.text("Volumen final:",20,72);
+    doc.text("50.0 mL (0.0500 L)",82,72);
+
+    doc.text("Relacion empleada:",20,79);
+    doc.text("masa = concentracion x volumen",82,79);
+
+    doc.text("Calculo:",20,86);
+    doc.text("m = 2000 mg/L x 0.0500 L",82,86);
+
+    doc.setFillColor(245,243,255);
+    doc.setDrawColor(196,181,253);
+    doc.roundedRect(20,92,170,18,3,3,"FD");
+
+    doc.setTextColor(...moradoOscuro);
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(12);
+    doc.text("Masa de KMnO4 = 100.0 mg = 0.1000 g",105,103,{align:"center"});
+
+    doc.setTextColor(...moradoOscuro);
+    doc.setFontSize(13);
+    doc.text("2. Soluciones patron",15,122);
+
+    doc.setTextColor(...gris);
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(10);
+    doc.text("Solucion madre: 2000 ppm",20,130);
+    doc.text("Volumen final de cada patron: 25.0 mL",20,136);
+    doc.text("Ecuacion de dilucion: C1 x V1 = C2 x V2",20,142);
+
+    const x = [20,52,92,137,175];
+    const y0 = 150;
+    const rowH = 10;
+
+    doc.setFillColor(...morado);
+    doc.setTextColor(255,255,255);
+    doc.setFont("helvetica","bold");
+    doc.rect(20,y0,170,rowH,"F");
+    doc.text("Patron",x[0]+2,y0+6.5);
+    doc.text("C2 (ppm)",x[1]+2,y0+6.5);
+    doc.text("V2 (mL)",x[2]+2,y0+6.5);
+    doc.text("V1 (uL)",x[3]+2,y0+6.5);
+
+    const filas = [
+        ["Blanco","0","25.0","0"],
+        ["P1","10","25.0","125"],
+        ["P2","20","25.0","250"],
+        ["P3","30","25.0","375"],
+        ["P4","40","25.0","500"],
+        ["P5","50","25.0","625"],
+        ["P6","60","25.0","750"]
+    ];
+
+    doc.setFont("helvetica","normal");
+    doc.setTextColor(...gris);
+
+    filas.forEach((fila,i)=>{
+        const y = y0 + rowH*(i+1);
+        if(i % 2 === 0){
+            doc.setFillColor(248,250,252);
+            doc.rect(20,y,170,rowH,"F");
+        }
+        doc.setDrawColor(...borde);
+        doc.rect(20,y,170,rowH);
+        doc.text(fila[0],x[0]+2,y+6.5);
+        doc.text(fila[1],x[1]+2,y+6.5);
+        doc.text(fila[2],x[2]+2,y+6.5);
+        doc.text(fila[3],x[3]+2,y+6.5);
+    });
+
+    const notaY = 232;
+    doc.setFillColor(255,247,237);
+    doc.setDrawColor(254,215,170);
+    doc.roundedRect(20,notaY,170,25,3,3,"FD");
+
+    doc.setTextColor(124,45,18);
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(10);
+    doc.text("Importante:",25,notaY+7);
+
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(9.5);
+    const nota = doc.splitTextToSize(
+        "Conserva esta proyeccion. La masa de 0.1000 g se utilizara para preparar la solucion madre y los volumenes de 125 a 750 uL se emplearan para preparar la serie patron con una micropipeta P1000.",
+        155
+    );
+    doc.text(nota,25,notaY+13);
+
+    doc.setDrawColor(...borde);
+    doc.line(15,275,195,275);
+
+    doc.setTextColor(100,116,139);
+    doc.setFontSize(8.5);
+    doc.text("ESE - Entlein-Schutzvogel Educative",15,282);
+    
+
+    doc.save(window.__lang === "en" ? "Calculation_worksheet_UV-Vis_KMnO4.pdf" : "Proyeccion_calculos_UV-Vis_KMnO4.pdf");
+
+    pdfDescargado = true;
+    const estadoPDF = document.getElementById("pdfStatus");
+    estadoPDF.innerHTML = "PDF descargado correctamente. Consérvalo para los módulos siguientes.";
+    estadoPDF.style.color = "#2e7d32";
+}
+
+function verificarFinal(){
+    const estado = document.getElementById("completionPanel");
+
+    if(masaCorrecta && tablaCorrecta){
+        estado.className = "completion-panel ok";
+        estado.innerHTML = "✔ Cálculos verificados. Puedes continuar al siguiente módulo.";
+
+        localStorage.setItem("uvvis_calculos_previos", JSON.stringify({
+            completado:true,
+            masa_mg:document.getElementById("masa").value,
+            volumenes_uL:{
+                blanco:document.getElementById("v0").value,
+                p10:document.getElementById("v10").value,
+                p20:document.getElementById("v20").value,
+                p30:document.getElementById("v30").value,
+                p40:document.getElementById("v40").value,
+                p50:document.getElementById("v50").value,
+                p60:document.getElementById("v60").value
+            },
+            fecha:new Date().toISOString()
+        }));
+
+        if(!moduloCompletado && window.parent && window.parent !== window){
+            window.parent.postMessage({
+                type:"MODULE_COMPLETED",
+                moduleId:"06-calculos-previos"
+            }, "*");
+            moduloCompletado = true;
+        }
+    }else{
+        estado.className = "completion-panel";
+        estado.innerHTML = "Completa correctamente los dos cálculos para habilitar el siguiente módulo.";
+        localStorage.removeItem("uvvis_calculos_previos");
+        moduloCompletado = false;
+    }
+}
+
+actualizarBotonPDF();
+</script>
+
+</body>
+</html>

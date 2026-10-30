@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08. Informe final — Laboratorio Virtual UV-Vis KMnO₄</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#111827;
+    --muted:#5f6b7a;
+    --edge:#d7dde5;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --navy:#071f3d;
+    --gold:#f3d58a;
+    --ok:#2e7d32;
+    --bad:#c62828;
+    --warn:#ef6c00;
+    --soft:#f8fafc;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top right, rgba(106,27,154,.13), transparent 35%),
+        linear-gradient(135deg, #eef2f3 0%, #f8fafc 100%);
+    color:var(--ink);
+}
+
+.wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:14px;
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:18px;
+    box-shadow:0 4px 14px rgba(15,23,42,.09);
+    overflow:hidden;
+}
+
+/* =========================
+   ENCABEZADO
+========================= */
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:16px 28px;
+    background:linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
+    border-bottom:1px solid var(--edge);
+}
+
+.logo-salesiana{
+    height:58px;
+    max-width:360px;
+    object-fit:contain;
+}
+
+.logo-ese{
+    height:74px;
+    width:74px;
+    object-fit:contain;
+    border-radius:50%;
+    box-shadow:0 4px 12px rgba(0,0,0,.16);
+}
+
+.brand-center{
+    text-align:center;
+    flex:1;
+    min-width:240px;
+}
+
+.brand-center .tag{
+    display:inline-block;
+    background:#ede9fe;
+    color:#4c1d95;
+    border:1px solid #ddd6fe;
+    padding:5px 12px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.brand-center p{
+    margin:7px 0 0 0;
+    font-size:14px;
+    color:var(--muted);
+}
+
+.content{
+    padding:18px;
+}
+
+.header{
+    border-bottom:1px solid var(--edge);
+    padding-bottom:14px;
+    margin-bottom:18px;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:999px;
+    background:#ede9fe;
+    color:#4c1d95;
+    font-size:12px;
+    font-weight:bold;
+}
+
+h1{
+    margin:0 0 8px 0;
+    color:var(--accent-dark);
+    font-size:26px;
+}
+
+h2{
+    margin:18px 0 8px 0;
+    color:var(--accent-dark);
+    font-size:21px;
+}
+
+h3{
+    margin:12px 0 8px 0;
+    font-size:17px;
+    color:var(--navy);
+}
+
+.lead{
+    color:var(--muted);
+    line-height:1.55;
+    margin:0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+@media(max-width:850px){
+    .grid{ grid-template-columns:1fr; }
+}
+
+.panel{
+    border:1px solid var(--edge);
+    border-radius:12px;
+    background:var(--soft);
+    padding:16px;
+}
+
+.objectives{
+    background:linear-gradient(135deg, rgba(106,27,154,.08), #ffffff);
+    border-color:#d8b4fe;
+}
+
+.objectives ul{
+    margin:8px 0 0 18px;
+    padding:0;
+    line-height:1.55;
+    color:#344054;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns: 1fr 190px;
+    gap:10px;
+    align-items:center;
+    margin:10px 0;
+}
+
+@media(max-width:650px){
+    .form-row{ grid-template-columns:1fr; }
+}
+
+label{
+    font-weight:bold;
+}
+
+input[type="number"], input[type="text"], input[type="date"], textarea, select{
+    width:100%;
+    padding:9px;
+    border:1px solid #b8c0cc;
+    border-radius:8px;
+    font-size:15px;
+    background:white;
+}
+
+input[type="file"]{
+    width:100%;
+    padding:9px;
+    background:white;
+    border:1px dashed #b8c0cc;
+    border-radius:8px;
+}
+
+textarea{
+    min-height:92px;
+    resize:vertical;
+    line-height:1.45;
+}
+
+textarea.large{
+    min-height:130px;
+}
+
+.small{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.45;
+}
+
+button{
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:9px;
+    padding:10px 14px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px 6px 6px 0;
+}
+
+button:hover{ background:var(--accent-dark); }
+button.secondary{ background:#374151; }
+button.secondary:hover{ background:#1f2937; }
+button.finish{ background:var(--ok); }
+button.finish:hover{ background:#1b5e20; }
+
+.result{
+    border-radius:10px;
+    padding:12px;
+    margin-top:10px;
+    background:white;
+    border:1px solid var(--edge);
+    line-height:1.6;
+}
+
+.ok{ color:var(--ok); font-weight:bold; }
+.bad{ color:var(--bad); font-weight:bold; }
+.warn{ color:var(--warn); font-weight:bold; }
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    background:white;
+}
+
+th,td{
+    border:1px solid var(--edge);
+    padding:8px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#f1f5f9;
+    text-align:center;
+}
+
+.preview{
+    margin-top:10px;
+    border:1px solid var(--edge);
+    background:white;
+    border-radius:10px;
+    padding:8px;
+    text-align:center;
+    min-height:60px;
+}
+
+.preview img{
+    max-width:100%;
+    max-height:280px;
+    border-radius:8px;
+}
+
+.note-box{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:10px;
+    padding:12px;
+    color:#7c2d12;
+    line-height:1.5;
+}
+
+.footer-actions{
+    border-top:1px solid var(--edge);
+    margin-top:22px;
+    padding-top:16px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.report{
+    display:none;
+    background:white;
+    color:#111;
+    padding:30px;
+    border-radius:12px;
+    border:1px solid var(--edge);
+    margin-top:22px;
+}
+
+.report h1, .report h2{
+    color:#111;
+}
+
+.report-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    border-bottom:2px solid #111;
+    padding-bottom:12px;
+    margin-bottom:20px;
+}
+
+.report-logo-left{
+    max-height:54px;
+    max-width:280px;
+    object-fit:contain;
+}
+
+.report-logo-right{
+    max-height:64px;
+    max-width:64px;
+    object-fit:contain;
+    border-radius:50%;
+}
+
+.report .meta{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px 18px;
+    margin-bottom:18px;
+}
+
+.report img.evidence{
+    max-width:100%;
+    margin:8px 0 16px 0;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.report-table td:first-child{
+    font-weight:bold;
+    width:35%;
+}
+
+.report-footer{
+    margin-top:28px;
+    border-top:1px solid #999;
+    padding-top:10px;
+    color:#555;
+    font-size:12px;
+}
+
+.footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    padding:14px 28px;
+    background:linear-gradient(90deg, var(--navy), #12335f);
+    color:white;
+    font-size:13px;
+}
+
+.footer strong{ color:var(--gold); }
+
+@media(max-width:700px){
+    .topbar{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .logo-salesiana{
+        height:auto;
+        width:min(340px, 86vw);
+    }
+
+    .content{
+        padding:22px;
+    }
+
+    .footer{
+        text-align:center;
+        justify-content:center;
+    }
+}
+
+@media print{
+    body{ background:white; }
+    .no-print{ display:none !important; }
+    .wrap{ max-width:none; padding:0; }
+    .card{ box-shadow:none; border:none; padding:0; }
+    .topbar, .footer{ display:none !important; }
+    .content{ padding:0; }
+    .report{ display:block !important; border:none; padding:0; margin:0; }
+    #formulario{ display:none; }
+}
+
+@media(max-width:620px){
+    .wrap{
+        width:100%;
+        padding:0;
+    }
+    .card{
+        border-radius:0;
+    }
+    .topbar{
+        padding:10px;
+        gap:8px;
+    }
+    .logo-salesiana{
+        max-width:40%;
+        height:auto;
+    }
+    .logo-ese{
+        width:46px;
+        height:46px;
+    }
+    .brand-center p{
+        font-size:11px;
+    }
+    .content{
+        padding:12px;
+    }
+    h1{font-size:22px}
+    h2{font-size:18px}
+    .panel{padding:12px}
+    .footer-actions button{
+        width:100%;
+        margin:4px 0;
+    }
+}
+
+
+button.danger{
+    background:#b42318;
+}
+button.danger:hover{
+    background:#912018;
+}
+button:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+.final-note{
+    margin-top:10px;
+    padding:10px 12px;
+    border:1px solid #fecaca;
+    border-radius:10px;
+    background:#fff1f2;
+    color:#991b1b;
+    font-size:12px;
+    line-height:1.45;
+}
+
+</style>
+<script src="i18n.js"></script>
+
+<script>
+function idiomaInforme(){
+    const own = new URLSearchParams(location.search).get("lang");
+    if(own) return own;
+    try{
+        const parentLang = new URLSearchParams(window.parent.location.search).get("lang");
+        if(parentLang) return parentLang;
+    }catch(e){}
+    return "es";
+}
+function tInforme(es,en){ return idiomaInforme()==="en" ? en : es; }
+
+function traducirInformeLocal(){
+    if(idiomaInforme()!=="en") return;
+
+    const pairs = new Map([
+      ["Informe final de laboratorio","Final laboratory report"],
+      ["Laboratorio Virtual UV-Vis — ESE","UV-Vis Virtual Laboratory — ESE"],
+      ["Cierre de la experiencia","Closing the experience"],
+      ["Informe final","Final report"],
+      ["Integra los resultados obtenidos, discute su calidad y formula las conclusiones del análisis.",
+       "Integrate the results obtained, discuss their quality, and formulate the conclusions of the analysis."],
+      ["1. Datos generales","1. General information"],
+      ["Estudiante o equipo","Student or team"],
+      ["Curso","Course"],
+      ["Fecha","Date"],
+      ["Título del informe","Report title"],
+      ["Identificación de la muestra","Sample identification"],
+      ["2. Resultados recuperados","2. Retrieved results"],
+      ["Estos datos se cargan automáticamente desde los módulos anteriores y no deben volver a calcularse aquí.",
+       "These data are loaded automatically from the previous modules and should not be recalculated here."],
+      ["Longitud de onda seleccionada","Selected wavelength"],
+      ["Ecuación de calibración","Calibration equation"],
+      ["Absorbancia de la muestra","Absorbance of the sample"],
+      ["Concentración de KMnO₄","KMnO₄ concentration"],
+      ["Concentración de Mn elemental","Elemental Mn concentration"],
+      ["Límite permisible","Permissible limit"],
+      ["Decisión","Decision"],
+      [tInforme("No disponible","Not available"),"Not available"],
+      [tInforme("No cumple","Does not comply"),"Does not comply"],
+      [tInforme("Cumple","Complies"),"Complies"],
+      ["3. Evidencias gráficas","3. Graphical evidence"],
+      ["Espectros de las soluciones patrón","Spectra of the standard solutions"],
+      ["La imagen se recupera automáticamente. Puedes reemplazarla si lo necesitas.",
+       "The image is retrieved automatically. You can replace it if you need to."],
+      ["Sin imagen disponible","No image available"],
+      ["Curva de calibración","Calibration curve"],
+      ["4. Discusión de resultados","4. Discussion of results"],
+      ["Selección de la longitud de onda","Selection of the wavelength"],
+      ["Calidad de la curva de calibración","Quality of the calibration curve"],
+      ["Fuentes de error y confiabilidad","Sources of error and reliability"],
+      ["5. Conclusiones","5. Conclusions"],
+      ["Conclusiones del análisis","Conclusions of the analysis"],
+      ["Generar informe","Generate report"],
+      ["Imprimir / guardar PDF","Print / save PDF"],
+      ["Completa la discusión y las conclusiones; después genera el informe para finalizar.",
+       "Complete the discussion and conclusions; then generate the report to finish."],
+      ["Guarda primero el informe en PDF. Al finalizar, se eliminarán del navegador el progreso, los resultados y las imágenes guardadas por el AVA.",
+       "Save the report as a PDF first. When you finish, the progress, results, and images stored by the virtual learning environment will be deleted from the browser."]
+    ]);
+
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    let n;
+    while(n=walker.nextNode()){
+        const raw=n.nodeValue, key=raw.trim();
+        if(pairs.has(key)) n.nodeValue=raw.replace(key,pairs.get(key));
+    }
+
+    const ph = {
+      "Nombre completo o equipo":"Full name or team",
+      "Discute por qué la longitud de onda seleccionada fue adecuada para la cuantificación.":"Discuss why the selected wavelength was suitable for quantification.",
+      "Interpreta el valor de R² y la relación entre absorbancia y concentración.":"Interpret the R² value and the relationship between absorbance and concentration.",
+      "Analiza las principales fuentes de error y la confiabilidad del resultado.":"Analyze the main sources of error and the reliability of the result.",
+      "Redacta tres conclusiones respondiendo los objetivos,con base en los resultados obtenidos.":"Write three conclusions addressing the objectives based on the results obtained."
+    };
+    document.querySelectorAll("[placeholder]").forEach(e=>{
+        if(ph[e.placeholder]) e.placeholder=ph[e.placeholder];
+    });
+
+    if(el("curso") && el("curso").value==="Análisis Químico") el("curso").value="Chemical Analysis";
+    if(el("titulo") && el("titulo").value==="Determinación de KMnO₄ en agua residual textil por UV-Vis")
+        el("titulo").value="Determination of KMnO₄ in textile wastewater by UV-Vis";
+    if(el("muestra") && el("muestra").value==="Muestra problema de agua residual textil")
+        el("muestra").value="Unknown textile wastewater sample";
+
+    // Native file controls cannot have their browser-generated text translated by JS.
+    // Replace only their visual presentation while preserving the original inputs.
+    document.querySelectorAll('input[type="file"]').forEach(inp=>{
+        if(inp.dataset.enWrapped) return;
+        inp.dataset.enWrapped="1";
+        inp.style.position="absolute"; inp.style.opacity="0"; inp.style.width="1px"; inp.style.height="1px";
+        const row=document.createElement("div");
+        row.style.cssText="display:flex;align-items:center;gap:8px;padding:9px;background:white;border:1px dashed #b8c0cc;border-radius:8px;";
+        const lab=document.createElement("label");
+        lab.htmlFor=inp.id; lab.textContent="Choose file";
+        lab.style.cssText="font-weight:normal;font-size:12px;border:1px solid #999;padding:3px 7px;border-radius:2px;cursor:pointer;background:#f5f5f5;color:#111;";
+        const name=document.createElement("span");
+        name.textContent="No file selected"; name.style.fontSize="12px";
+        inp.insertAdjacentElement("afterend",row); row.append(lab,name);
+        inp.addEventListener("change",()=>name.textContent=inp.files?.[0]?.name || "No file selected");
+    });
+}
+</script>
+
+</head>
+
+<body>
+<div class="wrap">
+<div class="card">
+
+    <header class="topbar no-print">
+<div class="brand-center">
+            <span class="tag">Informe final de laboratorio</span>
+            <p>Laboratorio Virtual UV-Vis — ESE</p>
+        </div>
+
+        <img class="logo-ese" src="ESE.png" alt="ESE — Entlein-Schutzvogel Educative">
+    </header>
+
+    <div class="content">
+
+    <div id="formulario" class="no-print">
+        <div class="header">
+            <span class="badge">Cierre de la experiencia</span>
+            <h1>Informe final</h1>
+            <p class="lead">
+                Integra los resultados obtenidos, discute su calidad y formula las conclusiones del análisis.
+            </p>
+        </div>
+
+        <h2>1. Datos generales</h2>
+        <div class="grid">
+            <div class="panel">
+                <div class="form-row">
+                    <label for="estudiante">Estudiante o equipo</label>
+                    <input type="text" id="estudiante" placeholder="Nombre completo o equipo">
+                </div>
+                <div class="form-row">
+                    <label for="curso">Curso</label>
+                    <input type="text" id="curso" value="Análisis Químico">
+                </div>
+                <div class="form-row">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" id="fecha">
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="form-row">
+                    <label for="titulo">Título del informe</label>
+                    <input type="text" id="titulo" value="Determinación de KMnO₄ en agua residual textil por UV-Vis">
+                </div>
+                <div class="form-row">
+                    <label for="muestra">Identificación de la muestra</label>
+                    <input type="text" id="muestra" value="Muestra problema de agua residual textil">
+                </div>
+            </div>
+        </div>
+
+        <h2>2. Resultados recuperados</h2>
+        <div class="panel">
+            <p class="small">
+                Estos datos se cargan automáticamente desde los módulos anteriores y no deben volver a calcularse aquí.
+            </p>
+            <table class="report-table">
+                <tr><td>Longitud de onda seleccionada</td><td id="resLambda">No disponible</td></tr>
+                <tr><td>Ecuación de calibración</td><td id="resEcuacion">No disponible</td></tr>
+                <tr><td>R²</td><td id="resR2">No disponible</td></tr>
+                <tr><td>Absorbancia de la muestra</td><td id="resAbs">No disponible</td></tr>
+                <tr><td>Concentración de KMnO₄</td><td id="resKMnO4">No disponible</td></tr>
+                <tr><td>Concentración de Mn elemental</td><td id="resMn">No disponible</td></tr>
+                <tr><td>Límite permisible</td><td>5.00 ppm of Mn</td></tr>
+                <tr><td>Decisión</td><td id="resDecision">No disponible</td></tr>
+            </table>
+        </div>
+
+        <h2>3. Evidencias gráficas</h2>
+        <div class="grid">
+            <div class="panel">
+                <h3>Espectros de las soluciones patrón</h3>
+                <p class="small">La imagen se recupera automáticamente. Puedes reemplazarla si lo necesitas.</p>
+                <input type="file" id="imgEspectros" accept="image/*" onchange="previewFile(this,'prevEspectros')">
+                <div class="preview" id="prevEspectros">Sin imagen disponible</div>
+            </div>
+
+            <div class="panel">
+                <h3>Curva de calibración</h3>
+                <p class="small">La imagen se recupera automáticamente. Puedes reemplazarla si lo necesitas.</p>
+                <input type="file" id="imgCurva" accept="image/*" onchange="previewFile(this,'prevCurva')">
+                <div class="preview" id="prevCurva">Sin imagen disponible</div>
+            </div>
+        </div>
+
+        <h2>4. Discusión de resultados</h2>
+        <div class="panel">
+            <label for="discusionLambda">Selección de la longitud de onda</label>
+            <textarea id="discusionLambda" placeholder="Discute por qué la longitud de onda seleccionada fue adecuada para la cuantificación."></textarea>
+
+            <label for="discusionCurva">Calidad de la curva de calibración</label>
+            <textarea id="discusionCurva" placeholder="Interpreta el valor de R² y la relación entre absorbancia y concentración."></textarea>
+
+            <label for="discusionErrores">Fuentes de error y confiabilidad</label>
+            <textarea id="discusionErrores" placeholder="Analiza las principales fuentes de error y la confiabilidad del resultado."></textarea>
+        </div>
+
+        <h2>5. Conclusiones</h2>
+        <div class="panel">
+            <label for="conclusiones">Conclusiones del análisis</label>
+            <textarea class="large" id="conclusiones" placeholder="Redacta tres conclusiones respondiendo los objetivos,con base en los resultados obtenidos."></textarea>
+        </div>
+
+
+        <div class="footer-actions">
+            <div>
+                <button onclick="generarInforme()">Generar informe</button>
+                <button class="finish" onclick="imprimirInforme()">Imprimir / guardar PDF</button>
+               
+            </div>
+
+            <div>
+                <div id="estado" class="small warn">
+                    Completa la discusión y las conclusiones; después genera el informe para finalizar.
+                </div>
+                <div class="final-note">
+                    Guarda primero el informe en PDF. Al finalizar, se eliminarán del navegador
+                    el progreso, los resultados y las imágenes guardadas por el AVA.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="reporte" class="report"></div>
+
+    </div>
+
+    <footer class="footer no-print">
+        <div>
+            <strong>ESE — Entlein-Schutzvogel Educative</strong><br>
+        </div>
+
+        <div>
+            
+        </div>
+    </footer>
+
+</div>
+</div>
+
+<script>
+let imgEspectrosData = "";
+let imgCurvaData = "";
+let datosResultados = {
+    lambda:"",
+    ecuacion:"",
+    r2:"",
+    absMuestra:"",
+    cKMnO4:"",
+    cMn:"",
+    decision:"",
+    limite:"5.00"
+};
+let vistaGenerada = false;
+let moduloCompletado = false;
+
+function el(id){ return document.getElementById(id); }
+function value(id){ return el(id).value.trim(); }
+
+function safe(v){
+    return (v || "").toString()
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+}
+
+function nl(v){
+    return safe(v).replaceAll("\\n","<br>");
+}
+
+window.addEventListener("DOMContentLoaded", ()=>{
+    if(!value("fecha")){
+        el("fecha").value = new Date().toISOString().slice(0,10);
+    }
+    cargarDatosPrevios();
+    cargarInformeGuardado();
+    verificarEstadoModulo();
+    setTimeout(()=>{ traducirInformeLocal(); actualizarTablaResultados(); verificarEstadoModulo(); },0);
+});
+
+function comprimirImagen(file){
+    return new Promise((resolve,reject)=>{
+        const reader = new FileReader();
+
+        reader.onerror = ()=>reject(new Error(tInforme("No fue posible leer la imagen.","The image could not be read.")));
+        reader.onload = event=>{
+            const img = new Image();
+
+            img.onerror = ()=>reject(new Error(tInforme("El archivo no contiene una imagen válida.","The file does not contain a valid image.")));
+            img.onload = ()=>{
+                const maxWidth = 1200;
+                const maxHeight = 900;
+                const scale = Math.min(1,maxWidth/img.width,maxHeight/img.height);
+
+                const canvas = document.createElement("canvas");
+                canvas.width = Math.max(1,Math.round(img.width*scale));
+                canvas.height = Math.max(1,Math.round(img.height*scale));
+
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+                resolve(canvas.toDataURL("image/jpeg",0.76));
+            };
+
+            img.src = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
+async function previewFile(input, targetId){
+    const file = input.files && input.files[0];
+    if(!file) return;
+
+    if(!file.type.startsWith("image/")){
+        alert(tInforme("Selecciona un archivo de imagen válido.","Select a valid image file."));
+        input.value = "";
+        return;
+    }
+
+    try{
+        const data = await comprimirImagen(file);
+        el(targetId).innerHTML = `<img src="${data}" alt="Imagen cargada">`;
+
+        if(input.id === "imgEspectros"){
+            imgEspectrosData = data;
+            try{ localStorage.setItem("uvvis_img_espectros",data); }catch(e){}
+        }
+
+        if(input.id === "imgCurva"){
+            imgCurvaData = data;
+            try{ localStorage.setItem("uvvis_img_curva",data); }catch(e){}
+        }
+
+        vistaGenerada = false;
+        guardarInforme(false);
+        verificarEstadoModulo();
+    }catch(error){
+        alert(error.message);
+        input.value = "";
+    }
+}
+
+function cargarDatosPrevios(){
+    try{
+        const analisis = JSON.parse(localStorage.getItem("uvvis_analisis_espectral")) || {};
+        if(analisis.lambda_analitica_nm){
+            datosResultados.lambda = analisis.lambda_analitica_nm;
+        }
+
+        const imgEspectros = localStorage.getItem("uvvis_img_espectros");
+        if(imgEspectros){
+            imgEspectrosData = imgEspectros;
+            el("prevEspectros").innerHTML =
+                `<img src="${imgEspectrosData}" alt="Espectros">`;
+        }
+    }catch(e){}
+
+    try{
+        const cal = JSON.parse(localStorage.getItem("uvvis_modulo6_calibracion")) || {};
+
+        if(cal.lambda_nm ?? cal.lambda) datosResultados.lambda = cal.lambda_nm ?? cal.lambda;
+        if(cal.pendiente !== undefined && cal.intercepto !== undefined){
+            const m = cal.pendiente;
+            const b = cal.intercepto;
+            const signo = Number(b) >= 0 ? "+" : "-";
+            datosResultados.ecuacion =
+                `A = ${m} C ${signo} ${Math.abs(Number(b))}`;
+        }
+        if(cal.r2) datosResultados.r2 = cal.r2;
+
+        const curvaGuardada = localStorage.getItem("uvvis_img_curva") || cal.curvaImagen;
+        if(curvaGuardada){
+            imgCurvaData = curvaGuardada;
+            el("prevCurva").innerHTML =
+                `<img src="${imgCurvaData}" alt="Curva de calibración">`;
+        }
+    }catch(e){}
+
+    try{
+        const cuant = JSON.parse(localStorage.getItem("uvvis_cuantificacion")) || {};
+
+        if(cuant.lambda) datosResultados.lambda = cuant.lambda;
+        if(cuant.pendiente !== undefined && cuant.intercepto !== undefined){
+            const m = cuant.pendiente;
+            const b = cuant.intercepto;
+            const signo = Number(b) >= 0 ? "+" : "-";
+            datosResultados.ecuacion =
+                `A = ${m} C ${signo} ${Math.abs(Number(b))}`;
+        }
+
+        if(cuant.absMuestra) datosResultados.absMuestra = cuant.absMuestra;
+        if(cuant.cKMnO4_est) datosResultados.cKMnO4 = cuant.cKMnO4_est;
+        if(cuant.cMn_est) datosResultados.cMn = cuant.cMn_est;
+
+        if(cuant.cumple === "cumple"){
+            datosResultados.decision = tInforme("Cumple","Complies");
+        }else if(cuant.cumple === "no_cumple"){
+            datosResultados.decision = tInforme("No cumple","Does not comply");
+        }
+    }catch(e){}
+
+    actualizarTablaResultados();
+    guardarInforme(false);
+    verificarEstadoModulo();
+}
+
+function actualizarTablaResultados(){
+    el("resLambda").textContent =
+        datosResultados.lambda ? `${datosResultados.lambda} nm` : tInforme("No disponible","Not available");
+    el("resEcuacion").textContent =
+        datosResultados.ecuacion || tInforme("No disponible","Not available");
+    el("resR2").textContent =
+        datosResultados.r2 || tInforme("No disponible","Not available");
+    el("resAbs").textContent =
+        datosResultados.absMuestra || tInforme("No disponible","Not available");
+    el("resKMnO4").textContent =
+        datosResultados.cKMnO4 ? `${datosResultados.cKMnO4} ppm` : tInforme("No disponible","Not available");
+    el("resMn").textContent =
+        datosResultados.cMn ? `${datosResultados.cMn} ppm` : tInforme("No disponible","Not available");
+    el("resDecision").textContent =
+        datosResultados.decision || tInforme("No disponible","Not available");
+}
+
+function cargarInformeGuardado(){
+    try{
+        const inf = JSON.parse(localStorage.getItem("uvvis_informe_final")) || {};
+
+        [
+            "estudiante","curso","fecha","titulo","muestra",
+            "discusionLambda","discusionCurva","discusionErrores",
+            "conclusiones"
+        ].forEach(id=>{
+            if(inf[id] !== undefined && el(id)){
+                el(id).value = inf[id];
+            }
+        });
+
+        if(inf.imgEspectrosData && !imgEspectrosData){
+            imgEspectrosData = inf.imgEspectrosData;
+            el("prevEspectros").innerHTML =
+                `<img src="${imgEspectrosData}" alt="Espectros">`;
+        }
+
+        if(inf.imgCurvaData && !imgCurvaData){
+            imgCurvaData = inf.imgCurvaData;
+            el("prevCurva").innerHTML =
+                `<img src="${imgCurvaData}" alt="Curva">`;
+        }
+
+        vistaGenerada = Boolean(inf.vistaGenerada);
+    }catch(e){}
+}
+
+function resultadosFaltantes(){
+    const faltantes = [];
+
+    if(datosResultados.lambda === "" || datosResultados.lambda === null || datosResultados.lambda === undefined){
+        faltantes.push("longitud de onda");
+    }
+
+    if(!datosResultados.ecuacion){
+        faltantes.push("ecuación de calibración");
+    }
+
+    if(datosResultados.r2 === "" || datosResultados.r2 === null || datosResultados.r2 === undefined){
+        faltantes.push("R²");
+    }
+
+    if(datosResultados.absMuestra === "" || datosResultados.absMuestra === null || datosResultados.absMuestra === undefined){
+        faltantes.push("absorbancia de la muestra");
+    }
+
+    if(datosResultados.cKMnO4 === "" || datosResultados.cKMnO4 === null || datosResultados.cKMnO4 === undefined){
+        faltantes.push("concentración de KMnO₄");
+    }
+
+    if(datosResultados.cMn === "" || datosResultados.cMn === null || datosResultados.cMn === undefined){
+        faltantes.push("concentración de Mn");
+    }
+
+    if(!datosResultados.decision){
+        faltantes.push("decisión de cumplimiento");
+    }
+
+    return faltantes;
+}
+
+function resultadosDisponibles(){
+    return resultadosFaltantes().length === 0;
+}
+
+function validarInforme(){
+    if(value("estudiante").length < 3){
+        return "registrar el nombre del estudiante o del equipo.";
+    }
+    if(!value("fecha")){
+        return "registrar la fecha.";
+    }
+    if(!resultadosDisponibles()){
+        return "recuperar desde los módulos anteriores: " + resultadosFaltantes().join(", ") + ".";
+    }
+    if(value("discusionLambda").length < 30){
+        return "desarrollar la discusión sobre la longitud de onda.";
+    }
+    if(value("discusionCurva").length < 30){
+        return "desarrollar la discusión sobre la curva de calibración.";
+    }
+    if(value("discusionErrores").length < 30){
+        return "analizar las fuentes de error y la confiabilidad.";
+    }
+    if(value("conclusiones").length < 60){
+        return "redactar entre dos y cuatro conclusiones.";
+    }
+    if(!vistaGenerada){
+        return "generar la vista final del informe.";
+    }
+    return "";
+}
+
+function datosInforme(){
+    return {
+        estudiante:value("estudiante"),
+        curso:value("curso"),
+        fecha:value("fecha"),
+        titulo:value("titulo"),
+        muestra:value("muestra"),
+        discusionLambda:value("discusionLambda"),
+        discusionCurva:value("discusionCurva"),
+        discusionErrores:value("discusionErrores"),
+        conclusiones:value("conclusiones"),
+        resultados:datosResultados,
+        imgEspectrosData,
+        imgCurvaData,
+        vistaGenerada,
+        fechaGuardado:new Date().toISOString()
+    };
+}
+
+function guardarInforme(mostrar=true){
+    try{
+        const datos = datosInforme();
+        const copiaLigera = {...datos, imgEspectrosData:"", imgCurvaData:""};
+        localStorage.setItem("uvvis_informe_final", JSON.stringify(copiaLigera));
+    }catch(error){
+        console.warn("No fue posible guardar todo el informe localmente.",error);
+    }
+
+    if(mostrar){
+        const pendiente = validarInforme();
+
+        if(pendiente){
+            el("estado").innerHTML =
+                `<span class="ok">Avance guardado.</span><br>
+                 <span class="warn">Pendiente: ${pendiente}</span>`;
+        }else{
+            el("estado").innerHTML =
+                `<span class="ok">✔ Informe guardado y completo.</span>`;
+        }
+    }
+}
+
+function generarInforme(){
+    vistaGenerada = true;
+    const d = datosInforme();
+
+    const espectros = d.imgEspectrosData
+        ? `<img class="evidence" src="${d.imgEspectrosData}" alt="Espectros de soluciones patrón">`
+        : `<p><em>No se adjuntó imagen de espectros.</em></p>`;
+
+    const curva = d.imgCurvaData
+        ? `<img class="evidence" src="${d.imgCurvaData}" alt="Curva de calibración">`
+        : `<p><em>No se adjuntó imagen de curva de calibración.</em></p>`;
+
+    el("reporte").style.display = "block";
+    el("reporte").innerHTML = `
+        <div class="report-header">
+<div style="text-align:center;">
+                <strong>Laboratorio Virtual UV-Vis</strong><br>
+                <span>Informe final de análisis químico</span>
+            </div>
+            <img class="report-logo-right" src="ESE.png" alt="ESE">
+        </div>
+
+        <h1>${safe(d.titulo)}</h1>
+
+        <div class="meta">
+            <div><strong>Estudiante/equipo:</strong> ${safe(d.estudiante)}</div>
+            <div><strong>Curso:</strong> ${safe(d.curso)}</div>
+            <div><strong>Fecha:</strong> ${safe(d.fecha)}</div>
+            <div><strong>Muestra:</strong> ${safe(d.muestra)}</div>
+        </div>
+
+        <h2>1. Resultados</h2>
+        <table class="report-table">
+            <tr><td>Longitud de onda seleccionada</td><td>${safe(d.resultados.lambda)} nm</td></tr>
+            <tr><td>Ecuación de calibración</td><td>${safe(d.resultados.ecuacion)}</td></tr>
+            <tr><td>R²</td><td>${safe(d.resultados.r2)}</td></tr>
+            <tr><td>Absorbancia de la muestra</td><td>${safe(d.resultados.absMuestra)}</td></tr>
+            <tr><td>Concentración de KMnO₄</td><td>${safe(d.resultados.cKMnO4)} ppm</td></tr>
+            <tr><td>Concentración de Mn elemental</td><td>${safe(d.resultados.cMn)} ppm</td></tr>
+            <tr><td>Límite permisible</td><td>5.00 ppm of Mn</td></tr>
+            <tr><td>Decisión</td><td><strong>${safe(d.resultados.decision)}</strong></td></tr>
+        </table>
+
+        <h2>2. Evidencias gráficas</h2>
+        <h3>Espectros de las soluciones patrón</h3>
+        ${espectros}
+
+        <h3>Curva de calibración</h3>
+        ${curva}
+
+        <h2>3. Discusión de resultados</h2>
+        <h3>Selección de la longitud de onda</h3>
+        <p>${nl(d.discusionLambda)}</p>
+
+        <h3>Calidad de la curva de calibración</h3>
+        <p>${nl(d.discusionCurva)}</p>
+
+        <h3>Fuentes de error y confiabilidad</h3>
+        <p>${nl(d.discusionErrores)}</p>
+
+        <h2>4. Conclusiones</h2>
+        <p>${nl(d.conclusiones)}</p>
+
+        <div class="report-footer">
+            ESE — Entlein-Schutzvogel Educative · Educación, Simulación y Experimentación<br>
+            
+        </div>
+    `;
+
+    guardarInforme(false);
+    verificarEstadoModulo();
+
+    /*
+      verificarEstadoModulo() conserva el mensaje real:
+      - si aún falta algo, muestra exactamente qué falta;
+      - si todo está completo, envía MODULE_COMPLETED al MAIN.
+    */
+}
+
+function imprimirInforme(){
+    if(!vistaGenerada){
+        generarInforme();
+    }
+    setTimeout(()=>window.print(),300);
+}
+
+
+function finalizarExperiencia(){
+    const pendiente = validarInforme();
+
+    if(pendiente){
+        alert("El informe aún no está completo: " + pendiente);
+        verificarEstadoModulo();
+        return;
+    }
+
+    const confirmar = window.confirm(
+        "Antes de continuar, asegúrate de haber guardado el informe en PDF. " +
+        "Esta acción eliminará el progreso, los resultados y las imágenes guardadas por el AVA. " +
+        "¿Deseas finalizar?"
+    );
+
+    if(!confirmar) return;
+
+    if(window.parent && window.parent !== window){
+        window.parent.postMessage({type:"RESET_AVA"},"*");
+        return;
+    }
+
+    // Respaldo cuando el módulo se abre de forma independiente.
+    const clavesExactas = [
+        "ese_uvvis_main_v2",
+        "uvvis_main_done",
+        "uvvis_main_idx",
+        "uvvis_calculos_previos",
+        "uvvis_preparacion_madre",
+        "uvvis_diluciones",
+        "uvvis_espectros",
+        "uvvis_analisis_espectral",
+        "uvvis_modulo6_calibracion",
+        "uvvis_calibracion",
+        "uvvis_cuantificacion",
+        "uvvis_informe_final",
+        "uvvis_img_espectros",
+        "uvvis_img_curva"
+    ];
+
+    clavesExactas.forEach(clave=>{
+        localStorage.removeItem(clave);
+        sessionStorage.removeItem(clave);
+        sessionStorage.removeItem(clave + "_adjunta");
+    });
+
+    Object.keys(localStorage).forEach(clave=>{
+        if(clave.startsWith("uvvis_m5_") || clave.startsWith("ese_uvvis_")){
+            localStorage.removeItem(clave);
+        }
+    });
+
+    document.body.innerHTML = `
+        <main style="
+            min-height:100vh;
+            display:grid;
+            place-items:center;
+            padding:24px;
+            font-family:Arial,Helvetica,sans-serif;
+            background:#eef2f3;
+            color:#071f3d;
+            text-align:center;
+        ">
+            <section style="
+                max-width:620px;
+                background:white;
+                padding:32px;
+                border:1px solid #d8dee8;
+                border-radius:18px;
+                box-shadow:0 4px 14px rgba(15,23,42,.10);
+            ">
+                <h1 style="margin-top:0;color:#4A148C;">Experiencia finalizada</h1>
+                <p>Los datos guardados por el laboratorio virtual fueron eliminados.</p>
+                <button onclick="window.close()" style="
+                    margin-top:12px;
+                    padding:11px 18px;
+                    border:0;
+                    border-radius:10px;
+                    background:#6A1B9A;
+                    color:white;
+                    font-weight:bold;
+                    cursor:pointer;
+                ">Cerrar pestaña</button>
+            </section>
+        </main>
+    `;
+
+    try{ window.close(); }catch(error){}
+}
+
+function verificarEstadoModulo(){
+    const pendiente = validarInforme();
+    guardarInforme(false);
+
+    if(pendiente){
+        el("estado").innerHTML =
+            `Completa el informe para habilitar la finalización.<br>
+             <span class="warn">Pendiente: ${pendiente}</span>`;
+
+        const btnFinalizar = el("btnFinalizarAVA");
+        if(btnFinalizar) btnFinalizar.disabled = true;
+        return;
+    }
+
+    el("estado").innerHTML =
+        `<span class="ok">✔ Informe final completado.</span>
+         Guarda el PDF y luego finaliza la experiencia.`;
+
+    const btnFinalizar = el("btnFinalizarAVA");
+    if(btnFinalizar) btnFinalizar.disabled = false;
+
+    if(!moduloCompletado && window.parent && window.parent !== window){
+        window.parent.postMessage({type:"MODULE_COMPLETED",moduleId:"13-informe-final"},"*");
+        moduloCompletado = true;
+    }
+}
+
+[
+    "estudiante","curso","fecha","titulo","muestra",
+    "discusionLambda","discusionCurva","discusionErrores",
+    "conclusiones"
+].forEach(id=>{
+    el(id).addEventListener("input",()=>{
+        vistaGenerada = false;
+        guardarInforme(false);
+        verificarEstadoModulo();
+    });
+});
+</script>
+
+</body>
+
+
+</html>

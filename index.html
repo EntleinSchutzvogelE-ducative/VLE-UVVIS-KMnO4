@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laboratorio virtual UV-Vis</title>
+<style>
+:root{
+  --bg:#e9eef5;
+  --panel:#ffffff;
+  --ink:#101828;
+  --muted:#667085;
+  --edge:#d7dee8;
+  --accent:#6a1b9a;
+  --accent-dark:#4a148c;
+  --nav:#071f3d;
+  --nav-2:#0b3565;
+  --ok:#16803b;
+  --warning:#c2410c;
+  --sidebar:286px;
+  --sidebar-collapsed:72px;
+  --header-h:74px;
+  --controls-h:58px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  overflow:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+}
+button{font:inherit}
+.app{
+  height:100dvh;
+  display:grid;
+  grid-template-rows:var(--header-h) minmax(0,1fr);
+}
+.header{
+  background:linear-gradient(90deg,var(--nav),var(--nav-2));
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:8px 14px;
+  box-shadow:0 3px 12px rgba(0,0,0,.22);
+  z-index:20;
+}
+.brand{
+  min-width:0;
+  flex:1;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.brand img{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#fff;
+  flex:0 0 auto;
+}
+.brand-text{min-width:0}
+.brand h1{
+  margin:0;
+  font-size:clamp(18px,2vw,24px);
+  line-height:1.1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.brand p{
+  margin:4px 0 0;
+  color:#dbeafe;
+  font-size:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+}
+.icon-btn{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.10);
+  color:#fff;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  font-size:19px;
+}
+.icon-btn:hover{background:rgba(255,255,255,.18)}
+.progress-box{
+  width:220px;
+  padding:8px 11px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.08);
+  border-radius:12px;
+}
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px;
+  font-weight:bold;
+}
+.progress-track{
+  height:7px;
+  background:#082344;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:7px;
+}
+.progress-fill{
+  width:0;
+  height:100%;
+  border-radius:999px;
+  background:#fff;
+  transition:width .25s ease;
+}
+.workspace{
+  min-height:0;
+  display:grid;
+  grid-template-columns:var(--sidebar) minmax(0,1fr);
+  gap:10px;
+  padding:10px;
+  transition:grid-template-columns .22s ease;
+}
+body.sidebar-collapsed .workspace{
+  grid-template-columns:var(--sidebar-collapsed) minmax(0,1fr);
+}
+.sidebar{
+  min-width:0;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(15,23,42,.08);
+}
+.sidebar-head{
+  min-height:58px;
+  padding:12px 14px;
+  border-bottom:1px solid var(--edge);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.sidebar-head-text{min-width:0}
+.sidebar-head strong{display:block;font-size:16px}
+.sidebar-head span{display:block;margin-top:3px;font-size:11px;color:var(--muted)}
+.collapse-btn{
+  width:34px;
+  height:34px;
+  flex:0 0 auto;
+  border:1px solid var(--edge);
+  border-radius:9px;
+  background:#fff;
+  color:var(--nav);
+  cursor:pointer;
+}
+body.sidebar-collapsed .sidebar-head-text,
+body.sidebar-collapsed .section-label,
+body.sidebar-collapsed .step-copy,
+body.sidebar-collapsed .step-icon,
+body.sidebar-collapsed .legend{display:none}
+body.sidebar-collapsed .sidebar-head{justify-content:center;padding:10px 6px}
+body.sidebar-collapsed .collapse-btn{transform:rotate(180deg)}
+.steps{
+  list-style:none;
+  margin:0;
+  padding:0;
+  overflow:auto;
+  min-height:0;
+}
+.section-label{
+  padding:8px 13px;
+  background:#f8fafc;
+  border-bottom:1px solid #edf0f5;
+  color:#475467;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.step{
+  display:grid;
+  grid-template-columns:32px minmax(0,1fr) 24px;
+  gap:9px;
+  align-items:center;
+  padding:10px 12px;
+  border-bottom:1px solid #edf0f5;
+  background:#fff;
+  cursor:pointer;
+}
+.step:hover{background:#f8fafc}
+.step.active{
+  color:#fff;
+  background:linear-gradient(90deg,var(--accent),#8247b1);
+}
+.step.locked{
+  opacity:.48;
+  cursor:not-allowed;
+  background:#f1f5f9;
+}
+.step-number{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#98a2b3;
+  color:#fff;
+  font-size:11px;
+  font-weight:bold;
+}
+.step.done .step-number{background:var(--ok)}
+.step.active .step-number{background:#fff;color:var(--accent)}
+.step-copy{min-width:0}
+.step-copy strong{
+  display:block;
+  font-size:13px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.step-copy small{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:11px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.step.active .step-copy small{color:#f3e8ff}
+.step-icon{text-align:center;font-size:17px}
+body.sidebar-collapsed .step{
+  display:flex;
+  justify-content:center;
+  padding:10px 4px;
+}
+.legend{
+  margin-top:auto;
+  border-top:1px solid var(--edge);
+  padding:9px 12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 12px;
+  color:#475467;
+  font-size:11px;
+}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;background:#98a2b3}
+.dot.active{background:var(--accent)}
+.dot.done{background:var(--ok)}
+.dot.locked{background:#cbd5e1}
+.content{
+  min-width:0;
+  min-height:0;
+  display:grid;
+  grid-template-rows:minmax(0,1fr) var(--controls-h);
+  gap:8px;
+}
+.frame-shell{
+  min-width:0;
+  min-height:0;
+  position:relative;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid var(--edge);
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(15,23,42,.08);
+}
+iframe{
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+  background:#fff;
+}
+.module-strip{
+  position:absolute;
+  top:8px;
+  left:50%;
+  transform:translateX(-50%);
+  max-width:min(720px,calc(100% - 120px));
+  padding:5px 10px;
+  border-radius:999px;
+  background:rgba(7,31,61,.88);
+  color:#fff;
+  font-size:11px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.frame-shell:hover .module-strip{opacity:1}
+.controls{
+  min-width:0;
+  display:grid;
+  grid-template-columns:auto auto minmax(0,1fr) auto auto;
+  align-items:center;
+  gap:8px;
+}
+.btn{
+  min-height:42px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  background:#fff;
+  color:#16213e;
+  padding:9px 13px;
+  font-size:13px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(15,23,42,.07);
+}
+.btn:hover:not(:disabled){background:#f8fafc}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover:not(:disabled){background:var(--accent-dark)}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.status-line{
+  min-width:0;
+  text-align:center;
+  color:#475467;
+  font-size:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.demo-badge{
+  display:none;
+  position:absolute;
+  right:10px;
+  top:10px;
+  z-index:5;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a3412;
+  font-size:11px;
+  font-weight:bold;
+}
+body.demo-mode .demo-badge{display:block}
+body.presentation-mode .header,
+body.presentation-mode .sidebar,
+body.presentation-mode .controls{display:none}
+body.presentation-mode .app{grid-template-rows:1fr}
+body.presentation-mode .workspace{display:block;padding:0;height:100dvh}
+body.presentation-mode .content{display:block;height:100dvh}
+body.presentation-mode .frame-shell{height:100dvh;border:0;border-radius:0}
+@media(max-width:1180px){
+  .progress-box{width:180px}
+  body:not(.sidebar-pinned){--sidebar:250px}
+}
+@media(max-width:980px){
+  .header{padding:8px 10px}
+  .brand p{display:none}
+  .progress-box{display:none}
+  .workspace{grid-template-columns:var(--sidebar-collapsed) minmax(0,1fr)}
+  .sidebar-head-text,.section-label,.step-copy,.step-icon,.legend{display:none!important}
+  .sidebar-head{justify-content:center;padding:10px 6px}
+  .step{display:flex;justify-content:center;padding:10px 4px}
+  .collapse-btn{display:none}
+}
+@media(max-width:760px){
+  :root{--header-h:62px;--controls-h:104px}
+  .brand img{width:42px;height:42px}
+  .brand h1{font-size:17px}
+  .header-actions .icon-btn:nth-child(2){display:none}
+  .workspace{grid-template-columns:1fr;padding:6px}
+  .sidebar{display:none}
+  .controls{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "status status"
+      "prev next";
+  }
+  #homeBtn,#presentBtn{display:none}
+  #prevBtn{grid-area:prev}
+  #nextBtn{grid-area:next}
+  .status-line{grid-area:status}
+}
+
+.btn.danger{
+  background:#b42318;
+  border-color:#b42318;
+  color:#fff;
+}
+.btn.danger:hover:not(:disabled){
+  background:#912018;
+}
+.final-screen{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  place-items:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at top left,rgba(106,27,154,.16),transparent 35%),
+    linear-gradient(135deg,#eef2f3,#f8fafc);
+}
+.final-screen.visible{
+  display:grid;
+}
+.final-card{
+  width:min(620px,94vw);
+  padding:30px;
+  border:1px solid var(--edge);
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(15,23,42,.14);
+  text-align:center;
+}
+.final-card h2{
+  margin:0 0 10px;
+  color:var(--accent-dark);
+  font-size:28px;
+}
+.final-card p{
+  margin:8px 0;
+  color:#475467;
+  line-height:1.5;
+}
+.final-card .final-actions{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.lang-switch{
+  display:flex;
+  gap:3px;
+  padding:3px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.10);
+  flex:0 0 auto;
+}
+.lang-switch button{
+  min-width:38px;
+  padding:6px 9px;
+  border:0;
+  border-radius:999px;
+  background:transparent;
+  color:#dbeafe;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.lang-switch button:hover{background:rgba(255,255,255,.14)}
+.lang-switch button[aria-pressed="true"]{background:#fff;color:var(--nav)}
+@media(max-width:760px){
+  .lang-switch button{min-width:32px;padding:5px 7px}
+}
+
+</style>
+<script src="i18n.js"></script>
+</head>
+<body data-i18n-switcher="off">
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <img src="ESE.jpg" alt="Entlein Schutzvogel E-ducative" onerror="this.style.display='none'">
+      <div class="brand-text">
+        <h1>Laboratorio virtual UV-Vis</h1>
+        <p>Determinación de permanganato de potasio en aguas residuales de la industria textil</p>
+      </div>
+    </div>
+    <div class="progress-box" aria-label="Progreso general">
+      <div class="progress-top"><span>Progreso</span><span id="pct">0%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+    </div>
+    <div class="header-actions">
+      <div class="lang-switch" id="langSwitch" data-no-i18n role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="es" title="Español">ES</button>
+        <button type="button" data-lang="en" title="English">EN</button>
+      </div>
+      <button class="icon-btn" id="demoBtn" type="button" title="Activar o desactivar modo demostración" aria-label="Modo demostración">★</button>
+      <button class="icon-btn" id="fullscreenBtn" type="button" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <div class="sidebar-head-text">
+          <strong>Ruta del AVA</strong>
+          <span>El progreso se guarda en este navegador.</span>
+        </div>
+        <button class="collapse-btn" id="collapseBtn" type="button" title="Plegar menú" aria-label="Plegar menú">‹</button>
+      </div>
+      <ol class="steps" id="steps"></ol>
+      <div class="legend">
+        <span><i class="dot active"></i>Actual</span>
+        <span><i class="dot done"></i>Completado</span>
+        <span><i class="dot locked"></i>Bloqueado</span>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div class="frame-shell" id="frameShell">
+        <iframe id="viewer" title="Módulo de la práctica virtual" allowfullscreen></iframe>
+        <div class="module-strip" id="moduleStrip"></div>
+        <div class="demo-badge">MODO DEMOSTRACIÓN</div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="homeBtn" type="button">⌂ Inicio</button>
+        <button class="btn" id="prevBtn" type="button">← Anterior</button>
+        <div class="status-line" id="statusLine" aria-live="polite"></div>
+        <button class="btn" id="presentBtn" type="button">Presentar</button>
+        <button class="btn primary" id="nextBtn" type="button">Siguiente →</button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="final-screen" id="finalScreen" role="dialog" aria-modal="true" aria-labelledby="finalTitle">
+  <section class="final-card">
+    <h2 id="finalTitle">Experiencia finalizada</h2>
+    <p>Los datos, imágenes y el progreso guardados por este laboratorio virtual fueron eliminados.</p>
+    <p>El navegador puede impedir el cierre automático de una pestaña abierta directamente.</p>
+    <div class="final-actions">
+      <button class="btn primary" id="closeTabBtn" type="button">Cerrar pestaña</button>
+      <button class="btn" id="restartBtn" type="button">Volver a iniciar</button>
+    </div>
+  </section>
+</div>
+
+<script>
+'use strict';
+
+const APP_KEY = 'ese_uvvis_main_v2';
+const legacyDoneKey = 'uvvis_main_done';
+const legacyIndexKey = 'uvvis_main_idx';
+
+const sequence = [
+  {group:'Inicio', id:'01-portada', title:'Portada', subtitle:'Presentación general del AVA', icon:'🏠', src:'01-portada.html'},
+  {group:'Inicio', id:'02-situacion-problematica', title:'Situación problemática', subtitle:'Contexto ambiental e industrial', icon:'🏭', src:'02-situacion-problematica.html'},
+  {group:'Inicio', id:'03-objetivos', title:'Objetivos de aprendizaje', subtitle:'Propósito y resultados esperados', icon:'🎯', src:'03-objetivos.html'},
+  {group:'Inicio', id:'04-fundamento-metodo', title:'Fundamento del método', subtitle:'Base analítica de la medición UV-Vis', icon:'📘', src:'04-fundamento-metodo.html'},
+  {group:'Inicio', id:'05-seguridad', title:'Seguridad', subtitle:'Condiciones antes de iniciar', icon:'🛡️', src:'05-seguridad.html'},
+  {group:'Desarrollo', id:'06-calculos-previos', title:'Cálculos previos', subtitle:'Planeación de la preparación experimental', icon:'🧮', src:'06-calculos-previos.html'},
+  {group:'Desarrollo', id:'07-preparacion-solucion-madre', title:'Preparación de la solución madre', subtitle:'Pesada, transferencia y aforo', icon:'⚗️', src:'07-preparacion-solucion-madre.html'},
+  {group:'Desarrollo', id:'08-diluciones', title:'Preparación de patrones', subtitle:'Construcción de la serie de calibración', icon:'💧', src:'08-diluciones.html'},
+  {group:'Desarrollo', id:'09-espectros-uvvis', title:'Medición de espectros', subtitle:'Operación del espectrofotómetro', icon:'📈', src:'09-espectros-uvvis.html'},
+  {group:'Análisis', id:'10-analisis-espectral', title:'Análisis espectral', subtitle:'Selección de la longitud de onda', icon:'🔎', src:'10-analisis-espectral.html'},
+  {group:'Análisis', id:'11-curva-calibracion', title:'Curva de calibración', subtitle:'Modelo analítico y ecuación', icon:'📊', src:'11-curva-calibracion.html'},
+  {group:'Análisis', id:'12-cuantificacion-muestra', title:'Cuantificación de la muestra', subtitle:'Concentración de permanganato y manganeso', icon:'🧪', src:'12-cuantificacion-muestra.html'},
+  {group:'Cierre', id:'13-informe-final', title:'Informe final', subtitle:'Integración de resultados y conclusiones', icon:'📝', src:'13-informe-final.html'}
+];
+
+const viewer = document.getElementById('viewer');
+const steps = document.getElementById('steps');
+const fill = document.getElementById('fill');
+const pct = document.getElementById('pct');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const homeBtn = document.getElementById('homeBtn');
+const collapseBtn = document.getElementById('collapseBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+const demoBtn = document.getElementById('demoBtn');
+const presentBtn = document.getElementById('presentBtn');
+const statusLine = document.getElementById('statusLine');
+const moduleStrip = document.getElementById('moduleStrip');
+const frameShell = document.getElementById('frameShell');
+const finalScreen = document.getElementById('finalScreen');
+const closeTabBtn = document.getElementById('closeTabBtn');
+const restartBtn = document.getElementById('restartBtn');
+
+function readState(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(APP_KEY) || 'null');
+    if(saved && typeof saved === 'object'){
+      return {
+        index:Number.isInteger(saved.index) ? saved.index : 0,
+        done:Array.isArray(saved.done) ? saved.done : [],
+        sidebarCollapsed:Boolean(saved.sidebarCollapsed),
+        demo:Boolean(saved.demo)
+      };
+    }
+  }catch(error){ console.warn('No fue posible leer el estado guardado.', error); }
+
+  let legacyDone = [];
+  let legacyIndex = 0;
+  try{
+    legacyDone = JSON.parse(localStorage.getItem(legacyDoneKey) || '[]');
+    legacyIndex = Number(localStorage.getItem(legacyIndexKey) || 0);
+  }catch(error){ /* sin migración */ }
+
+  return {
+    index:Number.isInteger(legacyIndex) ? legacyIndex : 0,
+    done:Array.isArray(legacyDone) ? legacyDone : [],
+    sidebarCollapsed:window.innerWidth < 1180,
+    demo:new URLSearchParams(location.search).get('demo') === '1'
+  };
+}
+
+const state = readState();
+let idx = Math.min(Math.max(state.index,0),sequence.length-1);
+let done = state.done.filter(id => sequence.some(item => item.id === id));
+let demoMode = state.demo;
+
+function saveState(){
+  localStorage.setItem(APP_KEY, JSON.stringify({
+    index:idx,
+    done,
+    sidebarCollapsed:document.body.classList.contains('sidebar-collapsed'),
+    demo:demoMode
+  }));
+}
+
+function isDone(index){ return done.includes(sequence[index].id); }
+
+function informeFinalGenerado(){
+  try{
+    const informe = JSON.parse(localStorage.getItem('uvvis_informe_final') || 'null');
+    return Boolean(informe && informe.vistaGenerada === true);
+  }catch(error){
+    return false;
+  }
+}
+
+function currentCanAdvance(){
+  const esPortada = idx === 0 && sequence[idx].id === '01-portada';
+  const esUltimo = idx === sequence.length - 1;
+
+  return (
+    demoMode ||
+    esPortada ||
+    isDone(idx) ||
+    (esUltimo && informeFinalGenerado())
+  );
+}
+
+function isUnlocked(index){ return demoMode || index === 0 || isDone(index-1); }
+
+function markDone(id){
+  if(!sequence.some(item => item.id === id)) return;
+  if(!done.includes(id)) done.push(id);
+  saveState();
+}
+
+function moveToSafeIndex(){
+  if(isUnlocked(idx)) return;
+  for(let i=sequence.length-1;i>=0;i--){
+    if(isUnlocked(i)){ idx=i; return; }
+  }
+  idx=0;
+}
+
+function renderSteps(){
+  steps.innerHTML='';
+  let group='';
+  sequence.forEach((item,index)=>{
+    if(item.group !== group){
+      group=item.group;
+      const label=document.createElement('li');
+      label.className='section-label';
+      label.textContent=group;
+      steps.appendChild(label);
+    }
+
+    const locked=!isUnlocked(index);
+    const li=document.createElement('li');
+    li.className='step' + (index===idx?' active':'') + (isDone(index)?' done':'') + (locked?' locked':'');
+    li.setAttribute('aria-current', index===idx ? 'step' : 'false');
+    li.innerHTML=`
+      <span class="step-number">${locked?'🔒':String(index+1).padStart(2,'0')}</span>
+      <span class="step-copy"><strong>${item.title}</strong><small>${locked?'Complete el módulo anterior':item.subtitle}</small></span>
+      <span class="step-icon" aria-hidden="true">${item.icon}</span>`;
+    li.addEventListener('click',()=>{
+      if(locked){
+        statusLine.textContent='Complete el módulo anterior para continuar.';
+        return;
+      }
+      idx=index;
+      loadCurrent();
+    });
+    steps.appendChild(li);
+  });
+
+  requestAnimationFrame(()=>{
+    const current=steps.querySelector('.step.active');
+    current?.scrollIntoView({block:'nearest'});
+  });
+}
+
+function updateProgress(){
+  const percent=Math.round((done.length/sequence.length)*100);
+  fill.style.width=`${percent}%`;
+  pct.textContent=`${percent}%`;
+}
+
+function updateControls(){
+  const esUltimo = idx === sequence.length-1;
+
+  prevBtn.disabled=idx===0;
+  nextBtn.disabled=!currentCanAdvance();
+  nextBtn.textContent=esUltimo ? 'Volver a la portada' : 'Siguiente →';
+  nextBtn.classList.remove('danger');
+
+  const item=sequence[idx];
+  statusLine.textContent=`${String(idx+1).padStart(2,'0')} de ${sequence.length} · ${item.title}${isDone(idx)?' · Completado':''}`;
+  moduleStrip.textContent=`${String(idx+1).padStart(2,'0')} · ${item.title}`;
+}
+
+function applyModes(){
+  document.body.classList.toggle('demo-mode',demoMode);
+  demoBtn.setAttribute('aria-pressed',String(demoMode));
+  demoBtn.title=demoMode?'Desactivar modo demostración':'Activar modo demostración';
+}
+
+function loadCurrent(){
+  moveToSafeIndex();
+  const item=sequence[idx];
+  viewer.src=item.src + (item.src.includes('?') ? '&' : '?') + 'lang=' + (window.__lang || 'es');
+  renderSteps();
+  updateProgress();
+  updateControls();
+  applyModes();
+  saveState();
+}
+
+/*
+  La portada es un módulo informativo y no contiene una actividad que
+  pueda emitir MODULE_COMPLETED. Se marca como completada cuando termina
+  de cargar para habilitar el primer avance del AVA.
+*/
+viewer.addEventListener('load',()=>{
+  if(idx === 0 && sequence[idx].id === '01-portada' && !isDone(idx)){
+    markDone(sequence[idx].id);
+    renderSteps();
+    updateProgress();
+    updateControls();
+  }
+});
+
+window.addEventListener('message',(event)=>{
+  if(event.source !== viewer.contentWindow) return;
+  const data=event.data;
+  if(!data || typeof data !== 'object') return;
+
+  if(data.type === 'MODULE_COMPLETED'){
+    const reportedId=typeof data.moduleId === 'string' ? data.moduleId : sequence[idx].id;
+    if(reportedId !== sequence[idx].id){
+      console.warn('Se ignoró una finalización de un módulo distinto al que está visible.', reportedId);
+      return;
+    }
+    markDone(reportedId);
+    renderSteps();
+    updateProgress();
+    updateControls();
+    return;
+  }
+
+  if(data.type === 'RESET_AVA'){
+    finalizarYBorrar();
+  }
+});
+
+
+function borrarDatosAVA(){
+  const clavesExactas = [
+    APP_KEY,
+    legacyDoneKey,
+    legacyIndexKey,
+    'uvvis_calculos_previos',
+    'uvvis_preparacion_madre',
+    'uvvis_diluciones',
+    'uvvis_espectros',
+    'uvvis_analisis_espectral',
+    'uvvis_modulo6_calibracion',
+    'uvvis_calibracion',
+    'uvvis_cuantificacion',
+    'uvvis_informe_final',
+    'uvvis_img_espectros',
+    'uvvis_img_curva'
+  ];
+
+  clavesExactas.forEach(clave=>{
+    localStorage.removeItem(clave);
+    sessionStorage.removeItem(clave);
+    sessionStorage.removeItem(clave + '_adjunta');
+  });
+
+  Object.keys(localStorage).forEach(clave=>{
+    if(clave.startsWith('uvvis_m5_') || clave.startsWith('ese_uvvis_')){
+      localStorage.removeItem(clave);
+    }
+  });
+
+  Object.keys(sessionStorage).forEach(clave=>{
+    if(clave.startsWith('uvvis_') || clave.startsWith('ese_uvvis_')){
+      sessionStorage.removeItem(clave);
+    }
+  });
+}
+
+function mostrarPantallaFinal(){
+  finalScreen.classList.add('visible');
+  finalScreen.setAttribute('aria-hidden','false');
+  closeTabBtn.focus();
+}
+
+function finalizarYBorrar(){
+  const confirmar = window.confirm(
+    'Esta acción eliminará el progreso, los resultados y las imágenes guardadas por el AVA. ' +
+    'Los archivos TXT o PDF ya descargados no se eliminarán. ¿Desea finalizar?'
+  );
+
+  if(!confirmar) return;
+
+  borrarDatosAVA();
+
+  idx=0;
+  done=[];
+  demoMode=false;
+
+  try{
+    viewer.src='about:blank';
+  }catch(error){}
+
+  mostrarPantallaFinal();
+
+  setTimeout(()=>{
+    try{ window.close(); }catch(error){}
+  },250);
+}
+
+nextBtn.addEventListener('click',()=>{
+  if(!currentCanAdvance()){
+    statusLine.textContent='Complete el módulo actual antes de avanzar.';
+    return;
+  }
+
+  if(idx < sequence.length-1){
+    idx++;
+    loadCurrent();
+    return;
+  }
+
+  /*
+    Si el informe fue generado correctamente, se reconoce también
+    desde localStorage. Esto evita que el botón quede bloqueado cuando
+    el mensaje MODULE_COMPLETED no llega al MAIN.
+  */
+  if(!isDone(idx) && informeFinalGenerado()){
+    markDone(sequence[idx].id);
+  }
+
+  idx = 0;
+  loadCurrent();
+  statusLine.textContent = 'Experiencia completada. Has regresado a la portada.';
+});
+
+
+closeTabBtn.addEventListener('click',()=>{
+  try{ window.close(); }catch(error){}
+  statusLine.textContent='El navegador bloqueó el cierre automático. Puede cerrar esta pestaña manualmente.';
+});
+
+restartBtn.addEventListener('click',()=>{
+  finalScreen.classList.remove('visible');
+  finalScreen.setAttribute('aria-hidden','true');
+  idx=0;
+  done=[];
+  demoMode=false;
+  saveState();
+  loadCurrent();
+});
+
+prevBtn.addEventListener('click',()=>{
+  if(idx>0){idx--;loadCurrent();}
+});
+
+homeBtn.addEventListener('click',()=>{
+  finalScreen.classList.remove('visible');
+  finalScreen.setAttribute('aria-hidden','true');
+  idx=0;
+  loadCurrent();
+});
+
+collapseBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('sidebar-collapsed');
+  saveState();
+});
+
+fullscreenBtn.addEventListener('click',async()=>{
+  try{
+    if(document.fullscreenElement){
+      await document.exitFullscreen();
+    }else{
+      await frameShell.requestFullscreen();
+    }
+  }catch(error){
+    statusLine.textContent='El navegador no permitió activar la pantalla completa.';
+  }
+});
+
+demoBtn.addEventListener('click',()=>{
+  demoMode=!demoMode;
+  applyModes();
+  renderSteps();
+  updateControls();
+  saveState();
+});
+
+presentBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('presentation-mode');
+  presentBtn.textContent=document.body.classList.contains('presentation-mode')?'Salir de presentación':'Presentar';
+});
+
+document.addEventListener('keydown',(event)=>{
+  if(event.key==='Escape' && document.body.classList.contains('presentation-mode')){
+    document.body.classList.remove('presentation-mode');
+    presentBtn.textContent='Presentar';
+  }
+  if(event.altKey && event.key==='ArrowRight') nextBtn.click();
+  if(event.altKey && event.key==='ArrowLeft') prevBtn.click();
+});
+
+/* ---------- Selector de idioma / Language switcher ---------- */
+window.__recargarIdioma = function(nuevo){
+  try{ localStorage.setItem('ava_lang', nuevo); }catch(error){}
+  const url = new URL(location.href);
+  url.searchParams.set('lang', nuevo);
+  location.replace(url.toString());
+};
+
+(function(){
+  const grupo = document.getElementById('langSwitch');
+  if(!grupo) return;
+  const actual = window.__lang || 'es';
+  grupo.querySelectorAll('button').forEach(boton=>{
+    const codigo = boton.dataset.lang;
+    boton.setAttribute('aria-pressed', String(codigo === actual));
+    boton.addEventListener('click',()=>{
+      if(codigo === actual) return;
+      window.__recargarIdioma(codigo);
+    });
+  });
+})();
+
+if(state.sidebarCollapsed) document.body.classList.add('sidebar-collapsed');
+applyModes();
+loadCurrent();
+
+setInterval(()=>{
+  if(idx === sequence.length - 1){
+    if(informeFinalGenerado() && !isDone(idx)){
+      markDone(sequence[idx].id);
+      renderSteps();
+      updateProgress();
+    }
+    updateControls();
+  }
+},700);
+</script>
+</body>
+</html>

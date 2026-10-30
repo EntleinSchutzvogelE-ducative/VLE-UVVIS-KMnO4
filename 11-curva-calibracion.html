@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8" />
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curva de calibración UV-Vis</title>
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#1f2937;
+    --muted:#5f6b7a;
+    --accent:#6A1B9A;
+    --accent2:#4A148C;
+    --ok:#2e7d32;
+    --warn:#f59e0b;
+    --bad:#c62828;
+    --edge:#d7dce2;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+}
+.wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:16px;
+}
+.card{
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:14px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.10);
+    padding:16px;
+    margin-bottom:14px;
+}
+h1{
+    margin:0 0 8px 0;
+    color:var(--accent2);
+    font-size:26px;
+}
+h2{
+    color:var(--accent2);
+    margin-top:0;
+}
+p.lead{
+    color:var(--muted);
+    line-height:1.55;
+    margin-top:0;
+}
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+@media(max-width:850px){.grid{grid-template-columns:1fr}}
+.panel{
+    border:1px solid var(--edge);
+    border-radius:12px;
+    padding:16px;
+    background:#fbfbfd;
+}
+.instructions{
+    background:#f5edff;
+    border-left:6px solid var(--accent);
+}
+.table-wrap{overflow-x:auto}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    background:white;
+}
+th,td{
+    border:1px solid var(--edge);
+    padding:8px;
+    text-align:center;
+}
+th{
+    background:#f3f4f6;
+}
+input[type="number"], input[type="text"], textarea{
+    width:100%;
+    padding:8px;
+    border:1px solid var(--edge);
+    border-radius:8px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+input[type="number"]{text-align:center}
+textarea{
+    min-height:86px;
+    resize:vertical;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:10px 14px;
+    font-weight:bold;
+    cursor:pointer;
+    background:var(--accent);
+    color:white;
+    margin:6px 4px 6px 0;
+}
+button:hover{background:var(--accent2)}
+button.secondary{
+    background:#eef2ff;
+    color:#3730a3;
+    border:1px solid #c7d2fe;
+}
+button.secondary:hover{background:#dfe5ff}
+button.finish{background:var(--ok)}
+button.finish:hover{background:#1b5e20}
+.result-box{
+    background:white;
+    border:1px dashed var(--edge);
+    border-radius:10px;
+    padding:12px;
+    margin-top:10px;
+}
+.badge{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:999px;
+    background:#d1fae5;
+    color:#065f46;
+    font-size:12px;
+    font-weight:bold;
+}
+.warning{
+    background:#fff7ed;
+    border-left:5px solid var(--warn);
+    padding:10px;
+    border-radius:8px;
+    color:#7c2d12;
+}
+.filebox{
+    border:1px dashed var(--edge);
+    background:white;
+    border-radius:12px;
+    padding:12px;
+    text-align:center;
+}
+.filebox img{
+    max-width:100%;
+    margin-top:10px;
+    border-radius:8px;
+    border:1px solid var(--edge);
+}
+.small{font-size:13px;color:var(--muted)}
+.checklist label{
+    display:block;
+    margin:8px 0;
+}
+.status{
+    font-weight:bold;
+    margin-top:10px;
+}
+.ok{color:var(--ok)}
+.bad{color:var(--bad)}
+pre{
+    white-space:pre-wrap;
+    background:#111827;
+    color:#e5e7eb;
+    padding:12px;
+    border-radius:10px;
+}
+
+.footer{
+    padding:11px 18px;
+    background:linear-gradient(90deg,#071f3d,#12335f);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:12px;
+}
+.footer strong{color:#f3d58a}
+@media(max-width:620px){
+    .wrap{padding:10px}
+    .card{padding:14px}
+    h1{font-size:23px}
+}
+
+</style>
+<script src="i18n.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+<div class="card">
+    <span class="badge">Tratamiento cuantitativo</span>
+    <h1>Curva de calibración</h1>
+    <p class="lead">
+        Registra las absorbancias de los seis patrones, calcula la recta de calibración
+        y evalúa si el modelo es adecuado para cuantificar la muestra.
+    </p>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h2>1. Longitud de onda analítica</h2>
+        <p class="small">Se recupera automáticamente del módulo anterior.</p>
+        <div id="lambdaDisplay" class="result-box"><strong>λ analítica:</strong> — nm</div>
+    </div>
+
+    <div class="card">
+        <h2>2. Evidencia gráfica</h2>
+        <div class="filebox">
+            <p class="small">Adjunta una imagen de la curva de calibración construida en la hoja de cálculo.</p>
+            <input type="file" id="imgCurva" accept="image/*">
+            <img id="previewCurva" alt="Vista previa de la curva de calibración" style="display:none;">
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>3. Datos de calibración</h2>
+    <p class="small">
+        Registra las absorbancias de los patrones a la longitud de onda seleccionada. Puedes llenar la tabla manualmente con los datos obtenidos en la hoja de cálculo.
+    </p>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Solución patrón</th>
+                    <th>Concentración KMnO₄ (ppm)</th>
+                    <th>Absorbancia a λ seleccionada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Patrón 1</td><td>10</td><td><input type="number" id="a10" oninput="guardarModulo(false); verificarEstadoModulo();" step="0.001" placeholder="0.000"></td></tr>
+                <tr><td>Patrón 2</td><td>20</td><td><input type="number" id="a20" oninput="guardarModulo(false); verificarEstadoModulo();" step="0.001" placeholder="0.000"></td></tr>
+                <tr><td>Patrón 3</td><td>30</td><td><input type="number" id="a30" oninput="guardarModulo(false); verificarEstadoModulo();" step="0.001" placeholder="0.000"></td></tr>
+                <tr><td>Patrón 4</td><td>40</td><td><input type="number" id="a40" oninput="guardarModulo(false); verificarEstadoModulo();" step="0.001" placeholder="0.000"></td></tr>
+                <tr><td>Patrón 5</td><td>50</td><td><input type="number" id="a50" oninput="guardarModulo(false); verificarEstadoModulo();" step="0.001" placeholder="0.000"></td></tr>
+                <tr><td>Patrón 6</td><td>60</td><td><input type="number" id="a60" oninput="guardarModulo(false); verificarEstadoModulo();" step="0.001" placeholder="0.000"></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <button onclick="calcularRegresion()">Calcular regresión con la tabla</button>
+    <button class="secondary" onclick="limpiarTabla()">Limpiar tabla</button>
+
+    <div class="result-box" id="resultadoRegresion">
+        <strong>Resultado:</strong> aún no se ha calculado la regresión.
+    </div>
+
+    
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h2>4. Parámetros del modelo</h2>
+        <label>Pendiente, m</label>
+        <input type="number" id="pendiente" step="0.000001" placeholder="m" readonly>
+
+        <label style="margin-top:10px;display:block;">Intercepto, b</label>
+        <input type="number" id="intercepto" step="0.000001" placeholder="b" readonly>
+
+        <label style="margin-top:10px;display:block;">Coeficiente de determinación, R²</label>
+        <input type="number" id="r2" step="0.0001" min="0" max="1" placeholder="0.999" readonly>
+    </div>
+
+    <div class="card">
+        <h2>5. Interpretación</h2>
+        <label>¿La curva presenta comportamiento lineal en el intervalo evaluado?</label>
+        <div style="margin:8px 0;">
+            <label><input type="radio" name="linealidad" value="Sí" onchange="guardarModulo(false); verificarEstadoModulo();"> Sí</label><br>
+            <label><input type="radio" name="linealidad" value="No" onchange="guardarModulo(false); verificarEstadoModulo();"> No</label><br>
+            <label><input type="radio" name="linealidad" value="Parcialmente" onchange="guardarModulo(false); verificarEstadoModulo();"> Parcialmente</label>
+        </div>
+        <label>Justifica tu respuesta</label>
+        <textarea id="interpretacion" oninput="guardarModulo(false); verificarEstadoModulo();" placeholder="Comenta la tendencia de los puntos, el valor de R² y si la recta permite cuantificar la muestra."></textarea>
+    </div>
+</div>
+
+<div id="estado" class="card status bad">
+    Completa la calibración para habilitar el siguiente módulo.
+</div>
+
+</div>
+<footer class="footer">
+    <div><strong>ESE — Entlein-Schutzvogel Educative</strong></div>
+    <div></div>
+</footer>
+
+<script>
+const concentraciones = [10,20,30,40,50,60];
+const idsAbs = ["a10","a20","a30","a40","a50","a60"];
+
+let moduloCompletado = false;
+let curvaImagenAdjuntaSesion = false;
+
+function getRadio(name){
+    const r = document.querySelector(`input[name="${name}"]:checked`);
+    return r ? r.value : "";
+}
+
+function imagenDisponible(){
+    const img = document.getElementById("previewCurva");
+    return Boolean(
+        img &&
+        img.src &&
+        img.src !== window.location.href &&
+        (img.style.display !== "none" || curvaImagenAdjuntaSesion) ||
+        localStorage.getItem("uvvis_img_curva") ||
+        sessionStorage.getItem("uvvis_img_curva_adjunta")
+    );
+}
+
+function previewImagen(input, img){
+    const file = input.files && input.files[0];
+    if(!file) return;
+
+    if(!file.type.startsWith("image/")){
+        alert("Selecciona un archivo de imagen válido.");
+        input.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = e => {
+        img.src = e.target.result;
+        img.style.display = "block";
+        curvaImagenAdjuntaSesion = true;
+        try{
+            localStorage.setItem("uvvis_img_curva", e.target.result);
+        }catch(err){
+            sessionStorage.setItem("uvvis_img_curva_adjunta","1");
+        }
+
+        guardarModulo(false);
+        verificarEstadoModulo();
+    };
+
+    reader.readAsDataURL(file);
+}
+
+document.getElementById("imgCurva").addEventListener("change", function(){
+    previewImagen(this, document.getElementById("previewCurva"));
+});
+
+function calcularRegresion(){
+    const xs = [];
+    const ys = [];
+
+    for(let i=0;i<idsAbs.length;i++){
+        const y = parseFloat(document.getElementById(idsAbs[i]).value);
+
+        if(!Number.isNaN(y)){
+            xs.push(concentraciones[i]);
+            ys.push(y);
+        }
+    }
+
+    const box = document.getElementById("resultadoRegresion");
+
+    if(xs.length < 3){
+        box.innerHTML =
+            "<strong>Resultado:</strong> registra al menos tres puntos para calcular una regresión.";
+        box.className = "result-box bad";
+        verificarEstadoModulo();
+        return;
+    }
+
+    const n = xs.length;
+    const sx = xs.reduce((a,b)=>a+b,0);
+    const sy = ys.reduce((a,b)=>a+b,0);
+    const sxx = xs.reduce((a,b)=>a+b*b,0);
+    const sxy = xs.reduce((a,b,i)=>a+b*ys[i],0);
+
+    const denominador = n*sxx - sx*sx;
+
+    if(denominador === 0){
+        box.innerHTML =
+            "<strong>Resultado:</strong> no es posible calcular la regresión con estos datos.";
+        box.className = "result-box bad";
+        return;
+    }
+
+    const m = (n*sxy - sx*sy)/denominador;
+    const b = (sy - m*sx)/n;
+
+    const ymean = sy/n;
+    let ssTot = 0;
+    let ssRes = 0;
+
+    for(let i=0;i<n;i++){
+        const ycalc = m*xs[i] + b;
+        ssTot += Math.pow(ys[i]-ymean,2);
+        ssRes += Math.pow(ys[i]-ycalc,2);
+    }
+
+    const r2 = ssTot === 0 ? 1 : 1 - ssRes/ssTot;
+
+    document.getElementById("pendiente").value = m.toFixed(6);
+    document.getElementById("intercepto").value = b.toFixed(6);
+    document.getElementById("r2").value = r2.toFixed(4);
+
+    box.className = "result-box";
+    box.innerHTML = `
+        <strong>Ecuación estimada:</strong><br>
+        A = ${m.toFixed(6)} C ${b>=0?"+":"-"} ${Math.abs(b).toFixed(6)}<br>
+        <strong>R²:</strong> ${r2.toFixed(4)}
+    `;
+
+    guardarModulo(false);
+    verificarEstadoModulo();
+}
+
+function limpiarTabla(){
+    idsAbs.forEach(id=>{
+        document.getElementById(id).value = "";
+    });
+
+    document.getElementById("pendiente").value = "";
+    document.getElementById("intercepto").value = "";
+    document.getElementById("r2").value = "";
+
+    const box = document.getElementById("resultadoRegresion");
+    box.innerHTML =
+        "<strong>Resultado:</strong> aún no se ha calculado la regresión.";
+    box.className = "result-box";
+
+    guardarModulo(false);
+    verificarEstadoModulo();
+}
+
+function recopilarDatos(){
+    return {
+        completado: validarModulo() === "",
+        lambda: (()=>{try{
+            const d=JSON.parse(localStorage.getItem("uvvis_analisis_espectral")||"null");
+            return d ? d.lambda_analitica_nm : "";
+        }catch(e){return "";}})(),
+        absorbancias: {
+            10: document.getElementById("a10").value,
+            20: document.getElementById("a20").value,
+            30: document.getElementById("a30").value,
+            40: document.getElementById("a40").value,
+            50: document.getElementById("a50").value,
+            60: document.getElementById("a60").value
+        },
+        pendiente: document.getElementById("pendiente").value,
+        intercepto: document.getElementById("intercepto").value,
+        r2: document.getElementById("r2").value,
+        linealidad: getRadio("linealidad"),
+        interpretacion: document.getElementById("interpretacion").value,
+        curvaImagen: imagenDisponible()
+            ? document.getElementById("previewCurva").src
+            : "",
+        fecha: new Date().toISOString()
+    };
+}
+
+function guardarModulo(showMessage=true){
+    localStorage.setItem(
+        "uvvis_modulo6_calibracion",
+        JSON.stringify(recopilarDatos())
+    );
+
+    if(showMessage){
+        const estado = document.getElementById("estado");
+        const pendiente = validarModulo();
+
+        if(pendiente){
+            estado.innerHTML =
+                "✔ Información guardada en este navegador.<br>" +
+                "<span class='small'>Pendiente: " + pendiente + "</span>";
+            estado.className = "status bad";
+        }else{
+            estado.innerHTML =
+                "✔ Información guardada. El módulo cumple todos los requisitos.";
+            estado.className = "status ok";
+        }
+    }
+}
+
+function valor(id){
+    return document.getElementById(id).value.trim();
+}
+
+function numeroValido(id){
+    const n = Number(valor(id));
+    return valor(id) !== "" && Number.isFinite(n);
+}
+
+function validarModulo(){    try{
+        const anterior = JSON.parse(localStorage.getItem("uvvis_analisis_espectral") || "null");
+        if(!anterior || !Number.isFinite(Number(anterior.lambda_analitica_nm))){
+            return "completar primero la selección de la longitud de onda.";
+        }
+    }catch(e){
+        return "completar primero la selección de la longitud de onda.";
+    }
+
+    if(!imagenDisponible()){
+        return "adjuntar la imagen de la curva de calibración.";
+    }
+
+    for(const id of idsAbs){
+        if(!numeroValido(id)){
+            return "registrar las seis absorbancias de los patrones.";
+        }
+    }
+
+    if(!numeroValido("pendiente")){
+        return "registrar la pendiente de la recta.";
+    }
+
+    if(!numeroValido("intercepto")){
+        return "registrar el intercepto de la recta.";
+    }
+
+    if(!numeroValido("r2")){
+        return "registrar el coeficiente de determinación R².";
+    }
+
+    const r2 = Number(valor("r2"));
+    if(r2 < 0 || r2 > 1){
+        return "usar un valor de R² entre 0 y 1.";
+    }
+
+    if(!getRadio("linealidad")){
+        return "indicar si la curva presenta comportamiento lineal.";
+    }
+
+    if(valor("interpretacion").length < 20){
+        return "desarrollar la interpretación de la curva.";
+    }
+
+
+    return "";
+}
+
+function verificarEstadoModulo(){
+    const estado = document.getElementById("estado");
+    const pendiente = validarModulo();
+
+    guardarModulo(false);
+
+    if(pendiente){
+        estado.innerHTML =
+            "Completa la calibración para habilitar el botón " +
+            "<strong>Siguiente</strong> del simulador.<br>" +
+            "<span class='small'>Pendiente: " + pendiente + "</span>";
+        estado.className = "status bad";
+        return;
+    }
+
+    estado.innerHTML =
+        "✔ Curva de calibración completada. La ecuación y el valor de R² quedaron guardados.";
+    estado.className = "status ok";
+
+    if(!moduloCompletado && window.parent && window.parent !== window){
+        window.parent.postMessage(
+            {type:"MODULE_COMPLETED", moduleId:"11-curva-calibracion"},
+            "*"
+        );
+        moduloCompletado = true;
+    }
+}
+
+function cargarDatos(){
+    try{
+        const anterior = JSON.parse(localStorage.getItem("uvvis_analisis_espectral") || "null");
+        if(anterior && Number.isFinite(Number(anterior.lambda_analitica_nm))){
+            document.getElementById("lambdaDisplay").innerHTML =
+                "<strong>λ analítica:</strong> " + Number(anterior.lambda_analitica_nm) + " nm";
+        }
+    }catch(e){}
+
+    const raw = localStorage.getItem("uvvis_modulo6_calibracion");
+
+    if(!raw){
+        verificarEstadoModulo();
+        return;
+    }
+
+    try{
+        const d = JSON.parse(raw);
+
+        
+        if(d.absorbancias){
+            document.getElementById("a10").value = d.absorbancias[10] || "";
+            document.getElementById("a20").value = d.absorbancias[20] || "";
+            document.getElementById("a30").value = d.absorbancias[30] || "";
+            document.getElementById("a40").value = d.absorbancias[40] || "";
+            document.getElementById("a50").value = d.absorbancias[50] || "";
+            document.getElementById("a60").value = d.absorbancias[60] || "";
+        }
+
+        document.getElementById("pendiente").value = d.pendiente || "";
+        document.getElementById("intercepto").value = d.intercepto || "";
+        document.getElementById("r2").value = d.r2 || "";
+
+        if(d.linealidad){
+            const radio = document.querySelector(
+                `input[name="linealidad"][value="${d.linealidad}"]`
+            );
+            if(radio) radio.checked = true;
+        }
+
+        document.getElementById("interpretacion").value =
+            d.interpretacion || "";
+
+        const curvaGuardada = localStorage.getItem("uvvis_img_curva") || d.curvaImagen;
+        if(curvaGuardada){
+            const img = document.getElementById("previewCurva");
+            img.src = curvaGuardada;
+            img.style.display = "block";
+            curvaImagenAdjuntaSesion = true;
+        }
+
+    }catch(e){
+        console.warn("No se pudieron cargar los datos guardados", e);
+    }
+
+    verificarEstadoModulo();
+}
+
+[
+    "a10","a20","a30","a40","a50","a60",
+    "pendiente","intercepto","r2","interpretacion"
+].forEach(id=>{
+    document.getElementById(id).addEventListener("input",()=>{
+        guardarModulo(false);
+        verificarEstadoModulo();
+    });
+});
+
+document.querySelectorAll('input[name="linealidad"]').forEach(el=>{
+    el.addEventListener("change",()=>{
+        guardarModulo(false);
+        verificarEstadoModulo();
+    });
+});
+
+window.addEventListener("DOMContentLoaded", cargarDatos);
+</script>
+</body>
+</html>

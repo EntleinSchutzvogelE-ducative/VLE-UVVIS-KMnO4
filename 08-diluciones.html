@@ -1,0 +1,2474 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<title>Preparación de soluciones patrón — Diluciones KMnO₄</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#111827;
+    --muted:#5f6b7a;
+    --edge:#d8dee8;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --navy:#071f3d;
+    --ok:#2e7d32;
+    --warn:#ef6c00;
+    --bad:#c62828;
+    --soft:#f8fafc;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.wrapper{
+    width:min(1320px, 98vw);
+    margin:12px auto;
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:18px;
+    box-shadow:0 10px 28px rgba(15,23,42,.10);
+    overflow:hidden;
+}
+
+.header{
+    padding:8px 14px;
+    background:linear-gradient(90deg, #ffffff, #f8fafc);
+    border-bottom:1px solid var(--edge);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+}
+
+.logo{
+    height:54px;
+    object-fit:contain;
+}
+
+.logo-ese{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    object-fit:contain;
+    box-shadow:0 4px 12px rgba(0,0,0,.14);
+}
+
+.title{
+    flex:1;
+    text-align:center;
+}
+
+.title h1{
+    margin:0;
+    color:var(--navy);
+    font-size:24px;
+}
+
+.title p{
+    margin:4px 0 0 0;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.intro{
+    padding:8px 12px;
+    background:#f8fafc;
+    border-bottom:1px solid var(--edge);
+}
+
+.intro-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+}
+
+@media(max-width:900px){
+    .intro-grid{ grid-template-columns:1fr; }
+}
+
+.box{
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:10px 12px;
+}
+
+.box h2{
+    margin:0 0 5px 0;
+    color:var(--accent-dark);
+    font-size:19px;
+}
+
+.box p{
+    margin:0;
+    color:#344054;
+    line-height:1.38;
+    font-size:13px;
+}
+
+.badge{
+    display:inline-block;
+    padding:3px 8px;
+    border-radius:999px;
+    background:#ede9fe;
+    color:#4c1d95;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.method-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:4px;
+    font-size:13px;
+}
+
+.method-table th,
+.method-table td{
+    border:1px solid var(--edge);
+    padding:6px 7px;
+    text-align:center;
+}
+
+.method-table th{
+    background:#f3e8ff;
+    color:var(--accent-dark);
+}
+
+.status{
+    padding:6px 12px;
+    background:#fff7ed;
+    border-bottom:1px solid #fed7aa;
+    color:#7c2d12;
+    font-size:14px;
+}
+
+.status strong{
+    color:#9a3412;
+}
+
+/* =========================
+   LAYOUT PRINCIPAL
+========================= */
+
+.lab{
+    padding:12px;
+    display:grid;
+    grid-template-columns:minmax(300px, 0.34fr) minmax(760px, 1fr);
+    gap:12px;
+    align-items:start;
+}
+
+@media(max-width:980px){
+    .lab{
+        grid-template-columns:1fr;
+    }
+}
+
+.stage{
+    position:relative;
+    min-height:450px;
+    background:#ffffff;
+    border:1px solid var(--edge);
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.stage-title{
+    position:absolute;
+    top:16px;
+    left:18px;
+    right:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    z-index:10;
+}
+
+.stage-title strong{
+    color:var(--navy);
+    font-size:18px;
+}
+
+.stage-title span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* =========================
+   VASO
+========================= */
+
+.beaker-zone{
+    position:absolute;
+    left:58px;
+    top:168px;
+    width:190px;
+    text-align:center;
+}
+
+.beaker-label{
+    margin-top:4px;
+    color:var(--navy);
+    font-weight:bold;
+    font-size:14px;
+}
+
+.beaker-sub{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* =========================
+   MICROPIPETA
+========================= */
+
+.pipette-zone{
+    position:absolute;
+    left:300px;
+    top:34px;
+    width:130px;
+    height:310px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:transform .9s ease;
+    z-index:8;
+}
+
+.pipette-zone.to-beaker,
+.pipette-zone.to-flask,
+.pipette-zone.into-flask{
+    /* La posición se calcula con JavaScript para centrar la punta sobre cada recipiente. */
+}
+
+.pipette-note{display:none;}
+
+/* =========================
+   BALÓN PRINCIPAL
+========================= */
+
+.flask-zone{
+    position:absolute;
+    right:105px;
+    top:181px;
+    width:360px;
+    text-align:center;
+}
+
+.flask-label{
+    margin-top:4px;
+    color:var(--navy);
+    font-weight:bold;
+    font-size:14px;
+}
+
+.flask-sub{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* =========================
+   RESULTADOS
+========================= */
+
+.summary{
+    padding:0 10px 8px 10px;
+}
+
+.summary h2{
+    margin:0 0 6px 0;
+    color:var(--accent-dark);
+    font-size:18px;
+}
+
+.flask-row{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+}
+
+@media(max-width:1050px){
+    .flask-row{ grid-template-columns:repeat(3, 1fr); }
+}
+
+@media(max-width:620px){
+    .flask-row{ grid-template-columns:repeat(2, 1fr); }
+}
+
+.mini-card{
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:6px 10px;
+    text-align:left;
+    background:white;
+    transition:.2s ease;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    align-items:center;
+    gap:6px;
+    min-height:155px;
+}
+
+.mini-card.done{
+    background:#f0fdf4;
+    border-color:#bbf7d0;
+}
+
+.mini-info{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:3px;
+}
+
+.mini-info strong{
+    display:block;
+    color:var(--navy);
+    font-size:14px;
+    margin:0;
+}
+
+.mini-info span{
+    display:block;
+    color:var(--accent-dark);
+    font-weight:bold;
+    font-size:13px;
+}
+
+/* =========================
+   PANEL CONTROL
+========================= */
+
+.panel{
+    background:#f8fafc;
+    border:1px solid var(--edge);
+    border-radius:18px;
+    padding:11px;
+    align-self:start;
+    position:sticky;
+    top:8px;
+    max-height:calc(100vh - 16px);
+    overflow:auto;
+    box-shadow:0 8px 20px rgba(15,23,42,.08);
+}
+
+.panel h2{
+    margin:0 0 10px 0;
+    color:var(--accent-dark);
+    font-size:20px;
+}
+
+.current-card{
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:11px;
+    margin-bottom:10px;
+}
+
+.current-card .big{
+    font-size:24px;
+    color:var(--accent-dark);
+    font-weight:bold;
+    margin:4px 0;
+}
+
+.current-card p{
+    margin:6px 0;
+    color:#344054;
+    line-height:1.45;
+}
+
+.input-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:12px;
+}
+
+input{
+    width:110px;
+    padding:9px;
+    text-align:center;
+    border:1px solid #b8c0cc;
+    border-radius:9px;
+    font-size:15px;
+}
+
+button{
+    border:none;
+    border-radius:10px;
+    padding:10px 13px;
+    background:var(--accent);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    margin:4px 0;
+}
+
+button:hover{
+    background:var(--accent-dark);
+}
+
+button.secondary{
+    background:#374151;
+}
+
+button.ok{
+    background:var(--ok);
+}
+
+button.ok:hover{
+    background:#1b5e20;
+}
+
+button:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.action-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:6px;
+    margin:8px 0;
+}
+
+.feedback{
+    min-height:38px;
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:12px;
+    padding:7px;
+    color:#344054;
+    line-height:1.4;
+    font-size:14px;
+}
+
+.feedback.ok{
+    background:#f0fdf4;
+    border-color:#bbf7d0;
+    color:#166534;
+}
+
+.feedback.warn{
+    background:#fff7ed;
+    border-color:#fed7aa;
+    color:#7c2d12;
+}
+
+.feedback.bad{
+    background:#fee2e2;
+    border-color:#fecaca;
+    color:#7f1d1d;
+}
+
+.finish-panel{
+    border-top:1px solid var(--edge);
+    background:white;
+    padding:8px 14px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:18px;
+    align-items:center;
+}
+
+@media(max-width:800px){
+    .finish-panel{ grid-template-columns:1fr; }
+}
+
+.checks{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:5px 12px;
+}
+
+@media(max-width:720px){
+    .checks{ grid-template-columns:1fr; }
+}
+
+.checks label{
+    color:#344054;
+    font-size:14px;
+}
+
+.final-state{
+    margin-top:5px;
+    font-size:13px;
+    color:var(--muted);
+}
+
+.finish-btn{
+    padding:10px 16px;
+    border-radius:10px;
+    background:var(--ok);
+}
+
+.footer{
+    padding:12px 24px;
+    background:linear-gradient(90deg, var(--navy), #12335f);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    flex-wrap:wrap;
+    font-size:13px;
+}
+
+.footer strong{
+    color:#f3d58a;
+}
+
+/* SVG */
+.glass {
+    fill: rgba(255,255,255,0.15);
+    stroke: #111;
+    stroke-width: 2.5;
+}
+
+.aforo {
+    stroke: #444;
+    stroke-width: 2;
+}
+
+.liquid {
+    transition: all 1.8s ease;
+}
+
+#pipettePlunger{
+    transition:transform .35s ease;
+}
+
+#pipetteLiquid{
+    transition:y .45s ease, height .45s ease;
+}
+
+#mainLiq,
+#mainFill{
+    transition:y .85s ease, height .85s ease, fill .65s ease, opacity .35s ease;
+}
+
+.meniscus-cut{
+    transition:opacity .35s ease;
+}
+
+#transferStream{
+    transition:opacity .25s ease;
+}
+
+@media(max-width:980px){
+    .wrapper{
+        width:100%;
+        margin:0;
+        border-radius:0;
+    }
+
+    .header{
+        padding:10px 12px;
+        gap:8px;
+    }
+
+    .logo{
+        height:38px;
+    }
+
+    .logo-ese{
+        width:46px;
+        height:46px;
+    }
+
+    .title h1{
+        font-size:18px;
+    }
+
+    .title p{
+        font-size:12px;
+    }
+
+    .intro{
+        padding:10px 12px;
+    }
+
+    .box{
+        padding:10px;
+    }
+
+    .box h2{
+        font-size:16px;
+    }
+
+    .box p{
+        font-size:13px;
+        line-height:1.4;
+    }
+
+    .status{
+        padding:8px 12px;
+        font-size:12px;
+    }
+
+    .stage{
+        min-height:560px;
+        overflow:hidden;
+    }
+
+    .stage-title{
+        top:10px;
+        left:10px;
+        right:10px;
+        display:block;
+    }
+
+    .stage-title strong{
+        font-size:15px;
+    }
+
+    .stage-title span{
+        display:block;
+        font-size:11px;
+        margin-top:2px;
+    }
+
+    .beaker-zone{
+        left:32px;
+        top:298px;
+        width:190px;
+    }
+
+    .beaker-zone svg{
+        width:170px;
+        height:230px;
+    }
+
+    .flask-zone{
+        right:30px;
+        top:36px;
+        width:380px;
+    }
+
+    .flask-zone svg{
+        width:380px;
+        height:520px;
+    }
+
+    .pipette-zone{
+        left:250px;
+        top:62px;
+        width:90px;
+        height:270px;
+    }
+
+    .pipette-zone svg{
+        width:86px;
+        height:250px;
+    }
+
+    .pipette-note{display:none;}
+
+    .beaker-label,
+    .flask-label{
+        font-size:12px;
+    }
+
+    .beaker-sub,
+    .flask-sub{
+        font-size:10px;
+    }
+
+    .panel{
+        position:static;
+        padding:10px;
+    }
+
+    .panel h2{
+        font-size:16px;
+        margin-bottom:6px;
+    }
+
+    .current-card{
+        padding:9px;
+        margin-bottom:8px;
+    }
+
+    .current-card .big{
+        font-size:20px;
+    }
+
+    .current-card p{
+        font-size:12px;
+        line-height:1.3;
+    }
+
+    .input-row{
+        margin-top:6px;
+    }
+
+    .action-grid{
+        grid-template-columns:1fr 1fr;
+        gap:6px;
+    }
+
+    button{
+        padding:9px 8px;
+        font-size:12px;
+    }
+
+    input{
+        width:90px;
+        padding:8px;
+    }
+
+    .feedback{
+        font-size:12px;
+        min-height:34px;
+        padding:8px;
+    }
+
+    .summary h2{
+        font-size:16px;
+        margin-bottom:8px;
+    }
+
+    .flask-row{
+        grid-template-columns:repeat(3, 1fr);
+        gap:6px;
+    }
+
+    .mini-card{
+        padding:5px;
+    }
+
+    .mini-card svg{
+        width:52px;
+        height:88px;
+    }
+
+    .mini-card strong,
+    .mini-card span{
+        font-size:10px;
+    }
+
+    .finish-panel{
+        padding:10px 12px;
+    }
+
+    .checks{
+        grid-template-columns:1fr;
+        gap:5px;
+    }
+
+    .checks label{
+        font-size:12px;
+    }
+
+    .footer{
+        padding:8px 12px;
+        font-size:11px;
+    }
+}
+
+@media(max-width:380px){
+    .stage{
+        min-height:500px;
+    }
+
+    .beaker-zone{
+        left:28px;
+        width:180px;
+    }
+
+    .beaker-zone svg{
+        width:160px;
+    }
+
+    .flask-zone{
+        right:64px;
+        width:285px;
+    }
+
+    .flask-zone svg{
+        width:285px;
+    }
+
+    .pipette-zone{
+        left:238px;
+        width:84px;
+    }
+
+    .pipette-zone svg{
+        width:82px;
+    }
+
+    .pipette-note{display:none;}
+}
+
+
+
+/* Ajuste final solicitado: panel fijo a la izquierda y animación a la derecha */
+@media(max-width:980px){
+    .lab{
+        display:grid !important;
+        grid-template-columns:250px 560px !important;
+        overflow-x:auto;
+        gap:10px;
+        padding:10px;
+    }
+
+    .panel{
+        position:sticky !important;
+        left:0;
+        top:8px;
+        z-index:20;
+        width:250px;
+        max-height:calc(100vh - 20px);
+        overflow:auto;
+        border-radius:14px;
+        box-shadow:4px 0 18px rgba(15,23,42,.10);
+    }
+
+    .stage{
+        width:560px;
+        min-height:560px;
+    }
+}
+
+@media(max-width:380px){
+    .lab{
+        grid-template-columns:235px 540px !important;
+    }
+
+    .panel{
+        width:235px;
+    }
+
+    .stage{
+        width:600px;
+    }
+}
+
+
+/* Corrección final de composición: vaso y balón sobre la misma base visual */
+.stage{
+    min-height:450px !important;
+}
+
+.beaker-zone{
+    left:58px !important;
+    top:168px !important;
+    width:190px !important;
+}
+
+.beaker-zone svg{
+    width:170px !important;
+    height:230px !important;
+}
+
+.flask-zone{
+    right:105px !important;
+    top:181px !important;
+    width:360px !important;
+}
+
+.flask-zone svg{
+    width:360px !important;
+    height:420px !important;
+}
+
+.pipette-zone{
+    left:300px !important;
+    top:34px !important;
+    width:130px !important;
+    height:310px !important;
+}
+
+.pipette-zone svg{
+    width:92px !important;
+    height:270px !important;
+}
+
+@media(max-width:980px){
+    .stage{
+        width:620px !important;
+        min-height:560px !important;
+    }
+
+    .beaker-zone{
+        left:48px !important;
+        top:232px !important;
+        width:185px !important;
+    }
+
+    .beaker-zone svg{
+        width:165px !important;
+        height:224px !important;
+    }
+
+    .flask-zone{
+        right:85px !important;
+        top:243px !important;
+        width:350px !important;
+    }
+
+    .flask-zone svg{
+        width:350px !important;
+        height:410px !important;
+    }
+
+    .pipette-zone{
+        left:288px !important;
+        top:62px !important;
+        width:120px !important;
+        height:300px !important;
+    }
+
+    .pipette-zone svg{
+        width:88px !important;
+        height:258px !important;
+    }
+}
+
+
+@media(max-width:980px){
+    .flask-row{
+        grid-template-columns:repeat(3, minmax(180px, 1fr)) !important;
+        gap:8px !important;
+    }
+
+    .mini-card{
+        display:grid !important;
+        grid-template-columns:auto 1fr !important;
+        align-items:center !important;
+        text-align:left !important;
+        min-height:190px !important;
+        padding:8px !important;
+    }
+
+    .mini-card svg{
+        width:150px !important;
+        height:215px !important;
+    }
+
+    .mini-info strong{
+        font-size:13px !important;
+    }
+
+    .mini-info span{
+        font-size:12px !important;
+    }
+}
+
+@media(max-width:380px){
+    .flask-row{
+        grid-template-columns:1fr !important;
+    }
+}
+
+
+/* Compactación final: menos espacio muerto en pantallas pequeñas o equipos de baja resolución */
+@media(max-width:980px){
+    .stage{
+        width:620px !important;
+        min-height:450px !important;
+    }
+
+    .beaker-zone{
+        left:58px !important;
+        top:168px !important;
+        width:190px !important;
+    }
+
+    .flask-zone{
+        right:105px !important;
+        top:181px !important;
+        width:360px !important;
+    }
+
+    .pipette-zone{
+        left:300px !important;
+        top:34px !important;
+        width:130px !important;
+        height:310px !important;
+    }
+
+    .summary{
+        padding:0 8px 6px 8px !important;
+    }
+
+    .flask-row{
+        grid-template-columns:repeat(3, minmax(180px, 1fr)) !important;
+        gap:6px !important;
+    }
+
+    .mini-card{
+        min-height:145px !important;
+        padding:5px 8px !important;
+        gap:5px !important;
+    }
+
+    .mini-card svg{
+        width:132px !important;
+        height:168px !important;
+    }
+}
+
+
+.progress-card{
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:12px;
+    padding:9px;
+    margin:0 0 8px 0;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    align-items:center;
+    font-size:12px;
+    color:#344054;
+    margin-bottom:6px;
+}
+
+.progress-top strong{
+    color:var(--accent-dark);
+}
+
+.progress-track{
+    width:100%;
+    height:9px;
+    border-radius:999px;
+    background:#e5e7eb;
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg, #6A1B9A, #9C27B0);
+    transition:width .45s ease;
+}
+
+
+.mini-card:not(.done){
+    background:#ffffff;
+}
+
+.mini-card:not(.done) svg{
+    opacity:.72;
+}
+
+.mini-card.done{
+    background:#f0fdf4;
+    border-color:#bbf7d0;
+}
+
+.mini-card.done svg{
+    opacity:1;
+}
+
+
+/* ===== AJUSTE PEDAGÓGICO Y VISUAL FINAL =====
+   Panel de control compacto a la izquierda y zona de preparación más amplia.
+*/
+.lab{
+    grid-template-columns:minmax(300px, 0.34fr) minmax(760px, 1fr) !important;
+    gap:12px !important;
+}
+
+.panel{
+    width:auto !important;
+}
+
+.stage{
+    width:100% !important;
+    min-height:450px !important;
+}
+
+@media(max-width:980px){
+    .lab{
+        grid-template-columns:300px 760px !important;
+        overflow-x:auto;
+    }
+
+    .panel{
+        width:300px !important;
+    }
+
+    .stage{
+        width:760px !important;
+        min-height:450px !important;
+    }
+}
+
+/* El módulo ya no usa botón interno de finalización:
+   el MAIN habilita "Siguiente" cuando se completan los seis patrones. */
+.finish-panel{
+    display:none !important;
+}
+
+
+/* =========================================================
+   REDISEÑO FINAL DE LAS TARJETAS DE SOLUCIONES PATRÓN
+   - Balón al 150 % respecto a la versión inicial.
+   - Balón centrado y protagonista.
+   - Nombre y concentración debajo.
+   - Marca de verificación al completar cada patrón.
+========================================================= */
+
+.summary{
+    padding:2px 12px 12px 12px !important;
+}
+
+.summary h2{
+    margin:0 0 10px 0 !important;
+    font-size:19px !important;
+}
+
+.flask-row{
+    display:grid !important;
+    grid-template-columns:repeat(3, minmax(220px, 1fr)) !important;
+    gap:12px !important;
+}
+
+.mini-card{
+    position:relative !important;
+    min-height:300px !important;
+    padding:6px 10px 14px 10px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:0 !important;
+    text-align:center !important;
+    overflow:hidden !important;
+    background:#ffffff !important;
+    border:1px solid var(--edge) !important;
+    border-radius:16px !important;
+}
+
+.mini-flask-visual{
+    width:100%;
+    height:245px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.mini-flask-visual svg{
+    width:180px !important;
+    height:250px !important;
+    max-width:none !important;
+    flex:none !important;
+    opacity:.78;
+    margin-top:-2px;
+}
+
+.mini-info{
+    width:100%;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:3px !important;
+    margin-top:-4px;
+    text-align:center !important;
+}
+
+.mini-info strong{
+    display:block !important;
+    color:var(--navy) !important;
+    font-size:15px !important;
+    line-height:1.2 !important;
+    margin:0 !important;
+}
+
+.mini-info span{
+    display:block !important;
+    color:var(--accent-dark) !important;
+    font-size:14px !important;
+    font-weight:bold !important;
+    line-height:1.2 !important;
+}
+
+.mini-check{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#16a34a;
+    color:#ffffff;
+    font-size:18px;
+    font-weight:bold;
+    opacity:0;
+    transform:scale(.75);
+    transition:opacity .2s ease, transform .2s ease;
+    z-index:5;
+    box-shadow:0 3px 8px rgba(22,163,74,.28);
+}
+
+.mini-card.done{
+    background:#f0fdf4 !important;
+    border-color:#86efac !important;
+}
+
+.mini-card.done .mini-flask-visual svg{
+    opacity:1;
+}
+
+.mini-card.done .mini-check{
+    opacity:1;
+    transform:scale(1);
+}
+
+@media(max-width:980px){
+    .flask-row{
+        grid-template-columns:repeat(3, 230px) !important;
+        gap:10px !important;
+        overflow-x:auto !important;
+        padding-bottom:6px;
+    }
+
+    .mini-card{
+        min-height:292px !important;
+    }
+
+    .mini-flask-visual{
+        height:238px;
+    }
+
+    .mini-flask-visual svg{
+        width:174px !important;
+        height:242px !important;
+    }
+}
+
+@media(max-width:700px){
+    .flask-row{
+        grid-template-columns:repeat(2, minmax(210px, 1fr)) !important;
+    }
+}
+
+@media(max-width:470px){
+    .flask-row{
+        grid-template-columns:1fr !important;
+    }
+
+    .mini-card{
+        min-height:290px !important;
+    }
+}
+
+
+/* =========================================================
+   SERIE PATRÓN EN UNA SOLA FILA HORIZONTAL
+   Seis balones alineados, con el rótulo debajo.
+========================================================= */
+
+.summary{
+    padding:2px 12px 10px 12px !important;
+    overflow:hidden;
+}
+
+.summary h2{
+    margin:0 0 4px 0 !important;
+    color:var(--accent-dark) !important;
+    font-size:18px !important;
+}
+
+.flask-row{
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:repeat(6, minmax(140px, 1fr)) !important;
+    gap:8px !important;
+    align-items:start !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    padding:0 0 4px 0 !important;
+}
+
+.mini-card{
+    position:relative !important;
+    min-width:140px !important;
+    min-height:0 !important;
+    height:222px !important;
+    padding:0 4px 5px 4px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:0 !important;
+    text-align:center !important;
+    overflow:visible !important;
+    background:transparent !important;
+    border:none !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+}
+
+.mini-flask-visual{
+    width:100% !important;
+    height:190px !important;
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    overflow:hidden !important;
+}
+
+.mini-flask-visual svg{
+    width:150px !important;
+    height:205px !important;
+    max-width:none !important;
+    flex:none !important;
+    margin-top:-4px !important;
+    opacity:.72 !important;
+}
+
+.mini-info{
+    width:100% !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:1px !important;
+    margin-top:-2px !important;
+    text-align:center !important;
+}
+
+.mini-info strong{
+    display:block !important;
+    color:var(--navy) !important;
+    font-size:13px !important;
+    line-height:1.15 !important;
+    margin:0 !important;
+}
+
+.mini-info span{
+    display:block !important;
+    color:var(--accent-dark) !important;
+    font-size:12px !important;
+    font-weight:bold !important;
+    line-height:1.15 !important;
+    margin:0 !important;
+}
+
+.mini-check{
+    position:absolute !important;
+    top:5px !important;
+    right:12px !important;
+    width:23px !important;
+    height:23px !important;
+    border-radius:50% !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    background:#16a34a !important;
+    color:#fff !important;
+    font-size:15px !important;
+    font-weight:bold !important;
+    opacity:0 !important;
+    transform:scale(.8) !important;
+    transition:opacity .2s ease, transform .2s ease !important;
+    z-index:5 !important;
+    box-shadow:0 3px 8px rgba(22,163,74,.25) !important;
+}
+
+.mini-card.done{
+    background:transparent !important;
+    border:none !important;
+}
+
+.mini-card.done .mini-flask-visual svg{
+    opacity:1 !important;
+}
+
+.mini-card.done .mini-check{
+    opacity:1 !important;
+    transform:scale(1) !important;
+}
+
+@media(max-width:1100px){
+    .flask-row{
+        grid-template-columns:repeat(6, 150px) !important;
+        gap:6px !important;
+    }
+}
+
+@media(max-width:700px){
+    .flask-row{
+        grid-template-columns:repeat(6, 145px) !important;
+    }
+
+    .mini-card{
+        min-width:145px !important;
+        height:216px !important;
+    }
+
+    .mini-flask-visual{
+        height:185px !important;
+    }
+
+    .mini-flask-visual svg{
+        width:145px !important;
+        height:198px !important;
+    }
+}
+
+
+/* =========================================================
+   SERIE UBICADA BAJO LA ZONA EXPERIMENTAL
+========================================================= */
+.lab{
+    grid-template-columns:minmax(300px, 0.34fr) minmax(760px, 1fr) !important;
+    grid-template-rows:450px 138px !important;
+    align-items:start !important;
+}
+
+.panel{
+    grid-column:1 !important;
+    grid-row:1 / span 2 !important;
+}
+
+.stage{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    height:450px !important;
+    min-height:450px !important;
+}
+
+.summary{
+    grid-column:2 !important;
+    grid-row:2 !important;
+    width:100% !important;
+    height:138px !important;
+    margin:0 !important;
+    padding:4px 10px 6px 10px !important;
+    border:1px solid var(--edge) !important;
+    border-radius:14px !important;
+    background:#ffffff !important;
+    overflow:hidden !important;
+}
+
+.summary h2{
+    margin:0 0 2px 0 !important;
+    font-size:16px !important;
+    line-height:1.15 !important;
+}
+
+.flask-row{
+    width:100% !important;
+    height:112px !important;
+    display:grid !important;
+    grid-template-columns:repeat(6, 1fr) !important;
+    gap:6px !important;
+    align-items:start !important;
+    overflow:hidden !important;
+    padding:0 !important;
+}
+
+.mini-card{
+    position:relative !important;
+    min-width:0 !important;
+    width:100% !important;
+    height:112px !important;
+    min-height:112px !important;
+    padding:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:0 !important;
+    border:none !important;
+    background:transparent !important;
+    overflow:visible !important;
+}
+
+.mini-flask-visual{
+    width:100% !important;
+    height:84px !important;
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    overflow:hidden !important;
+}
+
+.mini-flask-visual svg{
+    width:82px !important;
+    height:112px !important;
+    max-width:none !important;
+    flex:none !important;
+    margin-top:-8px !important;
+}
+
+.mini-info{
+    width:100% !important;
+    margin-top:-1px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    gap:0 !important;
+    text-align:center !important;
+}
+
+.mini-info strong{
+    font-size:11px !important;
+    line-height:1.05 !important;
+}
+
+.mini-info span{
+    font-size:10px !important;
+    line-height:1.05 !important;
+}
+
+.mini-check{
+    top:1px !important;
+    right:calc(50% - 39px) !important;
+    width:18px !important;
+    height:18px !important;
+    font-size:12px !important;
+}
+
+@media(max-width:980px){
+    .lab{
+        grid-template-columns:300px 760px !important;
+        grid-template-rows:450px 138px !important;
+        overflow-x:auto !important;
+    }
+
+    .panel{
+        grid-column:1 !important;
+        grid-row:1 / span 2 !important;
+    }
+
+    .stage{
+        grid-column:2 !important;
+        grid-row:1 !important;
+        width:760px !important;
+    }
+
+    .summary{
+        grid-column:2 !important;
+        grid-row:2 !important;
+        width:760px !important;
+    }
+}
+
+
+/* =========================================================
+   AJUSTE DEFINITIVO DE COMPOSICIÓN Y RESPONSIVIDAD
+========================================================= */
+.wrapper{
+    width:min(1240px, 98vw);
+    margin:8px auto;
+}
+
+.header{
+    padding:8px 14px;
+}
+
+.intro{
+    padding:7px 10px;
+}
+
+.intro .box{
+    padding:9px 11px;
+}
+
+.status{
+    padding:6px 10px;
+    font-size:13px;
+}
+
+.lab{
+    display:grid !important;
+    grid-template-columns:minmax(270px, 300px) minmax(0, 1fr) !important;
+    grid-template-rows:450px 138px !important;
+    gap:10px !important;
+    padding:10px !important;
+    overflow:visible !important;
+}
+
+.panel{
+    grid-column:1 !important;
+    grid-row:1 / span 2 !important;
+    width:auto !important;
+    position:sticky !important;
+    top:6px !important;
+    max-height:588px !important;
+    overflow:auto !important;
+    padding:10px !important;
+    box-shadow:0 2px 8px rgba(15,23,42,.08) !important;
+}
+
+.stage{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    width:100% !important;
+    min-width:720px !important;
+    height:450px !important;
+    min-height:450px !important;
+}
+
+.summary{
+    grid-column:2 !important;
+    grid-row:2 !important;
+    width:100% !important;
+    min-width:720px !important;
+    height:138px !important;
+    margin:0 !important;
+}
+
+.flask-row{
+    grid-template-columns:repeat(6, minmax(96px,1fr)) !important;
+    overflow:hidden !important;
+}
+
+.mini-card{
+    min-width:0 !important;
+}
+
+@media(max-width:980px){
+    .wrapper{
+        width:100%;
+        margin:0;
+        border-radius:0;
+    }
+
+    .lab{
+        display:block !important;
+        padding:8px !important;
+        overflow-x:auto !important;
+    }
+
+    .panel{
+        position:static !important;
+        width:100% !important;
+        max-height:none !important;
+        margin-bottom:8px !important;
+    }
+
+    .action-grid{
+        grid-template-columns:repeat(2,1fr) !important;
+    }
+
+    .stage,
+    .summary{
+        width:760px !important;
+        min-width:760px !important;
+    }
+
+    .stage{
+        height:450px !important;
+        min-height:450px !important;
+    }
+
+    .summary{
+        height:138px !important;
+        margin-top:8px !important;
+    }
+}
+
+@media(max-width:520px){
+    .header{
+        gap:6px;
+        padding:7px 8px;
+    }
+
+    .logo{
+        max-width:38%;
+        height:auto;
+    }
+
+    .logo-ese{
+        width:42px;
+        height:42px;
+    }
+
+    .title h1{
+        font-size:17px;
+    }
+
+    .title p{
+        font-size:11px;
+    }
+
+    .intro{
+        padding:6px 8px;
+    }
+
+    .box h2{
+        font-size:15px;
+    }
+
+    .box p{
+        font-size:12px;
+    }
+
+    .current-card .big{
+        font-size:18px;
+    }
+
+    .action-grid{
+        grid-template-columns:1fr 1fr !important;
+    }
+
+    button{
+        min-height:42px;
+    }
+
+    .footer{
+        padding:8px 10px;
+        font-size:10px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+        scroll-behavior:auto !important;
+    }
+}
+
+</style>
+<script src="i18n.js"></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<header class="header">
+<div class="title">
+        <h1>Preparación de soluciones patrón</h1>
+        <p>Dilución directa desde KMnO₄ 2000 ppm · P1000 · 25,0 mL</p>
+    </div>
+
+    <img class="logo-ese" src="ESE.png" alt="ESE — Entlein-Schutzvogel Educative">
+</header>
+
+<section class="intro">
+    <div class="intro-grid">
+        <div class="box">
+            <span class="badge">Propósito experimental</span>
+            <h2>¿Qué harás en este módulo?</h2>
+            <p>
+                Prepararás seis patrones de KMnO₄ entre <strong>10 y 60 ppm</strong>. Para cada uno,
+                verificarás la alícuota, la tomarás con una micropipeta P1000, la transferirás a un balón
+                aforado de 25,0 mL y completarás el volumen con agua destilada.
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="status">
+    <strong>Secuencia:</strong> verificar volumen → aspirar → transferir → aforar → continuar.
+</div>
+
+<section class="lab">
+
+<aside class="panel" id="controlPanel">
+        <h2>Control de preparación</h2>
+
+        <div class="progress-card">
+            <div class="progress-top">
+                <span>Preparación de patrones</span>
+                <strong id="progressText">0/6</strong>
+            </div>
+            <div class="progress-track">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+        </div>
+
+        <div class="current-card">
+            <p>Patrón actual</p>
+            <div class="big" id="currentPattern">P1 · 10 ppm</div>
+            <p>Ingrese el volumen de solución madre que debe transferirse al balón aforado.</p>
+
+            <div class="input-row">
+                <input id="volumeInput" type="number" step="1" inputmode="numeric" placeholder="µL" aria-label="Volumen de alícuota en microlitros">
+                <span>µL</span>
+                <button onclick="verificarVolumen()">Verificar</button>
+            </div>
+        </div>
+
+        <div class="action-grid">
+            <button id="btnAspirar" onclick="aspirar()" disabled>1. Tomar alícuota</button>
+            <button id="btnTransferir" onclick="transferir()" disabled>2. Transferir al balón</button>
+            <button id="btnAforar" onclick="aforar()" disabled>3. Completar al aforo</button>
+            <button id="btnSiguiente" class="ok" onclick="siguientePatron()" disabled>4. Siguiente patrón</button>
+        </div>
+
+        <div id="feedback" class="feedback">
+            Verifica el volumen de alícuota para iniciar la preparación del patrón.
+        </div>
+    </aside>
+
+<div class="stage">
+
+        <div class="stage-title">
+            <strong id="stageTitle">Preparación del Patrón 1</strong>
+            <span id="stageSubtitle">Verifique el volumen antes de transferir.</span>
+        </div>
+
+        <!-- VASO -->
+        <div class="beaker-zone">
+            <svg width="170" height="230" viewBox="0 0 440 420">
+                <!-- sombra inferior retirada -->
+
+                <defs>
+                    <linearGradient id="glassGradientB" x1="0" x2="1">
+                        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+                        <stop offset="45%" stop-color="#ffffff" stop-opacity="0.38"/>
+                        <stop offset="100%" stop-color="#dbeafe" stop-opacity="0.18"/>
+                    </linearGradient>
+
+                    <linearGradient id="liquidGradientB" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="#8E24AA" stop-opacity="0.78"/>
+                        <stop offset="100%" stop-color="#4A148C" stop-opacity="0.92"/>
+                    </linearGradient>
+
+                    <clipPath id="beakerClipB">
+                        <path d="M118 92 L306 92 L306 345 Q306 365 286 365 L138 365 Q118 365 118 345 Z"/>
+                    </clipPath>
+                </defs>
+
+                <path d="M118 92 L306 92 L326 92 L306 112 L306 345 Q306 365 286 365 L138 365 Q118 365 118 345 Z"
+                      fill="url(#glassGradientB)" stroke="#111827" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+
+                <rect x="118" y="165" width="188" height="200" fill="url(#liquidGradientB)" clip-path="url(#beakerClipB)" opacity=".92"/>
+                <ellipse cx="212" cy="165" rx="91" ry="12" fill="#BA68C8" opacity=".82" clip-path="url(#beakerClipB)"/>
+                <ellipse cx="212" cy="165" rx="91" ry="12" fill="none" stroke="#E1BEE7" stroke-width="2" opacity=".9" clip-path="url(#beakerClipB)"/>
+
+                <g stroke="#374151" stroke-width="2" opacity=".75">
+                    <line x1="292" y1="325" x2="270" y2="325"/>
+                    <line x1="292" y1="285" x2="258" y2="285"/>
+                    <line x1="292" y1="245" x2="270" y2="245"/>
+                    <line x1="292" y1="205" x2="258" y2="205"/>
+                    <line x1="292" y1="165" x2="270" y2="165"/>
+                    <line x1="292" y1="125" x2="258" y2="125"/>
+                </g>
+
+                <path d="M148 112 C140 176, 140 255, 151 340"
+                      fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity=".42"/>
+
+                <!-- sombra/base del vaso retirada para evitar sensación de desalineación -->
+            </svg>
+
+
+        </div>
+
+        <!-- MICROPIPETA -->
+        <div class="pipette-zone" id="pipetteZone">
+            <svg width="92" height="270" viewBox="0 0 390 620">
+
+                <!-- sombra de la punta retirada -->
+
+                <g id="pipettePlunger">
+                    <rect x="97" y="8" width="66" height="28" rx="11" fill="#4A148C" stroke="#221133" stroke-width="2"/>
+                    <rect x="113" y="34" width="34" height="30" rx="8" fill="#5E35B1" stroke="#221133" stroke-width="2"/>
+                </g>
+
+                <rect x="105" y="58" width="50" height="88" rx="20" fill="#e5e7eb" stroke="#111827" stroke-width="2"/>
+                <rect x="116" y="70" width="28" height="62" rx="12" fill="#f9fafb" stroke="#cbd5e1" stroke-width="1"/>
+
+                <path d="M82 132 C82 112, 178 112, 178 132 L170 385 C168 412, 92 412, 90 385 Z"
+                      fill="#ffffff" stroke="#111827" stroke-width="3"/>
+
+                <path d="M88 150 C98 140, 162 140, 172 150 L168 198 C154 210, 106 210, 92 198 Z"
+                      fill="#6A1B9A" opacity=".95"/>
+
+                <rect x="101" y="230" width="58" height="92" rx="8" fill="#111827" stroke="#4b5563" stroke-width="2"/>
+                <rect x="110" y="240" width="40" height="72" rx="4" fill="#f9fafb"/>
+
+                <g id="volumeDigits">
+                    <text id="volumeDisplay" x="130" y="262" text-anchor="middle" font-size="19" fill="#111827" font-family="Courier New" font-weight="bold">000</text>
+                    <text x="130" y="292" text-anchor="middle" font-size="13" fill="#4b5563">µL</text>
+                </g>
+
+                <text x="130" y="355" text-anchor="middle" font-size="16" font-weight="bold" fill="#4A148C">P1000</text>
+                <text x="130" y="376" text-anchor="middle" font-size="13" font-weight="bold" fill="#5f6b7a">100–1000 µL</text>
+
+                <path d="M98 395 C112 412, 148 412, 162 395 L149 482 C146 498, 114 498, 111 482 Z"
+                      fill="#f3f4f6" stroke="#111827" stroke-width="2"/>
+
+                <path d="M113 478 C122 490, 138 490, 147 478 L137 585 C136 596, 124 596, 123 585 Z"
+                      fill="#dbeafe" stroke="#1f2937" stroke-width="2"/>
+
+                <clipPath id="tipClip">
+                    <path d="M113 478 C122 490, 138 490, 147 478 L137 585 C136 596, 124 596, 123 585 Z"/>
+                </clipPath>
+
+                <rect id="pipetteLiquid" x="112" y="565" width="36" height="0" fill="#6A1B9A" opacity=".85" clip-path="url(#tipClip)"/>
+                <ellipse id="drop" cx="130" cy="602" rx="0" ry="0" fill="#6A1B9A" opacity=".85"/>
+            </svg>
+        </div>
+
+
+
+        <!-- BALÓN PRINCIPAL CON FORMA ORIGINAL -->
+        <div class="flask-zone">
+            <svg width="360" height="420" viewBox="0 0 200 400">
+
+                <defs>
+                    <clipPath id="mainClip">
+                        <path d="
+                            M92 10 L108 10 L108 90
+                            C108 105, 138 120, 138 140
+                            C138 155, 132 162, 120 165
+                            L80 165
+                            C68 162, 62 155, 62 140
+                            C62 120, 92 105, 92 90 Z"/>
+                    </clipPath>
+                </defs>
+
+                <rect id="mainLiq" class="liquid"
+                      x="0" y="165" width="200" height="0"
+                      fill="#6A1B9A"
+                      clip-path="url(#mainClip)"/>
+
+                <rect id="mainFill" class="liquid"
+                      x="0" y="165" width="200" height="0"
+                      fill="#E1BEE7"
+                      opacity=".78"
+                      clip-path="url(#mainClip)"/>
+
+                <!-- Máscara blanca para formar menisco cóncavo.
+                     El punto más bajo del menisco coincide con la línea de aforo (y=45). -->
+                <path id="mainMeniscusCut" class="meniscus-cut"
+                      d="M92 10 L108 10 L108 39 C104 45, 96 45, 92 39 Z"
+                      fill="#ffffff"
+                      opacity="0"
+                      clip-path="url(#mainClip)"/>
+
+                <path class="glass" d="
+                    M92 10 L108 10 L108 90
+                    C108 105, 138 120, 138 140
+                    C138 155, 132 162, 120 165
+                    L80 165
+                    C68 162, 62 155, 62 140
+                    C62 120, 92 105, 92 90 Z"/>
+
+                <line class="aforo" x1="92" y1="45" x2="108" y2="45"/>
+
+                <text x="100" y="116"
+                      text-anchor="middle"
+                      font-size="9"
+                      font-weight="bold"
+                      fill="#4A148C"
+                      opacity="0.85">25 mL</text>
+
+                <text x="100" y="188" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A148C" id="mainFlaskText" opacity="0">P1</text>
+
+                <!-- chorro visible durante la dispensación dentro del cuello -->
+                <line id="transferStream"
+                      x1="100" y1="38" x2="100" y2="126"
+                      stroke="#6A1B9A"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      opacity="0"/>
+            </svg>
+
+
+        </div>
+
+    </div>
+
+    
+
+
+
+<section class="summary">
+    <h2>Serie preparada</h2>
+    <div class="flask-row" id="miniFlasks"></div>
+</section>
+
+</section>
+
+
+
+
+
+<footer class="footer">
+    <div><strong>ESE — Entlein-Schutzvogel Educative</strong><br></div>
+    <div></div>
+</footer>
+
+</div>
+
+<script>
+const patrones = [
+    {id:1, nombre:"P1", conc:10, volumen:125, color:"#E1BEE7"},
+    {id:2, nombre:"P2", conc:20, volumen:250, color:"#CE93D8"},
+    {id:3, nombre:"P3", conc:30, volumen:375, color:"#BA68C8"},
+    {id:4, nombre:"P4", conc:40, volumen:500, color:"#AB47BC"},
+    {id:5, nombre:"P5", conc:50, volumen:625, color:"#8E24AA"},
+    {id:6, nombre:"P6", conc:60, volumen:750, color:"#7B1FA2"}
+];
+
+let idx = 0;
+let etapa = "verificar";
+let completados = [];
+
+const pipetteZone = document.getElementById("pipetteZone");
+const feedback = document.getElementById("feedback");
+
+function idiomaActual(){
+    const own = new URLSearchParams(window.location.search).get("lang");
+    let parentLang = null;
+    try { parentLang = new URLSearchParams(window.parent.location.search).get("lang"); } catch(e) {}
+    const htmlLang = (document.documentElement.lang || "").toLowerCase();
+    return (own || parentLang || htmlLang || "es").toLowerCase().startsWith("en") ? "en" : "es";
+}
+function tr(es,en){ return idiomaActual() === "en" ? en : es; }
+
+function setFeedback(texto, tipo=""){
+    feedback.className = "feedback " + tipo;
+    feedback.innerHTML = texto;
+}
+
+function matrazSvg(id, color, mini=true){
+    const w = mini ? 82 : 110;
+    const h = mini ? 112 : 160;
+    return `
+    <svg width="${w}" height="${h}" viewBox="0 0 200 400">
+        <defs>
+            <clipPath id="clip${id}">
+                <path d="
+                    M92 10 L108 10 L108 90
+                    C108 105, 138 120, 138 140
+                    C138 155, 132 162, 120 165
+                    L80 165
+                    C68 162, 62 155, 62 140
+                    C62 120, 92 105, 92 90 Z"/>
+            </clipPath>
+        </defs>
+
+        <rect id="liq${id}" class="liquid"
+              x="0" y="165" width="200" height="0"
+              fill="#d1d5db"
+              data-final-color="${color}"
+              clip-path="url(#clip${id})"/>
+
+        <path id="meniscus${id}" class="meniscus-cut"
+              d="M92 10 L108 10 L108 39 C104 45, 96 45, 92 39 Z"
+              fill="#ffffff"
+              opacity="0"
+              clip-path="url(#clip${id})"/>
+
+        <path class="glass" d="
+            M92 10 L108 10 L108 90
+            C108 105, 138 120, 138 140
+            C138 155, 132 162, 120 165
+            L80 165
+            C68 162, 62 155, 62 140
+            C62 120, 92 105, 92 90 Z"/>
+
+        <line class="aforo" x1="92" y1="45" x2="108" y2="45"/>
+    </svg>`;
+}
+
+function crearMiniFlasks(){
+    const cont = document.getElementById("miniFlasks");
+    cont.innerHTML = "";
+
+    patrones.forEach((p, i)=>{
+        const card = document.createElement("div");
+        card.className = "mini-card";
+        card.id = "mini" + i;
+        card.innerHTML = `
+            <span class="mini-check" aria-hidden="true">✓</span>
+            <div class="mini-flask-visual">
+                ${matrazSvg("mini"+i, p.color)}
+            </div>
+            <div class="mini-info">
+                <strong>${tr(`Patrón ${p.id}`, `Standard ${p.id}`)}</strong>
+                <span>${p.conc} ppm</span>
+            </div>
+        `;
+        cont.appendChild(card);
+    });
+
+    actualizarProgreso();
+}
+
+
+function actualizarProgreso(){
+    const total = patrones.length;
+    const done = completados.length;
+    const pct = total ? (done/total)*100 : 0;
+
+    const bar = document.getElementById("progressBar");
+    const text = document.getElementById("progressText");
+
+    if(bar){ bar.style.width = pct + "%"; }
+    if(text){ text.textContent = `${done}/${total}`; }
+}
+
+function actualizarPantalla(){
+    const p = patrones[idx];
+
+    document.getElementById("stageTitle").innerText = tr(`Preparación del ${p.nombre}`, `Preparation of ${p.nombre}`);
+    document.getElementById("stageSubtitle").innerText = tr(`Patrón de ${p.conc} ppm en balón aforado de 25,0 mL.`, `${p.conc} ppm standard in a 25.0 mL volumetric flask.`);
+    document.getElementById("currentPattern").innerText = `${p.nombre} · ${p.conc} ppm`;
+    const flaskLabel = document.getElementById("flaskLabel");
+    const flaskSub = document.getElementById("flaskSub");
+    if(flaskLabel){ flaskLabel.innerText = `${p.nombre} · ${p.conc} ppm`; }
+    if(flaskSub){ flaskSub.innerText = tr(`Alícuota esperada: ${p.volumen} µL`, `Expected aliquot: ${p.volumen} µL`); }
+    document.getElementById("mainFlaskText").innerText = p.nombre;
+
+    document.getElementById("volumeInput").value = "";
+    document.getElementById("volumeDisplay").textContent = "000";
+    const note = document.getElementById("pipetteNote");
+    if(note){ note.textContent = tr("P1000 lista", "P1000 ready"); }
+
+    limpiarBalon();
+    resetPipette();
+
+    document.getElementById("btnAspirar").disabled = true;
+    document.getElementById("btnTransferir").disabled = true;
+    document.getElementById("btnAforar").disabled = true;
+    document.getElementById("btnSiguiente").disabled = true;
+
+    etapa = "verificar";
+    actualizarProgreso();
+    setFeedback(tr("Verifica el volumen de alícuota para iniciar la preparación del patrón.", "Check the aliquot volume to begin preparing the standard."));
+}
+
+function verificarVolumen(){
+    const p = patrones[idx];
+    const val = parseFloat(document.getElementById("volumeInput").value);
+
+    if(isNaN(val)){
+        setFeedback(tr("Ingrese un valor numérico en µL.", "Enter a numerical value in µL."), "warn");
+        return;
+    }
+
+    if(Math.abs(val - p.volumen) <= 20){
+        document.getElementById("volumeDisplay").textContent = p.volumen;
+        const note = document.getElementById("pipetteNote");
+        if(note){ note.textContent = `P1000 ajustada a ${p.volumen} µL`; }
+        document.getElementById("btnAspirar").disabled = false;
+        etapa = "aspirar";
+        setFeedback(tr(`✔ Volumen correcto. La punta debe entrar en el vaso para tomar ${p.volumen} µL.`, `✔ Correct volume. Insert the tip into the beaker to aspirate ${p.volumen} µL.`), "ok");
+    }else{
+        setFeedback(tr("❌ Volumen incorrecto. Revisa el cálculo de dilución para este patrón.", "❌ Incorrect volume. Check the dilution calculation for this standard."), "bad");
+    }
+}
+
+
+function getSvgBox(zoneSelector){
+    const zone = document.querySelector(zoneSelector);
+    const svg = zone.querySelector("svg");
+
+    return {
+        zone,
+        svg,
+        zoneLeft: zone.offsetLeft,
+        zoneTop: zone.offsetTop,
+        zoneW: zone.clientWidth,
+        zoneH: zone.clientHeight,
+        svgW: svg.clientWidth,
+        svgH: svg.clientHeight,
+        svgLeft: zone.offsetLeft + (zone.clientWidth - svg.clientWidth)/2,
+        svgTop: zone.offsetTop + (zone.clientHeight - svg.clientHeight)/2
+    };
+}
+
+function getPipetteTipNeutral(){
+    const b = getSvgBox(".pipette-zone");
+
+    return {
+        x: b.svgLeft + b.svgW * (130/390),
+        y: b.svgTop  + b.svgH * (585/620)
+    };
+}
+
+function movePipetteToPoint(targetX, targetY){
+    const tip = getPipetteTipNeutral();
+    const dx = targetX - tip.x;
+    const dy = targetY - tip.y;
+
+    pipetteZone.style.transform = `translate(${dx}px, ${dy}px)`;
+}
+
+function movePipetteToBeaker(){
+    const b = getSvgBox(".beaker-zone");
+
+    /*
+      Centro horizontal del vaso y zona interna de la solución.
+      La punta entra desde arriba y queda ligeramente dentro del líquido.
+    */
+    const targetX = b.svgLeft + b.svgW * (212/440);
+    const targetY = b.svgTop  + b.svgH * (285/420);
+
+    movePipetteToPoint(targetX, targetY);
+}
+
+function movePipetteToFlaskMouth(){
+    const b = getSvgBox(".flask-zone");
+
+    /*
+      Centro del cuello del balón. La punta queda alineada por arriba,
+      antes de entrar.
+    */
+    const targetX = b.svgLeft + b.svgW * (100/200);
+    const targetY = b.svgTop  + b.svgH * (18/400);
+
+    movePipetteToPoint(targetX, targetY);
+}
+
+function movePipetteInsideFlask(){
+    const b = getSvgBox(".flask-zone");
+
+    /*
+      La punta entra dentro del cuello del balón, no al lado del balón.
+    */
+    const targetX = b.svgLeft + b.svgW * (100/200);
+    const targetY = b.svgTop  + b.svgH * (60/400);
+
+    movePipetteToPoint(targetX, targetY);
+}
+
+function resetPipette(){
+    pipetteZone.className = "pipette-zone";
+    pipetteZone.style.transform = "translate(0px, 0px)";
+    document.getElementById("pipettePlunger").style.transform = "translateY(0px)";
+    document.getElementById("pipetteLiquid").setAttribute("y","565");
+    document.getElementById("pipetteLiquid").setAttribute("height","0");
+    document.getElementById("drop").setAttribute("rx","0");
+    document.getElementById("drop").setAttribute("ry","0");
+}
+
+function aspirar(){
+    if(etapa !== "aspirar") return;
+
+    pipetteZone.className = "pipette-zone to-beaker";
+    movePipetteToBeaker();
+    setFeedback(tr("La punta entra centrada en la solución madre. Se presiona el émbolo antes de aspirar.", "The tip is centered in the stock solution. Press the plunger before aspirating."), "warn");
+
+    setTimeout(()=>{
+        document.getElementById("pipettePlunger").style.transform = "translateY(14px)";
+    }, 650);
+
+    setTimeout(()=>{
+        setFeedback(tr("El émbolo sube y la solución morada entra en la punta.", "The plunger rises and the purple solution enters the tip."), "warn");
+        document.getElementById("pipettePlunger").style.transform = "translateY(0px)";
+        document.getElementById("pipetteLiquid").setAttribute("y","500");
+        document.getElementById("pipetteLiquid").setAttribute("height","85");
+    }, 1250);
+
+    setTimeout(()=>{
+        document.getElementById("btnTransferir").disabled = false;
+        document.getElementById("btnAspirar").disabled = true;
+        etapa = "transferir";
+        setFeedback(tr("✔ Alícuota tomada desde el vaso. Ahora deposítala dentro del balón aforado.", "✔ Aliquot aspirated from the beaker. Now dispense it into the volumetric flask."), "ok");
+    }, 1850);
+}
+
+function transferir(){
+    if(etapa !== "transferir") return;
+
+    pipetteZone.className = "pipette-zone to-flask";
+    movePipetteToFlaskMouth();
+    setFeedback(tr("La micropipeta se desplaza hacia la boca del balón con la alícuota en la punta.", "The micropipette moves toward the flask opening with the aliquot in the tip."), "warn");
+
+    setTimeout(()=>{
+        pipetteZone.className = "pipette-zone into-flask";
+        movePipetteInsideFlask();
+        setFeedback(tr("La punta entra centrada en el cuello del balón antes de dispensar.", "The tip enters the center of the flask neck before dispensing."), "warn");
+    }, 1000);
+
+    setTimeout(()=>{
+        document.getElementById("pipettePlunger").style.transform = "translateY(14px)";
+        document.getElementById("transferStream").setAttribute("opacity","1");
+        setFeedback(tr("La alícuota se descarga dentro del balón.", "The aliquot is dispensed into the flask."), "warn");
+    }, 1700);
+
+    setTimeout(()=>{
+        document.getElementById("pipetteLiquid").setAttribute("y","585");
+        document.getElementById("pipetteLiquid").setAttribute("height","0");
+        mostrarAliquota();
+    }, 2150);
+
+    setTimeout(()=>{
+        document.getElementById("transferStream").setAttribute("opacity","0");
+        setFeedback(tr("La alícuota quedó en el balón. Se retira la micropipeta antes de completar al aforo.", "The aliquot is now in the flask. Remove the micropipette before making up to the mark."), "warn");
+        resetPipette();
+    }, 2600);
+
+    setTimeout(()=>{
+        document.getElementById("btnAforar").disabled = false;
+        document.getElementById("btnTransferir").disabled = true;
+        etapa = "aforar";
+        setFeedback(tr("✔ Alícuota depositada dentro del balón. Ahora completa con agua destilada hasta la línea de aforo.", "✔ Aliquot dispensed into the flask. Now add distilled water up to the calibration mark."), "ok");
+    }, 3300);
+}
+
+function mostrarAliquota(){
+    const p = patrones[idx];
+    const aliquot = document.getElementById("mainLiq");
+
+    let h = Math.max(5, p.volumen / 750 * 28);
+    let y = 165 - h;
+
+    aliquot.setAttribute("fill", "#6A1B9A");
+    aliquot.setAttribute("y", y);
+    aliquot.setAttribute("height", h);
+}
+
+function aforar(){
+    if(etapa !== "aforar") return;
+
+    const p = patrones[idx];
+
+    const aliquot = document.getElementById("mainLiq");
+    const fill = document.getElementById("mainFill");
+
+    /*
+      Corrección visual:
+      después de completar al aforo, toda la solución queda homogénea.
+      Se usa un solo color: el color claro correspondiente al patrón.
+    */
+    aliquot.setAttribute("fill", p.color);
+    aliquot.setAttribute("y", 39);
+    aliquot.setAttribute("height", 126);
+    aliquot.setAttribute("opacity", "1");
+
+    fill.setAttribute("fill", p.color);
+    fill.setAttribute("y", 39);
+    fill.setAttribute("height", 126);
+    fill.setAttribute("opacity", "1");
+
+    const meniscus = document.getElementById("mainMeniscusCut");
+    if(meniscus){
+        meniscus.setAttribute("opacity", "1");
+    }
+
+    document.getElementById("btnAforar").disabled = true;
+    document.getElementById("btnSiguiente").disabled = false;
+
+    etapa = "siguiente";
+    setFeedback(tr(`✔ ${p.nombre} preparado correctamente: ${p.conc} ppm, ${p.volumen} µL y aforo a 25,0 mL. La solución queda homogénea.`, `✔ ${p.nombre} prepared correctly: ${p.conc} ppm, ${p.volumen} µL, made up to 25.0 mL. The solution is homogeneous.`), "ok");
+}
+
+function limpiarBalon(){
+    const aliquot = document.getElementById("mainLiq");
+    const fill = document.getElementById("mainFill");
+
+    aliquot.setAttribute("y", 165);
+    aliquot.setAttribute("height", 0);
+    aliquot.setAttribute("opacity", "1");
+    aliquot.setAttribute("fill", "#6A1B9A");
+
+    fill.setAttribute("y", 165);
+    fill.setAttribute("height", 0);
+    fill.setAttribute("opacity", "0.78");
+
+    const meniscus = document.getElementById("mainMeniscusCut");
+    if(meniscus){
+        meniscus.setAttribute("opacity", "0");
+    }
+
+    const stream = document.getElementById("transferStream");
+    if(stream){
+        stream.setAttribute("opacity", "0");
+    }
+}
+
+function siguientePatron(){
+    const p = patrones[idx];
+
+    if(!completados.includes(idx)){
+        completados.push(idx);
+    }
+
+    const mini = document.getElementById("mini" + idx);
+    mini.classList.add("done");
+
+    const miniLiq = document.getElementById("liqmini" + idx);
+    miniLiq.setAttribute("fill", miniLiq.dataset.finalColor || p.color);
+    miniLiq.setAttribute("y", 39);
+    miniLiq.setAttribute("height", 126);
+    miniLiq.setAttribute("opacity", "1");
+
+    const miniMeniscus = document.getElementById("meniscusmini" + idx);
+    if(miniMeniscus){
+        miniMeniscus.setAttribute("opacity", "1");
+    }
+
+    idx++;
+
+    actualizarProgreso();
+
+    if(idx < patrones.length){
+        actualizarPantalla();
+    }else{
+        setFeedback(tr("✔ Serie completa. Los seis patrones están listos para el registro espectral.", "✔ Series complete. All six standards are ready for spectral acquisition."), "ok");
+        document.getElementById("stageTitle").innerText = tr("Serie de patrones completada", "Standard series completed");
+        document.getElementById("stageSubtitle").innerText = tr("Puede continuar al registro de espectros UV-Vis.", "You may continue to UV-Vis spectral acquisition.");
+        document.getElementById("currentPattern").innerText = tr("Serie completa", "Series complete");
+        document.getElementById("btnSiguiente").disabled = true;
+        document.getElementById("volumeInput").disabled = true;
+        document.querySelector(".current-card button").disabled = true;
+        completarModulo();
+    }
+}
+
+let moduloCompletado = false;
+
+function completarModulo(){
+    if(completados.length !== patrones.length) return;
+
+    localStorage.setItem("uvvis_diluciones", JSON.stringify({
+        completado:true,
+        solucionMadre:"2000 ppm",
+        volumenFinal:"25.0 mL",
+        patrones:patrones.map(p=>({
+            patron:p.nombre,
+            concentracion_ppm:p.conc,
+            volumen_uL:p.volumen
+        })),
+        fecha:new Date().toISOString()
+    }));
+
+    if(!moduloCompletado && window.parent && window.parent !== window){
+        window.parent.postMessage({type:'MODULE_COMPLETED', moduleId:'08-diluciones'}, '*');
+        moduloCompletado = true;
+    }
+}
+
+
+
+
+
+crearMiniFlasks();
+actualizarPantalla();
+</script>
+
+</body>
+</html>

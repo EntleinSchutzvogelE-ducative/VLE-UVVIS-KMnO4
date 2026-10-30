@@ -1,0 +1,51 @@
+LICENSING NOTICE
+================
+
+Copyright (c) 2026 Sergio Andres Patino Martinez
+
+This repository combines three kinds of material, each with its own licence.
+
+1. SOURCE CODE OF THE VIRTUAL LEARNING ENVIRONMENT
+   Files: *.html, *.js, *.css, *.svg used to build and run the environment.
+   Licence: GNU Affero General Public License, version 3 or later (AGPL-3.0-or-later)
+   Text: LICENSE.txt
+
+   The AGPL was chosen deliberately. It guarantees that anyone who modifies
+   this environment and offers it to users over a network must also make the
+   corresponding source available to those users.
+
+2. EDUCATIONAL AND DOCUMENTATION MATERIALS
+   Files: instructional texts, problem statements, guides, rubrics, figures.
+   Licence: Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)
+   Text: LICENSE-CONTENT.txt
+
+3. STATISTICAL ANALYSIS SCRIPTS
+   Files: *.R, *.qmd and related analysis files.
+   Licence: MIT
+   Text: LICENSE-ANALYSIS.txt
+
+   A permissive licence was chosen here so that the analysis can be reused,
+   verified and adapted without constraints, which is what reproducibility
+   requires.
+
+If a file does not state its licence explicitly, the licence that applies is
+the one corresponding to its category above.
+
+
+HEADER TO PLACE AT THE TOP OF EACH SOURCE FILE
+----------------------------------------------
+
+Copyright (C) 2026  Sergio Andres Patino Martinez
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.

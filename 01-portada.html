@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portada — Laboratorio Virtual UV-Vis</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#101828;
+    --muted:#5f6b7a;
+    --edge:#d8dee8;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --navy:#071f3d;
+    --gold:#f3d58a;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(106,27,154,.12), transparent 32%),
+        linear-gradient(135deg, #eef2f3 0%, #f8fafc 100%);
+    color:var(--ink);
+}
+
+.wrap{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:24px;
+}
+
+.card{
+    width:min(1180px, 96vw);
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:22px;
+    box-shadow:0 18px 45px rgba(15,23,42,.16);
+    overflow:hidden;
+}
+
+/* =========================
+   ENCABEZADO
+========================= */
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:18px 28px;
+    background:linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
+    border-bottom:1px solid var(--edge);
+}
+
+.logo-salesiana{
+    height:62px;
+    max-width:380px;
+    object-fit:contain;
+}
+
+.logo-ese{
+    height:82px;
+    width:82px;
+    object-fit:contain;
+    border-radius:50%;
+    box-shadow:0 4px 12px rgba(0,0,0,.16);
+}
+
+.brand-center{
+    text-align:center;
+    flex:1;
+    min-width:240px;
+}
+
+.brand-center .tag{
+    display:inline-block;
+    background:#ede9fe;
+    color:#4c1d95;
+    border:1px solid #ddd6fe;
+    padding:5px 12px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:.02em;
+}
+
+.brand-center p{
+    margin:7px 0 0 0;
+    font-size:14px;
+    color:var(--muted);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:0;
+    min-height:470px;
+}
+
+@media(max-width:900px){
+    .hero{
+        grid-template-columns:1fr;
+    }
+}
+
+.info{
+    padding:42px 42px 34px 42px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+h1{
+    margin:0 0 12px 0;
+    color:var(--navy);
+    font-size:clamp(30px, 4vw, 48px);
+    line-height:1.08;
+    letter-spacing:-.03em;
+}
+
+.subtitle{
+    margin:0 0 22px 0;
+    color:var(--accent-dark);
+    font-size:clamp(18px, 2vw, 25px);
+    font-weight:bold;
+}
+
+.description{
+    margin:0 0 24px 0;
+    color:#344054;
+    font-size:17px;
+    line-height:1.6;
+}
+
+.meta{
+    display:grid;
+    gap:12px;
+    margin:18px 0 24px 0;
+}
+
+.meta-item{
+    display:grid;
+    grid-template-columns:110px 1fr;
+    gap:10px;
+    align-items:start;
+    padding:12px 14px;
+    border:1px solid var(--edge);
+    border-radius:12px;
+    background:#f8fafc;
+}
+
+.meta-item strong{
+    color:var(--accent-dark);
+}
+
+.meta-item span{
+    color:#1f2937;
+}
+
+.cta-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:4px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    text-decoration:none;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:13px 20px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(106,27,154,.25);
+    transition:.2s ease;
+}
+
+.btn:hover{
+    background:var(--accent-dark);
+    transform:translateY(-1px);
+}
+
+.version{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* =========================
+   IMAGEN
+========================= */
+
+.visual{
+    position:relative;
+    background:
+        linear-gradient(180deg, rgba(7,31,61,.06), rgba(106,27,154,.08));
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:18px;
+    border-left:1px solid var(--edge);
+}
+
+@media(max-width:900px){
+    .visual{
+        border-left:none;
+        border-top:1px solid var(--edge);
+    }
+}
+
+.hero-img{
+    width:100%;
+    max-width:520px;
+    border-radius:18px;
+    border:1px solid rgba(7,31,61,.14);
+    box-shadow:0 12px 32px rgba(15,23,42,.18);
+    background:white;
+}
+
+.ribbon{
+    position:absolute;
+    top:28px;
+    right:28px;
+    background:rgba(7,31,61,.92);
+    color:white;
+    border-radius:999px;
+    padding:9px 14px;
+    font-size:13px;
+    font-weight:bold;
+    box-shadow:0 6px 16px rgba(0,0,0,.18);
+}
+
+/* =========================
+   PIE
+========================= */
+
+.footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    padding:16px 28px;
+    background:linear-gradient(90deg, var(--navy), #12335f);
+    color:white;
+    font-size:13px;
+}
+
+.footer strong{
+    color:var(--gold);
+}
+
+.footer .right{
+    opacity:.92;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:700px){
+    .topbar{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .logo-salesiana{
+        height:auto;
+        width:min(340px, 86vw);
+    }
+
+    .logo-ese{
+        height:76px;
+        width:76px;
+    }
+
+    .info{
+        padding:30px 24px;
+    }
+
+    .meta-item{
+        grid-template-columns:1fr;
+    }
+
+    .footer{
+        text-align:center;
+        justify-content:center;
+    }
+}
+</style>
+<script src="i18n.js"></script>
+</head>
+
+<body>
+
+<div class="wrap">
+    <main class="card">
+
+        <!-- ENCABEZADO CON IDENTIDAD INSTITUCIONAL Y MARCA DEL AVA -->
+        <header class="topbar">
+<div class="brand-center">
+                <span class="tag">Laboratorio Virtual</span><h1 style="font-size:30px;margin:10px 0 4px;color:#071f3d;">Determinación de permanganato de potasio</h1><p class="subtitle">Espectrofotometría UV-Visible</p>
+            </div>
+
+            <img class="logo-ese" src="ESE.png" alt="ESE — Entlein-Schutzvogel Educative">
+        </header>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <section class="hero">
+
+            <div class="info">
+                
+                <p class="subtitle">
+                    Determinación de Permanganato de Potasio en Aguas Residuales de la Industria Textil por espectrofotometría UV-Visible                </p>
+
+                <p class="description">
+                    En este laboratorio virtual implementarás un método analítico para determinar la concentración de
+                    KMnO₄ en una muestra de agua residual textil, construirás una curva de calibración y tomarás una
+                    decisión técnica frente al límite permisible de manganeso elemental.
+                </p>
+
+                <div class="meta">
+                    <div class="meta-item">
+                        <strong>Curso</strong>
+                        <span>Análisis Químico</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <strong>Docente</strong>
+                        <span>—</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <strong>Institución</strong>
+                        <span>—</span>
+                    </div>
+                </div>
+
+                <div class="cta-row">
+                    
+                    <span class="version">Versión 1.0 · ESE</span>
+                </div>
+            </div>
+
+            <div class="visual">
+                <img class="hero-img" src="Portada.png" alt="Imagen de apoyo para ambientes virtuales de aprendizaje en química">
+            </div>
+
+        </section>
+
+        <!-- PIE DE AUTORÍA -->
+        <footer class="footer">
+            <div>
+                <strong>ESE — Entlein-Schutzvogel Educative</strong><br>
+            </div>
+
+            <div class="right">
+                
+            </div>
+        </footer>
+
+    </main>
+</div>
+
+<script>
+function iniciar(){
+    /*
+      Esta pantalla será integrada posteriormente al main definitivo.
+      Por ahora intenta avisar al contenedor principal que debe avanzar.
+      Si se abre de forma independiente, puede redirigir a la siguiente pantalla.
+    */
+
+    if(window.parent && window.parent !== window){
+        window.parent.postMessage({type:"MODULE_COMPLETED",moduleId:"01-portada"},"*");
+    }else{
+        window.location.href="02-situacion-problematica.html";
+    }
+}
+
+</script>
+
+</body>
+
+</html>

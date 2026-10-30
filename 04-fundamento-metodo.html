@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fundamento del método — Laboratorio Virtual UV-Vis</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+:root{
+    --bg:#eef2f3; --panel:#ffffff; --ink:#101828; --muted:#5f6b7a; --edge:#d8dee8;
+    --accent:#6A1B9A; --accent-dark:#4A148C; --navy:#071f3d; --gold:#f3d58a;
+    --soft:#f8fafc; --ok:#16a34a;
+}
+*{box-sizing:border-box}
+body{
+    margin:0; min-height:100vh; font-family:Arial, Helvetica, sans-serif;
+    background:radial-gradient(circle at top left, rgba(106,27,154,.13), transparent 35%),
+               linear-gradient(135deg, #eef2f3 0%, #f8fafc 100%);
+    color:var(--ink);
+}
+.wrap{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:24px}
+.card{width:min(1220px,96vw);background:var(--panel);border:1px solid var(--edge);border-radius:22px;box-shadow:0 18px 45px rgba(15,23,42,.16);overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 28px;background:linear-gradient(90deg,#fff 0%,#f8fafc 100%);border-bottom:1px solid var(--edge)}
+.logo-salesiana{height:58px;max-width:360px;object-fit:contain}
+.logo-ese{height:74px;width:74px;object-fit:contain;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,.16)}
+.brand-center{text-align:center;flex:1;min-width:240px}
+.brand-center .tag{display:inline-block;background:#ede9fe;color:#4c1d95;border:1px solid #ddd6fe;padding:5px 12px;border-radius:999px;font-size:13px;font-weight:bold}
+.brand-center p{margin:7px 0 0 0;font-size:14px;color:var(--muted)}
+.content{padding:26px}
+.title-block{text-align:center;margin-bottom:18px}
+h1{margin:0 0 8px 0;color:var(--navy);font-size:clamp(30px,3.5vw,44px);line-height:1.1;letter-spacing:-.025em}
+.subtitle{margin:0;color:var(--accent-dark);font-weight:bold;font-size:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:960px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--soft);border:1px solid var(--edge);border-radius:18px;padding:18px}
+.panel h2{margin:0 0 12px 0;color:var(--accent-dark);font-size:22px}
+.panel p{margin:0 0 10px 0;color:#344054;line-height:1.58;font-size:16px}
+.callout{background:linear-gradient(135deg,#f3e8ff,#fff);border-color:#d8b4fe}
+.big-question{font-size:22px;font-weight:bold;color:var(--navy);margin-bottom:12px}
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+@media(max-width:620px){.features{grid-template-columns:1fr}}
+.feature{background:white;border:1px solid var(--edge);border-radius:14px;padding:12px}
+.feature .emoji{font-size:28px;display:block;margin-bottom:8px}
+.feature strong{display:block;color:var(--navy);margin-bottom:4px}
+.feature span{color:var(--muted);font-size:14px;line-height:1.4}
+.equation-box{margin-top:12px;background:white;border:1px solid var(--edge);border-radius:16px;padding:16px;text-align:center}
+.equation{font-family:"Times New Roman", serif;font-size:32px;font-weight:bold;color:var(--accent-dark);margin-bottom:10px}
+.vars{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;text-align:left}
+@media(max-width:620px){.vars{grid-template-columns:1fr}}
+.var{background:#f8fafc;border:1px solid var(--edge);border-radius:10px;padding:8px;color:#344054;font-size:14px}
+.var strong{color:var(--accent-dark)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch;margin-top:14px}
+@media(max-width:980px){.flow{grid-template-columns:1fr}}
+.flow-step{background:white;border:1px solid var(--edge);border-radius:14px;padding:14px 10px;text-align:center;position:relative}
+.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:24px;font-weight:bold}
+@media(max-width:980px){.flow-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-18px;transform:translateX(-50%)}}
+.flow-step .num{width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;margin:0 auto 8px auto;font-weight:bold}
+.flow-step strong{display:block;color:var(--navy);margin-bottom:5px}
+.flow-step span{color:var(--muted);font-size:13px;line-height:1.35}
+.compare{width:100%;border-collapse:collapse;background:white;margin-top:12px;border-radius:12px;overflow:hidden}
+.compare th,.compare td{border:1px solid var(--edge);padding:10px;vertical-align:top;text-align:left}
+.compare th{background:#f3e8ff;color:var(--accent-dark);text-align:center}
+.compare td{color:#344054;line-height:1.4}
+.activity{margin-top:24px;border:1px solid #bbf7d0;background:#f0fdf4;border-radius:18px;padding:20px}
+.activity h2{margin:0 0 10px 0;color:#166534}
+.question{background:white;border:1px solid #bbf7d0;border-radius:14px;padding:14px;margin-top:12px}
+.question label{display:block;margin:9px 0;color:#14532d;line-height:1.35;cursor:pointer}
+.feedback{margin-top:12px;padding:12px;border-radius:12px;display:none;line-height:1.45}
+.feedback.ok{display:block;background:#dcfce7;border:1px solid #86efac;color:#14532d}
+.feedback.bad{display:block;background:#fee2e2;border:1px solid #fecaca;color:#7f1d1d}
+.small{color:var(--muted);font-size:13px;line-height:1.4}
+.footer{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:14px 28px;background:linear-gradient(90deg,var(--navy),#12335f);color:white;font-size:13px}
+.footer strong{color:var(--gold)}
+@media(max-width:700px){
+    .topbar{flex-direction:column;text-align:center}
+    .logo-salesiana{height:auto;width:min(340px,86vw)}
+    .content{padding:22px}
+    .footer{text-align:center;justify-content:center}
+}
+
+.intro-panel{margin-bottom:18px}
+.intro-panel h2{margin:0 0 8px;color:var(--accent-dark)}
+.compact-features{grid-template-columns:repeat(3,1fr);margin-top:0;margin-bottom:18px}
+.method-grid{align-items:stretch}
+.proportion{
+    margin-top:12px;
+    padding:10px;
+    border-radius:10px;
+    background:#f3e8ff;
+    color:var(--accent-dark);
+    font-size:15px;
+}
+.activity{margin-top:18px}
+.question label{
+    display:block;
+    padding:9px 10px;
+    margin:8px 0;
+    border:1px solid #d8dee8;
+    border-radius:10px;
+    background:#ffffff;
+}
+.question label:hover{background:#f8fafc}
+@media(max-width:900px){
+    .compact-features{grid-template-columns:1fr}
+}
+
+</style>
+<script src="i18n.js"></script>
+</head>
+
+<body>
+<div class="wrap">
+<main class="card">
+<header class="topbar">
+<div class="brand-center">
+        <span class="tag">Fundamento del método analítico</span>
+        <p>Laboratorio Virtual UV-Vis — ESE</p>
+    </div>
+    <img class="logo-ese" src="ESE.png" alt="ESE — Entlein-Schutzvogel Educative">
+</header>
+
+
+<section class="content">
+    <div class="title-block">
+        <h1>Fundamento de la cuantificación UV-Visible</h1>
+        <p class="subtitle">Cómo una señal de absorbancia permite determinar la concentración de KMnO₄</p>
+    </div>
+
+    <div class="panel callout intro-panel">
+        <h2>La lógica del método</h2>
+        <p>
+            El permanganato de potasio absorbe radiación en la región visible. Al medir la absorbancia de
+            soluciones de concentración conocida, es posible construir una relación de calibración y utilizarla
+            para determinar la concentración de una muestra problema.
+        </p>
+    </div>
+
+    <div class="features compact-features">
+        <div class="feature">
+            <span class="emoji">🟣</span>
+            <strong>Absorción</strong>
+            <span>El KMnO₄ presenta color violeta porque absorbe radiación visible.</span>
+        </div>
+
+        <div class="feature">
+            <span class="emoji">📈</span>
+            <strong>Señal y concentración</strong>
+            <span>Dentro del intervalo lineal, una mayor concentración produce una mayor absorbancia.</span>
+        </div>
+
+        <div class="feature">
+            <span class="emoji">🧪</span>
+            <strong>Cuantificación</strong>
+            <span>La absorbancia de la muestra puede convertirse en concentración mediante una curva de calibración.</span>
+        </div>
+    </div>
+
+    <div class="grid method-grid">
+        <div class="panel">
+            <h2>Ley de Beer-Lambert</h2>
+            <p>La relación fundamental entre absorbancia y concentración se expresa como:</p>
+
+            <div class="equation-box">
+                <div class="equation">A = ε · b · C</div>
+
+                <div class="vars">
+                    <div class="var"><strong>A:</strong> absorbancia medida</div>
+                    <div class="var"><strong>ε:</strong> absortividad molar</div>
+                    <div class="var"><strong>b:</strong> camino óptico</div>
+                    <div class="var"><strong>C:</strong> concentración</div>
+                </div>
+
+                <div class="proportion">Si ε y b permanecen constantes: <strong>A ∝ C</strong></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>Calibración por patrón externo</h2>
+            <p>
+                Se preparan soluciones patrón de concentración conocida, se mide su absorbancia y se construye una
+                curva de calibración. La absorbancia de la muestra se introduce en esa relación para calcular su concentración.
+            </p>
+
+            <div class="flow">
+                <div class="flow-step">
+                    <div class="num">1</div>
+                    <strong>Patrones</strong>
+                    <span>Concentraciones conocidas.</span>
+                </div>
+
+                <div class="flow-step">
+                    <div class="num">2</div>
+                    <strong>Absorbancia</strong>
+                    <span>Señales medidas.</span>
+                </div>
+
+                <div class="flow-step">
+                    <div class="num">3</div>
+                    <strong>Curva</strong>
+                    <span>Relación A frente a C.</span>
+                </div>
+
+                <div class="flow-step">
+                    <div class="num">4</div>
+                    <strong>Muestra</strong>
+                    <span>Absorbancia desconocida.</span>
+                </div>
+
+                <div class="flow-step">
+                    <div class="num">5</div>
+                    <strong>Resultado</strong>
+                    <span>Concentración calculada.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="activity">
+        <h2>Verificación rápida</h2>
+        <p class="small">Selecciona la opción correcta para completar este módulo.</p>
+
+        <div class="question">
+            <strong>¿Por qué el permanganato de potasio puede determinarse mediante espectrofotometría UV-Visible?</strong>
+
+            <label>
+                <input type="radio" name="q1" value="correcta" onchange="verificar()">
+                Porque absorbe radiación en la región UV-Visible y su absorbancia se relaciona con la concentración.
+            </label>
+
+            <label>
+                <input type="radio" name="q1" value="mala1" onchange="verificar()">
+                Porque es una sal incolora que no interactúa con la luz.
+            </label>
+
+            <label>
+                <input type="radio" name="q1" value="mala2" onchange="verificar()">
+                Porque no requiere una curva de calibración.
+            </label>
+
+            <label>
+                <input type="radio" name="q1" value="mala3" onchange="verificar()">
+                Porque todas las soluciones presentan siempre absorbancia igual a 1.
+            </label>
+
+            <div id="feedback" class="feedback" aria-live="polite"></div>
+        </div>
+    </div>
+</section>
+
+
+<footer class="footer">
+    <div></div>
+</footer>
+</main>
+</div>
+
+<script>
+function verificar(){
+    const seleccion = document.querySelector('input[name="q1"]:checked');
+    const feedback = document.getElementById("feedback");
+
+    if(!seleccion) return;
+
+    if(seleccion.value === "correcta"){
+        feedback.className = "feedback ok";
+        feedback.innerHTML = "✔ Correcto. El KMnO₄ puede cuantificarse porque absorbe radiación y su absorbancia se relaciona con la concentración.";
+
+
+        localStorage.setItem("uvvis_fundamento_metodo", JSON.stringify({
+            completado:true,
+            fecha:new Date().toISOString()
+        }));
+
+        if(window.parent && window.parent !== window){
+            window.parent.postMessage({type:'MODULE_COMPLETED', moduleId:'04-fundamento-metodo'}, '*');
+        }
+
+    }else{
+        feedback.className = "feedback bad";
+        feedback.innerHTML = "Revisa la explicación anterior. La clave del método es que el KMnO₄ absorbe radiación UV-Visible y esa señal puede relacionarse con la concentración.";
+
+        localStorage.removeItem("uvvis_fundamento_metodo");
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuantificación de la muestra — UV-Vis KMnO₄</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+:root{
+    --bg:#eef2f3;
+    --panel:#ffffff;
+    --ink:#111827;
+    --muted:#5f6b7a;
+    --edge:#d7dde5;
+    --accent:#6A1B9A;
+    --accent-dark:#4A148C;
+    --ok:#2e7d32;
+    --bad:#c62828;
+    --warn:#ef6c00;
+    --soft:#f8fafc;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+}
+
+.wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:16px;
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:14px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    padding:18px;
+}
+
+.header{
+    border-bottom:1px solid var(--edge);
+    padding-bottom:14px;
+    margin-bottom:18px;
+}
+
+h1{
+    margin:0 0 8px 0;
+    color:var(--accent-dark);
+    font-size:28px;
+}
+
+h2{
+    margin:18px 0 8px 0;
+    color:var(--accent-dark);
+    font-size:21px;
+}
+
+h3{
+    margin:12px 0 8px 0;
+    font-size:17px;
+}
+
+.lead{
+    color:var(--muted);
+    line-height:1.55;
+    margin:0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+@media(max-width:850px){
+    .grid{ grid-template-columns:1fr; }
+}
+
+.panel{
+    border:1px solid var(--edge);
+    border-radius:12px;
+    background:var(--soft);
+    padding:16px;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns: 1fr 160px;
+    gap:10px;
+    align-items:center;
+    margin:10px 0;
+}
+
+@media(max-width:640px){
+    .form-row{
+        grid-template-columns:1fr;
+    }
+}
+
+label{
+    font-weight:bold;
+}
+
+input[type="number"], input[type="text"], textarea, select{
+    width:100%;
+    padding:9px;
+    border:1px solid #b8c0cc;
+    border-radius:8px;
+    font-size:15px;
+    background:white;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+    line-height:1.45;
+}
+
+.small{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.45;
+}
+
+.eq{
+    font-family: "Courier New", monospace;
+    background:white;
+    border:1px solid var(--edge);
+    border-radius:8px;
+    padding:10px;
+    margin:8px 0;
+}
+
+button{
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:9px;
+    padding:10px 14px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px 6px 6px 0;
+}
+
+button:hover{
+    background:var(--accent-dark);
+}
+
+button.secondary{
+    background:#374151;
+}
+
+button.secondary:hover{
+    background:#1f2937;
+}
+
+button.finish{
+    background:var(--ok);
+}
+
+button.finish:hover{
+    background:#1b5e20;
+}
+
+.result{
+    border-radius:10px;
+    padding:12px;
+    margin-top:10px;
+    background:white;
+    border:1px solid var(--edge);
+    line-height:1.6;
+}
+
+.ok{ color:var(--ok); font-weight:bold; }
+.bad{ color:var(--bad); font-weight:bold; }
+.warn{ color:var(--warn); font-weight:bold; }
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    background:white;
+}
+
+th,td{
+    border:1px solid var(--edge);
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#f1f5f9;
+}
+
+.checklist label{
+    display:block;
+    font-weight:normal;
+    margin:8px 0;
+}
+
+.radio-row label{
+    font-weight:normal;
+    margin-right:18px;
+}
+
+.note-box{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:10px;
+    padding:12px;
+    color:#7c2d12;
+    line-height:1.5;
+}
+
+.footer-actions{
+    border-top:1px solid var(--edge);
+    margin-top:22px;
+    padding-top:16px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:999px;
+    background:#ede9fe;
+    color:#4c1d95;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:16px;
+    padding:11px 18px;
+    background:linear-gradient(90deg,#071f3d,#12335f);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:12px;
+}
+.footer strong{color:#f3d58a}
+@media(max-width:620px){
+    .wrap{width:100%;padding:0}
+    .card{border-radius:0;padding:13px}
+    h1{font-size:22px}
+    h2{font-size:18px}
+    .panel{padding:12px}
+    .footer{font-size:10px}
+}
+
+</style>
+<script src="i18n.js"></script>
+</head>
+
+<body>
+<div class="wrap">
+<div class="card">
+
+    <div class="header">
+        <span class="badge">Cuantificación</span>
+        <h1>Cuantificación de la muestra</h1>
+        <p class="lead">
+            Calcula la concentración de KMnO₄, conviértela a manganeso elemental y compara el resultado con el límite de 5,00 ppm de Mn.
+        </p>
+    </div>
+
+    <h2>1. Datos de calibración y muestra</h2>
+
+    <div class="panel">
+        <div class="grid">
+            <div class="form-row">
+                <label>Longitud de onda analítica, λ</label>
+                <input type="text" id="lambdaInfo" readonly>
+            </div>
+
+            <div class="form-row">
+                <label>Pendiente, m</label>
+                <input type="text" id="mInfo" readonly>
+            </div>
+
+            <div class="form-row">
+                <label>Intercepto, b</label>
+                <input type="text" id="bInfo" readonly>
+            </div>
+
+            <div class="form-row">
+                <label>Absorbancia de la muestra</label>
+                <input type="number" id="absMuestra" inputmode="decimal" step="0.0001" placeholder="Registra la absorbancia">
+            </div>
+        </div>
+    </div>
+
+    <h2>2. Concentración de KMnO₄ en la muestra</h2>
+
+    <div class="panel">
+        <div class="form-row">
+            <label for="cKMnO4_est">Concentración de KMnO₄ (ppm)</label>
+            <input type="number" id="cKMnO4_est" inputmode="decimal" step="0.0001" placeholder="Escribe tu resultado">
+        </div>
+
+        <button onclick="verificarKMnO4()">Verificar resultado</button>
+        <div id="resKMnO4" class="result" style="display:none;"></div>
+    </div>
+
+    <h2>3. Concentración de manganeso elemental</h2>
+
+    <div class="panel">
+        <div class="form-row">
+            <label for="cMn_est">Concentración de Mn elemental (ppm)</label>
+            <input type="number" id="cMn_est" inputmode="decimal" step="0.0001" placeholder="Escribe tu resultado">
+        </div>
+
+        <button onclick="verificarMn()">Verificar resultado</button>
+        <div id="resMn" class="result" style="display:none;"></div>
+    </div>
+
+    <h2>4. Decisión frente a la especificación</h2>
+
+    <div class="panel">
+        <p>
+            Límite permisible: <strong>5,00 ppm de Mn elemental</strong>.
+        </p>
+
+        <div class="radio-row">
+            <label><input type="radio" name="cumple" value="cumple"> Cumple</label>
+            <label><input type="radio" name="cumple" value="no_cumple"> No cumple</label>
+        </div>
+
+        <label for="justificacion">Justificación técnica</label>
+        <textarea id="justificacion" placeholder="Sustenta tu decisión con el resultado obtenido y el límite establecido."></textarea>
+
+        <button onclick="verificarDecision()">Verificar decisión</button>
+        <div id="resDecision" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="footer-actions"><div id="estado" class="small warn">
+            Verifica los dos resultados y la decisión para habilitar el botón
+            <strong>Siguiente</strong> del simulador.
+        </div>
+    </div></div>
+<footer class="footer">
+    <div><strong>ESE — Entlein-Schutzvogel Educative</strong></div>
+    <div></div>
+</footer>
+</div>
+
+<script>
+const MM_KMNO4 = 158.03;
+const MM_MN = 54.94;
+const FACTOR_MN = MM_MN / MM_KMNO4;
+const LIMITE_MN = 5.0;
+
+let pendiente = NaN;
+let intercepto = NaN;
+let lambda = "";
+let kmno4Verificado = false;
+let mnVerificado = false;
+let decisionVerificada = false;
+let moduloCompletado = false;
+
+function val(id){
+    return parseFloat(document.getElementById(id).value);
+}
+
+function txt(id){
+    return document.getElementById(id).value.trim();
+}
+
+function setHTML(id, html){
+    const el = document.getElementById(id);
+    el.innerHTML = html;
+    el.style.display = "block";
+}
+
+function tolerancia(valorReferencia){
+    return Math.max(0.02, Math.abs(valorReferencia) * 0.03);
+}
+
+function calcularKMnO4(){
+    const A = val("absMuestra");
+
+    if(!isFinite(A) || !isFinite(pendiente) || pendiente === 0 || !isFinite(intercepto)){
+        return NaN;
+    }
+
+    return (A - intercepto) / pendiente;
+}
+
+function calcularMn(){
+    const c = calcularKMnO4();
+    return isFinite(c) ? c * FACTOR_MN : NaN;
+}
+
+function cargarDatosPrevios(){
+    const claves = ["uvvis_modulo6_calibracion", "uvvis_calibracion"];
+
+    for(const clave of claves){
+        try{
+            const raw = localStorage.getItem(clave);
+            if(!raw) continue;
+
+            const datos = JSON.parse(raw);
+
+            lambda = datos.lambda_nm ?? datos.lambda ?? "";
+            pendiente = parseFloat(datos.pendiente ?? datos.m);
+            intercepto = parseFloat(datos.intercepto ?? datos.b);
+
+            break;
+        }catch(e){}
+    }
+
+    if(!lambda){
+        try{
+            const analisis = JSON.parse(localStorage.getItem("uvvis_analisis_espectral") || "null");
+            if(analisis && Number.isFinite(Number(analisis.lambda_analitica_nm))){
+                lambda = Number(analisis.lambda_analitica_nm);
+            }
+        }catch(e){}
+    }
+
+    document.getElementById("lambdaInfo").value =
+        lambda ? `${lambda} nm` : "No disponible";
+
+    document.getElementById("mInfo").value =
+        isFinite(pendiente) ? pendiente : "No disponible";
+
+    document.getElementById("bInfo").value =
+        isFinite(intercepto) ? intercepto : "No disponible";
+
+    try{
+        const raw = localStorage.getItem("uvvis_cuantificacion");
+        if(raw){
+            const d = JSON.parse(raw);
+
+            document.getElementById("absMuestra").value = d.absMuestra || "";
+            document.getElementById("cKMnO4_est").value = d.cKMnO4_est || "";
+            document.getElementById("cMn_est").value = d.cMn_est || "";
+            document.getElementById("justificacion").value = d.justificacion || "";
+
+            if(d.cumple){
+                const radio = document.querySelector(
+                    `input[name="cumple"][value="${d.cumple}"]`
+                );
+                if(radio) radio.checked = true;
+            }
+
+            kmno4Verificado = Boolean(d.kmno4Verificado);
+            mnVerificado = Boolean(d.mnVerificado);
+            decisionVerificada = Boolean(d.decisionVerificada);
+        }
+    }catch(e){}
+
+    verificarEstadoModulo();
+}
+
+function verificarKMnO4(){
+    const estimado = val("cKMnO4_est");
+    const referencia = calcularKMnO4();
+
+    kmno4Verificado = false;
+
+    if(!isFinite(referencia)){
+        setHTML(
+            "resKMnO4",
+            `<span class="bad">No es posible verificar.</span>
+             Revisa que estén disponibles los datos de calibración y la absorbancia de la muestra.`
+        );
+        verificarEstadoModulo();
+        return;
+    }
+
+    if(!isFinite(estimado)){
+        setHTML(
+            "resKMnO4",
+            `<span class="warn">Ingresa primero tu resultado.</span>`
+        );
+        verificarEstadoModulo();
+        return;
+    }
+
+    if(Math.abs(estimado - referencia) <= tolerancia(referencia)){
+        kmno4Verificado = true;
+        setHTML(
+            "resKMnO4",
+            `<span class="ok">✔ Resultado correcto.</span>`
+        );
+    }else{
+        setHTML(
+            "resKMnO4",
+            `<span class="warn">El resultado no es coherente.</span>
+             Revisa el planteamiento, el despeje y las unidades empleadas.`
+        );
+    }
+
+    guardarModulo(false);
+    verificarEstadoModulo();
+}
+
+function verificarMn(){
+    const estimado = val("cMn_est");
+    const referencia = calcularMn();
+
+    mnVerificado = false;
+
+    if(!isFinite(referencia)){
+        setHTML(
+            "resMn",
+            `<span class="bad">No es posible verificar.</span>
+             Primero completa correctamente la cuantificación de KMnO₄.`
+        );
+        verificarEstadoModulo();
+        return;
+    }
+
+    if(!isFinite(estimado)){
+        setHTML(
+            "resMn",
+            `<span class="warn">Ingresa primero tu resultado.</span>`
+        );
+        verificarEstadoModulo();
+        return;
+    }
+
+    if(Math.abs(estimado - referencia) <= tolerancia(referencia)){
+        mnVerificado = true;
+        setHTML(
+            "resMn",
+            `<span class="ok">✔ Resultado correcto.</span>`
+        );
+    }else{
+        setHTML(
+            "resMn",
+            `<span class="warn">El resultado no es coherente.</span>
+             Revisa la relación estequiométrica y las unidades.`
+        );
+    }
+
+    guardarModulo(false);
+    verificarEstadoModulo();
+}
+
+function verificarDecision(){
+    const seleccion = document.querySelector('input[name="cumple"]:checked');
+    const justificacion = txt("justificacion");
+    const cMn = calcularMn();
+
+    decisionVerificada = false;
+
+    if(!mnVerificado || !isFinite(cMn)){
+        setHTML(
+            "resDecision",
+            `<span class="warn">Primero verifica correctamente la concentración de Mn elemental.</span>`
+        );
+        verificarEstadoModulo();
+        return;
+    }
+
+    if(!seleccion){
+        setHTML(
+            "resDecision",
+            `<span class="warn">Selecciona una decisión.</span>`
+        );
+        verificarEstadoModulo();
+        return;
+    }
+
+    if(justificacion.length < 25){
+        setHTML(
+            "resDecision",
+            `<span class="warn">La justificación es demasiado breve.</span>
+             Sustenta la comparación entre el resultado y el límite establecido.`
+        );
+        verificarEstadoModulo();
+        return;
+    }
+
+    const correcta = cMn <= LIMITE_MN ? "cumple" : "no_cumple";
+
+    if(seleccion.value === correcta){
+        decisionVerificada = true;
+        setHTML(
+            "resDecision",
+            `<span class="ok">✔ Decisión coherente con el resultado obtenido.</span>`
+        );
+    }else{
+        setHTML(
+            "resDecision",
+            `<span class="bad">La decisión no coincide con el criterio de aceptación.</span>
+             Revisa la comparación entre tu resultado y el límite.`
+        );
+    }
+
+    guardarModulo(false);
+    verificarEstadoModulo();
+}
+
+function datosModulo(){
+    const seleccion = document.querySelector('input[name="cumple"]:checked');
+
+    return {
+        completado: kmno4Verificado && mnVerificado && decisionVerificada,
+        lambda,
+        pendiente,
+        intercepto,
+        absMuestra: document.getElementById("absMuestra").value,
+        cKMnO4_est: document.getElementById("cKMnO4_est").value,
+        cMn_est: document.getElementById("cMn_est").value,
+        cumple: seleccion ? seleccion.value : "",
+        justificacion: document.getElementById("justificacion").value,
+        kmno4Verificado,
+        mnVerificado,
+        decisionVerificada,
+        fecha: new Date().toISOString()
+    };
+}
+
+function guardarModulo(mostrar=true){
+    localStorage.setItem(
+        "uvvis_cuantificacion",
+        JSON.stringify(datosModulo())
+    );
+
+    if(mostrar){
+        const estado = document.getElementById("estado");
+
+        if(kmno4Verificado && mnVerificado && decisionVerificada){
+            estado.innerHTML =
+                `<span class="ok">✔ Información guardada. El módulo está completo.</span>`;
+        }else{
+            estado.innerHTML =
+                `<span class="ok">Avance guardado.</span>
+                 Continúa con las verificaciones pendientes.`;
+        }
+    }
+}
+
+function verificarEstadoModulo(){
+    const estado = document.getElementById("estado");
+    guardarModulo(false);
+
+    if(!(kmno4Verificado && mnVerificado && decisionVerificada)){
+        estado.innerHTML =
+            `Verifica los dos resultados y la decisión para habilitar el botón
+             <strong>Siguiente</strong> del simulador.`;
+        return;
+    }
+
+    estado.innerHTML =
+        `<span class="ok">✔ Módulo completado.</span>
+         Ahora puedes avanzar desde el botón
+         <strong>Siguiente</strong> del simulador.`;
+
+    if(!moduloCompletado && window.parent && window.parent !== window){
+        window.parent.postMessage({type:"MODULE_COMPLETED",moduleId:"12-cuantificacion-muestra"},"*");
+        moduloCompletado = true;
+    }
+}
+
+["absMuestra","cKMnO4_est","cMn_est","justificacion"].forEach(id=>{
+    document.getElementById(id).addEventListener("input",()=>{
+        if(id === "absMuestra"){
+            kmno4Verificado = false;
+            mnVerificado = false;
+            decisionVerificada = false;
+        }
+
+        if(id === "cKMnO4_est"){
+            kmno4Verificado = false;
+            mnVerificado = false;
+            decisionVerificada = false;
+        }
+
+        if(id === "cMn_est"){
+            mnVerificado = false;
+            decisionVerificada = false;
+        }
+
+        if(id === "justificacion"){
+            decisionVerificada = false;
+        }
+
+        verificarEstadoModulo();
+    });
+});
+
+document.querySelectorAll('input[name="cumple"]').forEach(el=>{
+    el.addEventListener("change",()=>{
+        decisionVerificada = false;
+        verificarEstadoModulo();
+    });
+});
+
+window.addEventListener("DOMContentLoaded", cargarDatosPrevios);
+</script>
+
+</body>
+</html>
